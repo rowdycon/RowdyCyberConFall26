@@ -1,0 +1,244 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Scanner } from "@yudiel/react-qr-scanner";
+import superjson from "superjson";
+import { createScan } from "@/actions/admin/scanner-admin-actions";
+import { useAction } from "next-safe-action/hooks";
+import { type QRDataInterface } from "@/lib/utils/shared/qr";
+import type { Scan, Event, Hacker } from "db/types";
+import c from "config";
+
+import {
+	Drawer,
+	DrawerContent,
+	DrawerDescription,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerTitle,
+} from "@/components/shadcn/ui/drawer";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/shadcn/ui/select";
+import { Button } from "@/components/shadcn/ui/button";
+import Link from "next/link";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
+
+/*
+
+Pass Scanner Props:
+
+eventName: name of the event that the user is scanning into
+hasScanned: if the state has eventered one in which a QR has been scanned (whether that scan has scanned before or not)
+scan: the scan object that has been scanned. If they have not scanned before scan will be null leading to a new record or if they have then it will incriment the scan count.
+
+*/
+
+interface PassScannerProps {
+	event: Event;
+	hasScanned: boolean;
+	scan: Scan | null;
+	scanUser: Hacker | null;
+}
+
+export default function PassScanner({
+	event,
+	hasScanned,
+	scan,
+	scanUser,
+}: PassScannerProps) {
+	const [scanLoading, setScanLoading] = useState(false);
+	const [points, setPoints] = useState<number>(1);
+	const [scannerKey, setScannerKey] = useState(0);
+	const { execute: runScanAction } = useAction(createScan, {});
+
+	useEffect(() => {
+		if (hasScanned) {
+			setScanLoading(false);
+		}
+	}, [hasScanned]);
+
+	const searchParams = useSearchParams();
+	const path = usePathname();
+	const router = useRouter();
+
+	const register = scanUser?.checkinTimestamp
+		? "Checked in!"
+		: "Not Checked In";
+	const guild =
+		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
+	const role = scanUser?.role?.name ? scanUser?.role?.name : "Not Found";
+
+	function handleScanCreate() {
+		const params = new URLSearchParams(searchParams.toString());
+		const timestamp = parseInt(params.get("createdAt") as string);
+		if (isNaN(timestamp)) {
+			return alert("Invalid QR Code Data (Field: createdAt)");
+		}
+		if (scan) {
+			toast.error("User has already been scanned for the event!");
+			// runScanAction({
+			// 	eventID: event.id,
+			// 	userID: scan.userID,
+			// 	countToSet: scan.count + 1,
+			// 	alreadyExists: true,
+			// 	creationTime: new Date(timestamp),
+			// });
+		} else {
+			// TODO: make this a little more typesafe
+			console.log(points);
+			runScanAction({
+				eventID: event.id,
+				userID: scanUser?.clerkID as string,
+				countToSet: points,
+				creationTime: new Date(timestamp),
+			});
+			toast.success("Successfully Scanned User In");
+		}
+		handleClose();
+	}
+
+	function handleClose() {
+		setPoints(1);
+		setScanLoading(false);
+		router.replace(path);
+		setScannerKey((k) => k + 1);
+	}
+
+	return (
+		<>
+			<div className="flex flex-col items-center justify-center pt-32">
+				<div className="flex w-screen flex-col items-center justify-center gap-5">
+					<div className="mx-auto aspect-square w-screen max-w-[500px] overflow-hidden">
+						<Scanner
+							key={scannerKey}
+							onScan={(result) => {
+								const params = new URLSearchParams(
+									searchParams.toString(),
+								);
+								if (!params.has("user")) {
+									setScanLoading(true);
+									const qrParsedData =
+										superjson.parse<QRDataInterface>(
+											result[0].rawValue,
+										);
+									params.set("user", qrParsedData.userID);
+									params.set(
+										"createdAt",
+										qrParsedData.createdAt
+											.getTime()
+											.toString(),
+									);
+									router.replace(
+										`${path}?${params.toString()}`,
+									);
+								}
+							}}
+							onError={(error) => console.log(error)}
+							styles={{
+								container: {
+									width: "100vw",
+									maxWidth: "500px",
+									margin: "0",
+								},
+							}}
+						/>
+					</div>
+					<div className="mx-auto flex w-screen max-w-[500px] justify-center gap-x-2 overflow-hidden">
+						<Link href={"/admin/events"}>
+							<Button>Return To Events</Button>
+						</Link>
+					</div>
+				</div>
+			</div>
+			<Drawer onClose={handleClose} open={hasScanned || scanLoading}>
+				<DrawerContent className="bg-panel">
+					{scanLoading ? (
+						<>
+							<DrawerHeader>
+								<DrawerTitle>Loading Scan...</DrawerTitle>
+								<DrawerDescription></DrawerDescription>
+							</DrawerHeader>
+							<DrawerFooter>
+								<Button onClick={handleClose} variant="outline">
+									Cancel
+								</Button>
+							</DrawerFooter>
+						</>
+					) : (
+						<>
+							<DrawerHeader>
+								<DrawerTitle>
+									New Scan for {event.title}
+								</DrawerTitle>
+								<DrawerDescription className="flex flex-col gap-1">
+									<span>
+										{scanUser?.firstName}{" "}
+										{scanUser?.lastName}
+									</span>
+									<span>
+										<span className="font-bold">Role:</span>{" "}
+										{role}
+									</span>
+									<span>
+										<span className="font-bold">
+											Status:
+										</span>{" "}
+										{register}
+									</span>
+									<span>
+										<span className="font-bold">
+											Guild:
+										</span>{" "}
+										{guild}
+									</span>
+								</DrawerDescription>
+							</DrawerHeader>
+							<div className="px-4 pb-2">
+								<label className="mb-1 block text-sm font-medium">
+									Award Points
+								</label>
+								<Select
+									value={String(points)}
+									onValueChange={(val) =>
+										setPoints(Number(val))
+									}
+								>
+									<SelectTrigger className="w-full">
+										<SelectValue placeholder="Select points" />
+									</SelectTrigger>
+									<SelectContent>
+										{[1, 2, 3, 4, 5].map((n) => (
+											<SelectItem
+												key={n}
+												value={String(n)}
+											>
+												{n}{" "}
+												{n === 1 ? "point" : "points"}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
+							</div>
+							<DrawerFooter>
+								<Button onClick={() => handleScanCreate()}>
+									{scan
+										? "Add Additional Scan"
+										: "Scan User In"}
+								</Button>
+								<Button onClick={handleClose} variant="outline">
+									Cancel
+								</Button>
+							</DrawerFooter>
+						</>
+					)}
+				</DrawerContent>
+			</Drawer>
+		</>
+	);
+}

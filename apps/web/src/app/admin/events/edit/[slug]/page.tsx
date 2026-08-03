@@ -1,0 +1,42 @@
+import { getEventById } from "db/functions";
+import { notFound } from "next/navigation";
+import EditEventForm from "@/components/events/admin/EditEventForm";
+import { userHasPermission } from "@/lib/utils/server/admin";
+import { PermissionType } from "@/lib/constants/permission";
+import { getCurrentUser } from "@/lib/utils/server/user";
+
+export default async function EditEventPage({
+	params,
+}: {
+	params: { slug: string };
+}) {
+	const user = await getCurrentUser();
+	if (!userHasPermission(user, PermissionType.EDIT_EVENTS)) {
+		return notFound();
+	}
+
+	const eventId = parseInt(params.slug);
+
+	if (!eventId) {
+		return notFound();
+	}
+
+	const event = await getEventById(eventId);
+
+	if (!event) {
+		return notFound();
+	}
+
+	return (
+		<div className="mx-2 max-w-3xl md:mx-auto">
+			<div className="grid grid-cols-2">
+				<h1 className="text-3xl font-bold tracking-tight">
+					Edit Event
+				</h1>
+			</div>
+			<div className="bg-panel my-2 rounded-xl border border-muted p-5">
+				<EditEventForm {...event} />
+			</div>
+		</div>
+	);
+}

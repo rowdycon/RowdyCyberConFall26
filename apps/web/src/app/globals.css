@@ -1,0 +1,334 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	--background: 0 0% 100%;
+	--foreground: 0 0% 0%; /* Black */
+
+	--primary: 240 100% 25%; /* blue */
+	--primary-foreground: 0 0% 100%; /* White */
+
+	--secondary: 0 0% 75%;
+	--secondary-foreground: 0 0% 0%;
+
+	--muted: 0 0% 75%;
+	--muted-foreground: 0 0% 0%;
+
+	--accent: 240 100% 25%;
+	--accent-foreground: 0 0% 100%;
+
+	--card: 0 0% 75%;
+	--card-foreground: 0 0% 0%;
+
+	--popover: 0 0% 75%;
+	--popover-foreground: 0 0% 0%;
+
+	--destructive: 0 92% 38%;
+	--destructive-foreground: 0 0% 100%;
+
+	--panel: 40 8% 82%;
+	--panel-foreground: 0 0% 0%;
+
+	--border: 0 0% 70%;
+	--input: 0 0% 100%;
+	--ring: 0 0% 0%;
+
+	--chart-1: 20 90% 55%;
+	--chart-2: 190 50% 45%;
+	--chart-3: 215 35% 35%;
+	--chart-4: 50 90% 65%;
+	--chart-5: 40 85% 60%;
+
+	--radius: 0.75rem;
+
+	--sidebar: 0 0% 75%;
+	--sidebar-foreground: 0 0% 0%;
+	--sidebar-primary: 240 100% 25%;
+	--sidebar-primary-foreground: 0 0% 100%;
+	--sidebar-accent: 0 0% 75%;
+	--sidebar-accent-foreground: 0 0% 0%;
+	--sidebar-border: 0 0% 50%;
+	--sidebar-ring: 0 0% 0%;
+}
+
+@theme inline {
+	--font-sans: "Geist", "Geist Fallback";
+	--font-mono: "Geist Mono", "Geist Mono Fallback";
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--color-card: var(--card);
+	--color-card-foreground: var(--card-foreground);
+	--color-popover: var(--popover);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-primary: var(--primary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-secondary: var(--secondary);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-muted: var(--muted);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-accent: var(--accent);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-panel: var(--panel);
+	--color-panel-foreground: var(--panel-foreground);
+	--color-destructive: var(--destructive);
+	--color-destructive-foreground: var(--destructive-foreground);
+	--color-border: var(--border);
+	--color-input: var(--input);
+	--color-ring: var(--ring);
+	--color-chart-1: var(--chart-1);
+	--color-chart-2: var(--chart-2);
+	--color-chart-3: var(--chart-3);
+	--color-chart-4: var(--chart-4);
+	--color-chart-5: var(--chart-5);
+	--radius-sm: calc(var(--radius) - 4px);
+	--radius-md: calc(var(--radius) - 2px);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) + 4px);
+	--color-sidebar: var(--sidebar);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-ring: var(--sidebar-ring);
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+@layer components {
+	/* Classic Windows 98 button */
+	.win98-btn {
+		@apply relative border-2 bg-card px-4 py-2 text-foreground;
+		border-style: solid;
+		border-top-color: oklch(0.873 0.004 264.052);
+		border-left-color: oklch(0.873 0.004 264.052);
+		border-right-color: oklch(0.568 0.004 264.052);
+		border-bottom-color: oklch(0.568 0.004 264.052);
+		box-shadow: inset -1px -1px oklch(0 0 0);
+		font-size: 12px;
+		min-width: 75px;
+		text-align: center;
+	}
+
+	.win98-btn:active {
+		border-top-color: oklch(0.568 0.004 264.052);
+		border-left-color: oklch(0.568 0.004 264.052);
+		border-right-color: oklch(0.873 0.004 264.052);
+		border-bottom-color: oklch(0.873 0.004 264.052);
+		box-shadow: inset 1px 1px oklch(0 0 0);
+		padding-left: 18px;
+		padding-top: 10px;
+		padding-right: 14px;
+		padding-bottom: 6px;
+	}
+
+	/* Windows 98 window */
+	.win98-window {
+		@apply border-2 bg-card text-card-foreground;
+		border-style: solid;
+		border-top-color: oklch(0.873 0.004 264.052);
+		border-left-color: oklch(0.873 0.004 264.052);
+		border-right-color: oklch(0 0 0);
+		border-bottom-color: oklch(0 0 0);
+		box-shadow:
+			inset -1px -1px oklch(0.568 0.004 264.052),
+			inset 1px 1px oklch(1 0 0);
+	}
+
+	/* Windows 98 inset field */
+	.win98-inset {
+		@apply border-2 bg-input;
+		border-style: solid;
+		border-top-color: oklch(0.568 0.004 264.052);
+		border-left-color: oklch(0.568 0.004 264.052);
+		border-right-color: oklch(0.873 0.004 264.052);
+		border-bottom-color: oklch(0.873 0.004 264.052);
+		box-shadow:
+			inset -1px -1px oklch(1 0 0),
+			inset 1px 1px oklch(0 0 0);
+	}
+
+	/* Windows 98 scrollbar */
+	.win98-scrollbar {
+		scrollbar-width: 16px;
+		scrollbar-color: oklch(0.803 0.004 264.052) oklch(0.95 0 0);
+	}
+
+	.win98-scrollbar::-webkit-scrollbar {
+		width: 16px;
+		height: 16px;
+	}
+
+	.win98-scrollbar::-webkit-scrollbar-track {
+		background: oklch(0.803 0.004 264.052);
+		border: 1px solid oklch(0.568 0.004 264.052);
+	}
+
+	.win98-scrollbar::-webkit-scrollbar-thumb {
+		background: oklch(0.803 0.004 264.052);
+		border: 1px solid;
+		border-color: oklch(1 0 0) oklch(0.568 0.004 264.052)
+			oklch(0.568 0.004 264.052) oklch(1 0 0);
+		box-shadow: inset 1px 1px 0 oklch(0.873 0.004 264.052);
+	}
+
+	.win98-scrollbar::-webkit-scrollbar-button {
+		background: oklch(0.803 0.004 264.052);
+		border: 1px solid;
+		border-color: oklch(1 0 0) oklch(0.568 0.004 264.052)
+			oklch(0.568 0.004 264.052) oklch(1 0 0);
+		box-shadow: inset 1px 1px 0 oklch(0.873 0.004 264.052);
+		width: 16px;
+		height: 16px;
+	}
+
+	.win98-bg {
+		background: linear-gradient(
+			135deg,
+			#008080 0%,
+			#0a4a4a 25%,
+			#005a5a 50%,
+			#003838 75%,
+			#004848 100%
+		);
+		/* Add subtle noise texture for authenticity */
+		background-image: linear-gradient(
+				135deg,
+				#008080 0%,
+				#0a4a4a 25%,
+				#005a5a 50%,
+				#003838 75%,
+				#004848 100%
+			),
+			repeating-linear-gradient(
+				0deg,
+				transparent,
+				transparent 2px,
+				rgba(0, 0, 0, 0.05) 2px,
+				rgba(0, 0, 0, 0.05) 4px
+			);
+	}
+
+	/* Alternative: Classic Windows 98 clouds wallpaper style */
+	.win98-bg-clouds {
+		background: linear-gradient(
+			180deg,
+			#5a9fd4 0%,
+			#7db9e8 50%,
+			#ffffff 100%
+		);
+		background-image: radial-gradient(
+				ellipse at 20% 30%,
+				rgba(255, 255, 255, 0.8) 0%,
+				transparent 50%
+			),
+			radial-gradient(
+				ellipse at 60% 20%,
+				rgba(255, 255, 255, 0.6) 0%,
+				transparent 50%
+			),
+			radial-gradient(
+				ellipse at 80% 40%,
+				rgba(255, 255, 255, 0.7) 0%,
+				transparent 50%
+			),
+			linear-gradient(180deg, #5a9fd4 0%, #7db9e8 50%, #ffffff 100%);
+	}
+}
+
+.no-select {
+	user-drag: none;
+	-webkit-user-drag: none;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+}
+
+@keyframes pulseRing {
+	0% {
+		transform: scale(0.5);
+	}
+
+	80%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes pulseDot {
+	0%,
+	100% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.1);
+	}
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+
+	/* Added Windows 98 desktop pattern texture for authentic retro feel */
+	body::before {
+		content: "";
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		pointer-events: none;
+		opacity: 0.03;
+		background-image: repeating-linear-gradient(
+			45deg,
+			transparent,
+			transparent 2px,
+			rgba(0, 0, 0, 1) 2px,
+			rgba(0, 0, 0, 1) 4px
+		);
+		z-index: 0;
+	}
+}
+
+/* Windows 98 Desktop Background Styles - Add to globals.css */
+
+/* Hero window content animations */
+@keyframes gridScroll {
+	0% {
+		transform: translate(0, 0);
+	}
+	100% {
+		transform: translate(4px, 4px);
+	}
+}
+
+@keyframes glowPulse {
+	0% {
+		opacity: 0.5;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+}
+
+@keyframes pixelShimmer {
+	0%,
+	100% {
+		opacity: 0.1;
+	}
+	50% {
+		opacity: 0.3;
+	}
+}

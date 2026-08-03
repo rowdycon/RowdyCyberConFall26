@@ -1,0 +1,30 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "migrations:generate": "pnpm --filter=db migrations:generate",
+    "migrations:apply": "pnpm --filter=db migrations:apply",
+    "migrations:drop": "pnpm --filter=db migrations:drop",
+    "studio": "pnpm --filter=db studio",
+    "tunnel": "pnpm --filter=devtunnel opentunnel",
+    "deploy-discord:dev": "pnpm --filter=bot deploy:dev",
+    "deploy-discord:prod": "pnpm --filter=bot deploy:prod",
+    "format": "prettier --write .",
+    "format-check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@turbo/gen": "^2.0.9",
+    "dotenv-cli": "^7.4.2",
+    "eslint": "^9.7.0",
+    "prettier": "^3.3.3",
+    "turbo": "^2.0.9"
+  },
+  "packageManager": "pnpm@8.3.1+sha512.d264f6640bf4f09de7cfcc547568515bcf0613cf485a03e8ff16616fa69c4172b6f9a0a2925ee44fb060df565c9c9a8eaf061749e77af318cb77f6684a7051f3",
+  "name": "hackkit",
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "prettier-plugin-tailwindcss": "^0.6.5"
+  }
+}
