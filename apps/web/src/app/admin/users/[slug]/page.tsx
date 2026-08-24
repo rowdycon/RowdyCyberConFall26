@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
-import { getHacker } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import BanUserDialog from "@/components/admin/users/BanUserDialog";
 import { db, eq } from "db";
 import { bannedUsers } from "db/schema";
@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 	const admin = await getCurrentUser();
 	if (!userHasPermission(admin, PermissionType.VIEW_USERS)) return notFound();
 
-	const subject = await getHacker(params.slug);
+	const subject = await getUserCommonData(params.slug);
 
 	if (!subject) {
 		return <p className="text-center font-bold">User Not Found</p>;
@@ -70,7 +70,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							size="sm"
 							className="w-full border-panel"
 						>
-							Hacker Profile
+							User Profile
 						</Button>
 					</Link>
 
@@ -80,7 +80,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							size="sm"
 							className="w-full border-panel"
 						>
-							Email Hacker
+							Email User
 						</Button>
 					</Link>
 
@@ -138,7 +138,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							size="sm"
 							className="w-full border-panel"
 						>
-							Hacker Profile
+							User Profile
 						</Button>
 					</Link>
 
@@ -148,7 +148,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 							size="sm"
 							className="w-full border-panel"
 						>
-							Email Hacker
+							Email User
 						</Button>
 					</Link>
 

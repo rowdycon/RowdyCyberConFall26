@@ -1,8 +1,9 @@
 import { auth } from "@clerk/nextjs/server";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import { UserWithRole } from "db/types";
 import { redirect } from "next/navigation";
 import { cache } from "react";
+
 export async function clientLogOut() {
 	"use server";
 	redirect("/");
@@ -14,7 +15,7 @@ export const getCurrentUser = cache(async (): Promise<UserWithRole> => {
 	if (!userId) {
 		return redirect("/login");
 	}
-	const user = await getUser(userId);
+	const user = await getUserCommonData(userId);
 	if (!user) {
 		return redirect("/login");
 	}

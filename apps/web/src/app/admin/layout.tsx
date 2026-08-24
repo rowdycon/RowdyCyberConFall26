@@ -18,7 +18,6 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
 	const user = await getCurrentUser();
 
 	if (!isUserAdmin(user)) {
-		console.log("Denying admin access to user", user);
 		return (
 			<FullScreenMessage
 				title="Access Denied"

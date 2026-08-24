@@ -3,7 +3,7 @@
 import { authenticatedAction } from "@/lib/safe-action";
 import { z } from "zod";
 import { db } from "db";
-import { userCommonData, userHackerData } from "db/schema";
+import { userCommonData, userMetaData } from "db/schema";
 import { eq } from "db/drizzle";
 import { del } from "@/lib/utils/server/file-upload";
 import { decodeBase64AsFile } from "@/lib/utils/shared/files";
@@ -14,7 +14,6 @@ import { DatabaseError } from "db/types";
 import {
 	registrationSettingsFormValidator,
 	modifyAccountSettingsSchema,
-	profileSettingsSchema,
 } from "@/validators/settings";
 import { clerkClient, type User as ClerkUser } from "@clerk/nextjs/server";
 import { PAYLOAD_TOO_LARGE_CODE } from "@/lib/constants";
@@ -25,21 +24,13 @@ export const modifyRegistrationData = authenticatedAction
 		async ({
 			parsedInput: {
 				age,
-				gender,
-				isEmailable,
 				university,
 				major,
-				levelOfStudy,
-				schoolID,
+				classification,
 				heardAboutEvent,
 				shirtSize,
 				dietaryRestrictions,
 				accommodationNote,
-				github,
-				linkedin,
-				personalWebsite,
-				phoneNumber,
-				countryOfResidence,
 				uploadedFile,
 			},
 			ctx: { userId },
@@ -50,29 +41,21 @@ export const modifyRegistrationData = authenticatedAction
 					.update(userCommonData)
 					.set({
 						age,
-						gender,
 						shirtSize,
 						dietRestrictions: dietaryRestrictions,
 						accommodationNote,
-						phoneNumber,
-						countryOfResidence,
 					})
 					.where(eq(userCommonData.clerkID, userId)),
 				db
-					.update(userHackerData)
+					.update(userMetaData)
 					.set({
-						isEmailable,
 						university,
 						major,
-						levelOfStudy,
-						schoolID,
+						classification,
 						heardFrom: heardAboutEvent,
-						GitHub: github,
-						LinkedIn: linkedin,
-						PersonalWebsite: personalWebsite,
 						resume: uploadedFile,
 					})
-					.where(eq(userHackerData.clerkID, userId)),
+					.where(eq(userMetaData.clerkID, userId)),
 			]).catch(async (err) => {
 				console.log(
 					`Error occured at modify registration data: ${err}`,
@@ -85,21 +68,13 @@ export const modifyRegistrationData = authenticatedAction
 			return {
 				success: true,
 				newAge: age,
-				newGender: gender,
-				newWantsToReceiveMLHEmails: isEmailable,
 				newUniversity: university,
 				newMajor: major,
-				newLevelOfStudy: levelOfStudy,
-				newSchoolID: schoolID,
+				newClassification: classification,
 				newHeardFrom: heardAboutEvent,
 				newShirtSize: shirtSize,
 				newDietaryRestrictions: dietaryRestrictions,
 				newAccommodationNote: accommodationNote,
-				newGitHub: github,
-				newLinkedIn: linkedin,
-				newPersonalWebsite: personalWebsite,
-				newPhoneNumber: phoneNumber,
-				newCountryOfResidence: countryOfResidence,
 				newUploadedFile: uploadedFile,
 			};
 		},
@@ -116,31 +91,11 @@ export const deleteResume = authenticatedAction
 		await del(oldFileLink);
 	});
 
-export const modifyProfileData = authenticatedAction
-	.schema(profileSettingsSchema)
-	.action(async ({ parsedInput, ctx: { userId } }) => {
-		await db
-			.update(userCommonData)
-			.set({
-				...parsedInput,
-				skills: parsedInput.skills.map((v) => v.toLowerCase()),
-			})
-			.where(eq(userCommonData.clerkID, userId));
-		return {
-			success: true,
-		};
-	});
-
 export const modifyAccountSettings = authenticatedAction
 	.schema(modifyAccountSettingsSchema)
 	.action(
 		async ({
-			parsedInput: {
-				firstName,
-				lastName,
-				hackerTag,
-				isSearchable: hasSearchableProfile,
-			},
+			parsedInput: { firstName, lastName, hackerTag },
 			ctx: { userId },
 		}) => {
 			try {
@@ -150,7 +105,6 @@ export const modifyAccountSettings = authenticatedAction
 						firstName,
 						lastName,
 						hackerTag,
-						isSearchable: hasSearchableProfile,
 					})
 					.where(eq(userCommonData.clerkID, userId));
 			} catch (err) {
@@ -170,8 +124,6 @@ export const modifyAccountSettings = authenticatedAction
 				success: true,
 				newFirstName: firstName,
 				newLastName: lastName,
-				newHackerTag: hackerTag,
-				newHasSearchableProfile: hasSearchableProfile,
 			};
 		},
 	);

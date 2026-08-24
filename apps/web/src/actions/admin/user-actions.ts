@@ -11,7 +11,7 @@ import {
 	userHasPermission,
 } from "@/lib/utils/server/admin";
 import { PermissionType } from "@/lib/constants/permission";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 
 export const updateRole = adminAction
 	.schema(
@@ -25,7 +25,7 @@ export const updateRole = adminAction
 			parsedInput: { userIDToUpdate, roleIdToSet },
 			ctx: { user, userId },
 		}) => {
-			const userToUpdate = await getUser(userIDToUpdate);
+			const userToUpdate = await getUserCommonData(userIDToUpdate);
 			const roleToSet = await db.query.roles.findFirst({
 				where: eq(roles.id, roleIdToSet),
 			});
@@ -90,7 +90,7 @@ export const banUser = adminAction
 			parsedInput: { userIDToUpdate, reason },
 			ctx: { user, userId },
 		}) => {
-			const userToBan = await getUser(userIDToUpdate);
+			const userToBan = await getUserCommonData(userIDToUpdate);
 
 			if (
 				!userHasPermission(user, PermissionType.BAN_USERS) ||
@@ -116,7 +116,7 @@ export const removeUserBan = adminAction
 		}),
 	)
 	.action(async ({ parsedInput: { userIDToUpdate }, ctx: { user } }) => {
-		const userToBan = await getUser(userIDToUpdate);
+		const userToBan = await getUserCommonData(userIDToUpdate);
 
 		if (
 			!userHasPermission(user, PermissionType.BAN_USERS) ||

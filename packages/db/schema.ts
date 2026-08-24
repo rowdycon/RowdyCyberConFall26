@@ -1,13 +1,3 @@
-/*
-
-When changes are made to this file, you must run the following command to create the SQL migrations:
-
-pnpm run generate
-
-more info: https://orm.drizzle.team/kit-docs/overview
-
-*/
-
 import {
 	integer,
 	text,
@@ -17,11 +7,6 @@ import {
 } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
-import {
-	discordInviteStatus,
-	ticketStatus,
-	discordVerificationStatus,
-} from "../config/hackkit.config";
 
 export const uuid = customType<{ data: string; notNull: true; default: true }>({
 	dataType() {
@@ -34,19 +19,6 @@ export const uuid = customType<{ data: string; notNull: true; default: true }>({
 
 export const fileTypesEnum = customType<{
 	data: "resume" | "profilePhoto";
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-	toDriver(value) {
-		return value;
-	},
-});
-
-export const inviteType = customType<{
-	data: (typeof discordInviteStatus)[number];
 	notNull: true;
 	default: true;
 }>({
@@ -71,55 +43,30 @@ export const chatType = customType<{
 	},
 });
 
-export const ticketStatusEnum = customType<{
-	data: (typeof ticketStatus)[number];
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-});
-
-export const discordVerificationStatusEnum = customType<{
-	data: (typeof discordVerificationStatus)[number];
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-});
-
 export const userCommonData = sqliteTable("user_common_data", {
-	// id
 	clerkID: text("clerk_id", { length: 255 }).primaryKey(),
-
-	// data
 	firstName: text("first_name", { length: 50 }).notNull(),
 	lastName: text("last_name", { length: 50 }).notNull(),
 	email: text("email", { length: 255 }).notNull().unique(),
-	hackerTag: text("hacker_tag", { length: 50 }).notNull().unique(),
 	age: integer("age").notNull(),
-	gender: text("gender", { length: 50 }).notNull(),
+	hackerTag: text("hacker_tag", { length: 50 }).notNull().unique(),
+	firstTimeAttendingRCC: integer("firstTimeAttendingRCC", { mode: "boolean" })
+		.notNull()
+		.default(true),
+	attendeeType: text("attendeeType", { length: 50 }).notNull(),
+	isPresenting: integer("isPresenting", { mode: "boolean" })
+		.notNull()
+		.default(false),
 	shirtSize: text("shirt_size", { length: 5 }).notNull(),
 	dietRestrictions: text("diet_restrictions", { mode: "json" })
 		.notNull()
 		.$type<string[]>()
 		.default([]),
 	accommodationNote: text("accommodation_note"),
-	discord: text("discord", { length: 60 }),
-	pronouns: text("pronouns", { length: 20 }).notNull(),
-	bio: text("bio").notNull(),
-	skills: text("skills", { mode: "json" })
+	acknowledgement: integer("acknowledgement", { mode: "boolean" })
 		.notNull()
-		.$type<string[]>()
-		.default([]),
+		.default(false),
 	profilePhoto: text("profile_photo", { length: 255 }).notNull(),
-	phoneNumber: text("phone_number", { length: 30 }).notNull(),
-	countryOfResidence: text("country_of_residence", {
-		length: 3,
-	}).notNull(),
 
 	// metadata
 	isFullyRegistered: integer("is_fully_registered", { mode: "boolean" })
@@ -128,9 +75,6 @@ export const userCommonData = sqliteTable("user_common_data", {
 	signupTime: integer("signup_time", { mode: "timestamp_ms" })
 		.notNull()
 		.default(sql`(current_timestamp)`),
-	isSearchable: integer("is_searchable", { mode: "boolean" })
-		.notNull()
-		.default(true),
 	role_id: integer("role_id")
 		.notNull()
 		.references(() => roles.id),
@@ -158,19 +102,13 @@ export const rolesRelations = relations(roles, ({ many }) => ({
 export const userCommonRelations = relations(
 	userCommonData,
 	({ one, many }) => ({
-		hackerData: one(userHackerData, {
+		userMetaData: one(userMetaData, {
 			fields: [userCommonData.clerkID],
-			references: [userHackerData.clerkID],
+			references: [userMetaData.clerkID],
 		}),
-		discordVerification: one(discordVerification, {
-			fields: [userCommonData.clerkID],
-			references: [discordVerification.clerkID],
-		}),
+
 		files: many(files),
 		scans: many(scans),
-		tickets: many(ticketsToUsers),
-		chats: many(chatsToUsers),
-		messages: many(chatMessages),
 		banInstance: one(bannedUsers, {
 			fields: [userCommonData.clerkID],
 			references: [bannedUsers.userID],
@@ -182,39 +120,30 @@ export const userCommonRelations = relations(
 	}),
 );
 
-export const userHackerData = sqliteTable("user_hacker_data", {
-	// id
+export const userMetaData = sqliteTable("user_meta_data", {
 	clerkID: text("clerk_id", { length: 255 })
 		.primaryKey()
 		.references(() => userCommonData.clerkID, { onDelete: "cascade" }),
-
-	// data
-	university: text("university", { length: 200 }).notNull(),
-	major: text("major", { length: 200 }).notNull(),
-	schoolID: text("school_id", { length: 50 }).notNull(),
-	levelOfStudy: text("level_of_study", { length: 50 }).notNull(),
-	heardFrom: text("heard_from", { length: 50 }),
-	GitHub: text("github", { length: 100 }),
-	LinkedIn: text("linkedin", { length: 100 }),
-	PersonalWebsite: text("personal_website", { length: 100 }),
+	university: text("university"),
+	major: text("major"),
+	classification: text("classification"),
+	universityEmail: text("universityEmail").unique(),
+	company: text("company"),
+	title: text("title"),
+	organizerGroup: text("organizerGroup", { length: 50 }),
+	presentationName: text("presentationName", { length: 255 }),
+	heardFrom: text("heard_from", { length: 50 }).notNull(),
 	resume: text("resume", { length: 255 })
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
-
-	// metadata
-	group: integer("group").notNull(),
-	isEmailable: integer("is_emailable", { mode: "boolean" }).notNull(),
 });
 
-export const userHackerRelations = relations(
-	userHackerData,
-	({ one, many }) => ({
-		commonData: one(userCommonData, {
-			fields: [userHackerData.clerkID],
-			references: [userCommonData.clerkID],
-		}),
+export const userMetaRelations = relations(userMetaData, ({ one, many }) => ({
+	commonData: one(userCommonData, {
+		fields: [userMetaData.clerkID],
+		references: [userCommonData.clerkID],
 	}),
-);
+}));
 
 export const bannedUsers = sqliteTable("banned_users", {
 	id: integer("id", { mode: "number" }).notNull().primaryKey(),
@@ -297,125 +226,3 @@ export const errorLog = sqliteTable("error_log", {
 	route: text("route", { length: 255 }),
 	message: text("message").notNull(),
 });
-
-export const discordVerification = sqliteTable("discord_verification", {
-	code: text("code", { length: 255 }).notNull().primaryKey(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-	clerkID: text("clerk_id", { length: 255 }),
-	discordUserID: text("discord_user_id", { length: 255 }).notNull(),
-	discordUserTag: text("discord_user_tag", { length: 255 }).notNull(),
-	discordProfilePhoto: text("discord_profile_photo", {
-		length: 255,
-	}).notNull(),
-	discordName: text("discord_name", { length: 255 }).notNull(),
-	status: discordVerificationStatusEnum("status")
-		.notNull()
-		.default("pending"),
-	guild: text("guild", { length: 100 }).notNull(),
-});
-
-/* Tickets */
-
-export const tickets = sqliteTable("tickets", {
-	id: text("id").primaryKey(),
-	title: text("title", { length: 255 }).notNull(),
-	description: text("description").notNull(),
-	status: ticketStatusEnum("status").notNull().default("awaiting"),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
-
-export const ticketRelations = relations(tickets, ({ one, many }) => ({
-	chat: one(chats, {
-		fields: [tickets.id],
-		references: [chats.ticketID],
-	}),
-	tickets: many(ticketsToUsers),
-}));
-
-export const chats = sqliteTable("chats", {
-	id: text("id").primaryKey(),
-	type: chatType("type").notNull(),
-	ticketID: text("ticket_id").references(() => tickets.id),
-	author: text("author").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
-
-export const chatRelations = relations(chats, ({ many }) => ({
-	messages: many(chatMessages),
-	members: many(chatsToUsers),
-}));
-
-export const chatMessages = sqliteTable("chat_messages", {
-	id: integer("id", { mode: "number" }).primaryKey(),
-	chatID: text("chat_id").notNull(),
-	message: text("message").notNull(),
-	authorID: text("author_id").notNull(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-});
-
-export const chatMessageRelations = relations(chatMessages, ({ one }) => ({
-	chat: one(chats, {
-		fields: [chatMessages.chatID],
-		references: [chats.id],
-	}),
-	author: one(userCommonData, {
-		fields: [chatMessages.authorID],
-		references: [userCommonData.clerkID],
-	}),
-}));
-
-export const ticketsToUsers = sqliteTable(
-	"tickets_to_users",
-	{
-		ticketID: text("ticket_id")
-			.notNull()
-			.references(() => tickets.id),
-		userID: text("user_id")
-			.notNull()
-			.references(() => userCommonData.clerkID),
-	},
-	(t) => [primaryKey({ columns: [t.userID, t.ticketID] })],
-);
-
-export const ticketsToUserRelations = relations(ticketsToUsers, ({ one }) => ({
-	ticket: one(tickets, {
-		fields: [ticketsToUsers.ticketID],
-		references: [tickets.id],
-	}),
-	user: one(userCommonData, {
-		fields: [ticketsToUsers.userID],
-		references: [userCommonData.clerkID],
-	}),
-}));
-
-export const chatsToUsers = sqliteTable(
-	"chats_to_users",
-	{
-		chatID: text("chat_id")
-			.notNull()
-			.references(() => chats.id),
-		userID: text("user_id")
-			.notNull()
-			.references(() => userCommonData.clerkID),
-	},
-	(t) => [primaryKey({ columns: [t.userID, t.chatID] })],
-);
-
-export const chatsToUserRelations = relations(chatsToUsers, ({ one }) => ({
-	chat: one(chats, {
-		fields: [chatsToUsers.chatID],
-		references: [chats.id],
-	}),
-	user: one(userCommonData, {
-		fields: [chatsToUsers.userID],
-		references: [userCommonData.clerkID],
-	}),
-}));

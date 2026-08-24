@@ -2,7 +2,7 @@ import PassScanner from "@/components/admin/scanner/PassScanner";
 import FullScreenMessage from "@/components/shared/FullScreenMessage";
 import { db } from "db";
 import { eq, and } from "db/drizzle";
-import { getHacker } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import { events, scans } from "db/schema";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import { PermissionType } from "@/lib/constants/permission";
@@ -60,7 +60,7 @@ export default async function Page({
 	}
 
 	const scanUser = searchParams.user
-		? await getHacker(searchParams.user)
+		? await getUserCommonData(searchParams.user)
 		: null;
 
 	const scan = !scanUser

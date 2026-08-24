@@ -1,11 +1,8 @@
 import { db, eq } from "..";
-import { userCommonData, userHackerData } from "../schema";
-import { HackerData, User } from "../types";
+import { userMetaData, userCommonData } from "../schema";
+import { UserMetaData, Participant } from "../types";
 
-// const _getAllUsers = db.query.userCommonData.findMany().prepare("getAllUsers");
-
-export function getAllUsers() {
-	// return _getAllUsers.execute();
+export function getAllUsersCommonDataWithRole() {
 	return db.query.userCommonData.findMany({
 		with: {
 			role: true,
@@ -13,25 +10,15 @@ export function getAllUsers() {
 	});
 }
 
-export async function getAllUsersWithHackerData() {
+export function getAllUsersCommonDataWithMetaData(): Promise<
+	Participant[] | undefined
+> {
 	return db.query.userCommonData.findMany({
-		with: {
-			hackerData: true,
-			role: true,
-		},
+		with: { userMetaData: true },
 	});
 }
 
-// ID
-
-// const _getUser = db.query.userCommonData
-// 	.findFirst({
-// 		where: eq(userCommonData.clerkID, sql.placeholder("_clerkID")),
-// 	})
-// 	.prepare("getUser");
-
-export function getUser(clerkID: string) {
-	// return _getUser.execute({ _clerkID: clerkID });
+export function getUserCommonData(clerkID: string) {
 	return db.query.userCommonData.findFirst({
 		where: (fields, { eq }) => eq(fields.clerkID, clerkID),
 		with: {
@@ -40,34 +27,26 @@ export function getUser(clerkID: string) {
 	});
 }
 
-export function getHackerData(
-	clerkID: string,
-): Promise<HackerData | undefined> {
-	return db.query.userHackerData.findFirst({
-		where: eq(userHackerData.clerkID, clerkID),
+export function getUserCommonDataByTag(hackerTag: string) {
+	return db.query.userCommonData.findFirst({
+		where: eq(userCommonData.hackerTag, hackerTag),
+		with: { userMetaData: true, role: true },
 	});
 }
 
-// Tag
-
-// const _getUserByTag = db.query.userCommonData
-// 	.findFirst({
-// 		where: eq(userCommonData.hackerTag, sql.placeholder("_hackerTag")),
-// 	})
-// 	.prepare("getUserByTag");
-
-export function getUserByTag(hackerTag: string): Promise<User | undefined> {
-	// return _getUserByTag.execute({ _hackerTag: hackerTag });
-	return db.query.userCommonData.findFirst({
-		where: eq(userCommonData.hackerTag, hackerTag),
+export function getUserMetaData(
+	clerkID: string,
+): Promise<UserMetaData | undefined> {
+	return db.query.userMetaData.findFirst({
+		where: eq(userMetaData.clerkID, clerkID),
 	});
 }
 
 export function updateUserResume(userID: string, url: string) {
 	return db
-		.update(userHackerData)
+		.update(userMetaData)
 		.set({
 			resume: url,
 		})
-		.where(eq(userHackerData.clerkID, userID));
+		.where(eq(userMetaData.clerkID, userID));
 }

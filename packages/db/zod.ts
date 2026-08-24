@@ -1,9 +1,9 @@
-import { userCommonData, userHackerData } from "./schema";
+import { userCommonData, userMetaData } from "./schema";
 import { createInsertSchema } from "drizzle-zod";
 
 export const userCommonDataInsertSchema = createInsertSchema(userCommonData);
-export const userHackerDataInsertSchema = createInsertSchema(userHackerData);
+export const userMetaDataInsertSchema = createInsertSchema(userMetaData);
 
-export const userWithHackerDataInsertSchema = userCommonDataInsertSchema.merge(
-	userHackerDataInsertSchema,
+export const userWithDataInsertSchema = userCommonDataInsertSchema.merge(
+	userMetaDataInsertSchema,
 );

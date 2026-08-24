@@ -16,7 +16,7 @@ import { SignOutButton } from "@clerk/nextjs";
 import Link from "next/link";
 import DefaultDropdownTrigger from "../dash/shared/DefaultDropDownTrigger";
 import MobileNavBarLinks from "./MobileNavBarLinks";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import Restricted from "../Restricted";
 import { PermissionType } from "@/lib/constants/permission";
 import c from "config";
@@ -84,7 +84,7 @@ export default async function ProfileButton() {
 	}
 
 	// Make request with the clerk data that we may or may not have
-	const user = await getUser(userId);
+	const user = await getUserCommonData(userId);
 
 	// If we do not have a fully fledged user, encourage them to complete registration
 	if (!user) {

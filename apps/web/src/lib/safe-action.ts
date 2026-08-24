@@ -4,7 +4,7 @@ import {
 	returnValidationErrors,
 } from "next-safe-action";
 import { auth } from "@clerk/nextjs/server";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import { z } from "zod";
 import { isUserAdmin } from "./utils/server/admin";
 
@@ -30,7 +30,7 @@ export const authenticatedAction = publicAction.use(
 
 export const volunteerAction = authenticatedAction.use(
 	async ({ next, ctx }) => {
-		const user = await getUser(ctx.userId);
+		const user = await getUserCommonData(ctx.userId);
 		if (!user || !isUserAdmin(user)) {
 			returnValidationErrors(z.null(), {
 				_errors: ["Unauthorized (Not Admin)"],
@@ -41,7 +41,7 @@ export const volunteerAction = authenticatedAction.use(
 );
 
 export const adminAction = authenticatedAction.use(async ({ next, ctx }) => {
-	const user = await getUser(ctx.userId);
+	const user = await getUserCommonData(ctx.userId);
 	if (!user || !isUserAdmin(user)) {
 		returnValidationErrors(z.null(), {
 			_errors: ["Unauthorized (Not Admin)"],

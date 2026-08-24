@@ -3,7 +3,7 @@ import c from "config";
 import ProfileButton from "./ProfileButton";
 import { currentUser } from "@clerk/nextjs/server";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import WinTitleBar from "./WinTitleBar";
 
 interface NavbarProps {
@@ -13,7 +13,7 @@ interface NavbarProps {
 export default async function Navbar({ className }: NavbarProps) {
 	const user = await currentUser();
 	const registrationIsComplete =
-		user != null && (await getUser(user.id)) != undefined;
+		user != null && (await getUserCommonData(user.id)) != undefined;
 
 	return (
 		<div className="sticky top-0 z-50">

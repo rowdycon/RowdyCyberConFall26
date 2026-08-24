@@ -25,7 +25,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/shadcn/ui/textarea";
 import c from "config";
 import { DateTimePicker } from "@/components/shadcn/ui/date-time-picker/date-time-picker";
-import { parseAbsolute, getLocalTimeZone } from "@internationalized/date";
 import { useCallback, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ONE_HOUR_IN_MILLISECONDS } from "@/lib/constants";
@@ -48,7 +47,6 @@ export default function EditEventForm({
 }: eventEditType & { id: number }) {
 	const [loading, setLoading] = useState(false);
 	const router = useRouter();
-	const userLocalTimeZone = getLocalTimeZone();
 	const { execute } = useAction(editEvent, {
 		onExecute: () => setLoading(true),
 		onSettled: () => setLoading(false),
@@ -217,18 +215,8 @@ export default function EditEventForm({
 							<FormItem>
 								<FormLabel>Event Start</FormLabel>
 								<DateTimePicker
-									value={
-										field.value
-											? parseAbsolute(
-													field.value.toISOString(),
-													userLocalTimeZone,
-												)
-											: null
-									}
-									onChange={(date) => {
-										const newDate = date
-											? date.toDate(userLocalTimeZone)
-											: null;
+									value={field.value ?? null}
+									onChange={(newDate) => {
 										field.onChange(newDate);
 										const isEventStartBeforeEnd =
 											newDate &&
@@ -243,9 +231,6 @@ export default function EditEventForm({
 											);
 										}
 									}}
-									shouldCloseOnSelect={false}
-									granularity={"minute"}
-									label="Event Start"
 								/>
 								<FormMessage />
 							</FormItem>
@@ -258,18 +243,8 @@ export default function EditEventForm({
 							<FormItem>
 								<FormLabel>Event End</FormLabel>
 								<DateTimePicker
-									value={
-										!!field.value
-											? parseAbsolute(
-													field.value.toISOString(),
-													userLocalTimeZone,
-												)
-											: null
-									}
-									onChange={(date) => {
-										const newDate = !!date
-											? date.toDate(userLocalTimeZone)
-											: null;
+									value={field.value ?? null}
+									onChange={(newDate) => {
 										field.onChange(newDate);
 										const isEventEndBeforeStart =
 											newDate &&
@@ -285,9 +260,6 @@ export default function EditEventForm({
 											);
 										}
 									}}
-									shouldCloseOnSelect={false}
-									granularity={"minute"}
-									label="Event End"
 								/>
 								<FormMessage />
 							</FormItem>

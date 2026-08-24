@@ -1,69 +1,34 @@
 import UserInfoSection from "@/components/admin/users/UserInfoSection";
-import type { Hacker } from "db/types";
-import { clerkClient } from "@clerk/nextjs/server";
-import { titleCase } from "@/lib/utils/shared/string";
+import type { UserWithRole } from "db/types";
 
-export function PersonalInfo({ user }: { user: Hacker }) {
+export function PersonalInfo({ user }: { user: UserWithRole }) {
 	return (
 		<UserInfoSection title="Personal Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
 				<Cell title="First Name" value={user.firstName} />
 				<Cell title="Last Name" value={user.lastName} />
-				<Cell
-					title="Gender"
-					value={titleCase(user.gender.toLowerCase())}
-				/>
-				<Cell title="Pronouns" value={user.pronouns} />
 				<Cell title="Age" value={user.age} />
+				<Cell title="Attendee Type" value={user.attendeeType} />
 			</div>
 		</UserInfoSection>
 	);
 }
 
-export function ProfileInfo({ user }: { user: Hacker }) {
+export function ProfileInfo({ user }: { user: UserWithRole }) {
 	return (
 		<UserInfoSection title="Profile Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
-				<Cell title="Hacker Tag" value={`@${user.hackerTag}`} />
-				<Cell title="Discord" value={user.discord ?? "N/A"} />
-				<Cell
-					title="Linkedin"
-					value={user.hackerData.LinkedIn || "N/A"}
-				/>
-				<Cell title="Github" value={user.hackerData.GitHub || "N/A"} />
-				<Cell
-					title="Website"
-					value={user.hackerData.PersonalWebsite || "N/A"}
-				/>
-				<Cell
-					title="Profile is Searchable"
-					value={user.isSearchable ? "Yes" : "No"}
-				/>
-			</div>
-			<div className="flex flex-col gap-y-5 pt-5">
-				<Cell
-					title="Skills"
-					value={
-						user.skills && (user.skills as string[]).length > 0
-							? (user.skills as string[]).join(", ")
-							: ""
-					}
-				/>
-				<Cell title="Bio" value={user.bio} />
+				<Cell title="Clerk ID" value={`@${user.clerkID}`} />
 			</div>
 		</UserInfoSection>
 	);
 }
 
-export async function AccountInfo({ user }: { user: Hacker }) {
-	const clerkUser = await (await clerkClient()).users
-		.getUser(user.clerkID)
-		.catch(() => {});
-
+export async function AccountInfo({ user }: { user: UserWithRole }) {
 	return (
 		<UserInfoSection title="Account Info">
 			<div className="flex flex-wrap gap-x-10 gap-y-5">
-				{clerkUser ? (
+				{user ? (
 					<>
 						<Cell title="Email" value={user.email} />
 						<Cell title="Clerk ID" value={user.clerkID} />

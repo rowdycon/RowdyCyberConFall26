@@ -10,29 +10,29 @@ import {
 	DrawerContent,
 	DrawerTrigger,
 } from "@/components/shadcn/ui/drawer";
-import { getHacker } from "db/functions";
-import { Hacker } from "db/types";
+import { getUserCommonData } from "db/functions";
+import { UserWithRole } from "db/types";
 import WinTitleBar from "@/components/shared/WinTitleBar";
 
 interface EventPassProps {
-	user: Hacker;
+	user: UserWithRole;
 	clerk: NonNullable<Awaited<ReturnType<typeof currentUser>>>;
 	qrPayload: string;
-	guild: string;
+	attendeeType: string;
 }
 
 export default async function Page() {
 	const user = await currentUser();
 	if (!user) return null;
 
-	const userDbRecord = await getHacker(user.id);
+	const userDbRecord = await getUserCommonData(user.id);
 	if (!userDbRecord) return null;
 
 	const qrPayload = createQRpayload({
 		userID: user.id,
 		createdAt: new Date(),
 	});
-	const guild = Object.keys(c.groups)[userDbRecord.hackerData.group];
+	const attendeeType = userDbRecord.attendeeType;
 
 	return (
 		<div className="flex min-h-[calc(100vh-7rem)] items-center justify-center px-4 py-12">
@@ -59,14 +59,14 @@ export default async function Page() {
 					user={userDbRecord}
 					qrPayload={qrPayload}
 					clerk={user}
-					guild={guild}
+					attendeeType={attendeeType}
 				/>
 			</TiltWrapper>
 		</div>
 	);
 }
 
-function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
+function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 	return (
 		<div className="relative">
 			{/* Lanyard hole at top */}
@@ -155,7 +155,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 									}}
 								>
 									<span className="font-mono text-xs font-bold text-white">
-										{guild}
+										{attendeeType}
 									</span>
 								</div>
 							</div>
@@ -309,7 +309,7 @@ function EventPass({ qrPayload, user, clerk, guild }: EventPassProps) {
 					</div>
 
 					{/* Status bar at bottom */}
-					<div className="border-panel mt-3 flex border-2 text-sm">
+					<div className="mt-3 flex border-2 border-panel text-sm">
 						<div className="flex flex-1 items-center gap-2 px-2 py-0.5">
 							<span>✓</span>
 							<span>Valid Credential</span>

@@ -1,5 +1,5 @@
 import CheckinScanner from "@/components/admin/scanner/CheckinScanner";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import { PermissionType } from "@/lib/constants/permission";
 import { notFound } from "next/navigation";
@@ -27,7 +27,7 @@ export default async function Page({
 			</div>
 		);
 
-	const scanUser = await getUser(searchParams.user);
+	const scanUser = await getUserCommonData(searchParams.user);
 	if (!scanUser) {
 		return (
 			<div>

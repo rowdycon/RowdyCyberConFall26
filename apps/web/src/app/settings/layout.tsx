@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import SettingsSection from "@/components/settings/SettingsSection";
 import { Settings } from "lucide-react";
 import ClientToast from "@/components/shared/ClientToast";
-import { getUser } from "db/functions/user";
+import { getUserCommonData } from "db/functions/user";
 import Link from "next/link";
 import Image from "next/image";
 import c from "config";
@@ -23,7 +23,7 @@ export default async function SettingsLayout({
 		return redirect("/sign-in");
 	}
 
-	if ((await getUser(userId)) == undefined) {
+	if ((await getUserCommonData(userId)) == undefined) {
 		return redirect("/register");
 	}
 
@@ -56,7 +56,7 @@ export default async function SettingsLayout({
 				</div>
 				<aside className="sticky hidden h-screen md:block">
 					<SettingsSection name="Account" path="/settings#account" />
-					<SettingsSection name="Profile" path="/settings#profile" />
+					{/* <SettingsSection name="Profile" path="/settings#profile" /> */}
 					<SettingsSection
 						name="Registration"
 						path="/settings#registration"

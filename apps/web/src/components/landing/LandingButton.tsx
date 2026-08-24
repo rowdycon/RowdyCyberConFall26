@@ -1,4 +1,4 @@
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
@@ -22,7 +22,7 @@ export default async function LandingButton() {
 		);
 	}
 
-	const user = await getUser(userId);
+	const user = await getUserCommonData(userId);
 
 	if (!user) {
 		return (

@@ -7,7 +7,7 @@ import Link from "next/link";
 import { redisMGet } from "@/lib/utils/server/redis";
 import { parseRedisBoolean } from "@/lib/utils/server/redis";
 import { Button } from "@/components/shadcn/ui/button";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 
 export default async function Page() {
 	const { userId } = await auth();
@@ -16,7 +16,7 @@ export default async function Page() {
 	const user = await currentUser();
 	if (!user) return redirect("/sign-up");
 
-	const registration = await getUser(userId);
+	const registration = await getUserCommonData(userId);
 	if (registration) return redirect("/dash");
 
 	const [defaultRegistrationEnabled]: (string | null)[] = await redisMGet(
@@ -33,8 +33,8 @@ export default async function Page() {
 							Register
 						</h1>
 						<p className="mt-5 font-medium">
-							<span className="font-bold">Welcome Hacker!</span>{" "}
-							Please fill out the form below to complete your
+							<span className="font-bold">Welcome!</span> Please
+							fill out the form below to complete your
 							registration for {c.hackathonName}.
 						</p>
 						<p className="pb-10 pt-5 text-xs">

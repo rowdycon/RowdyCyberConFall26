@@ -8,7 +8,7 @@ import {
 } from "@/components/shadcn/ui/card";
 import { Users, UserCheck, User2, TimerReset, MailCheck } from "lucide-react";
 import type { User } from "db/types";
-import { getAllUsers } from "db/functions";
+import { getAllUsersCommonDataWithRole } from "db/functions";
 import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
 import { getCurrentUser } from "@/lib/utils/server/user";
@@ -17,7 +17,7 @@ import { getLocalTimeZone } from "@internationalized/date";
 export default async function Page() {
 	const adminUser = await getCurrentUser();
 
-	const allUsers = (await getAllUsers()) ?? [];
+	const allUsers = (await getAllUsersCommonDataWithRole()) ?? [];
 
 	const {
 		rsvpCount,

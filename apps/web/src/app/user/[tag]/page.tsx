@@ -1,18 +1,14 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";
-import { Balancer } from "react-wrap-balancer";
-import Link from "next/link";
-import { Globe } from "lucide-react";
-import { GitHubIcon, LinkedinIcon } from "@/components/landing/FooterIcons";
 import Navbar from "@/components/shared/Navbar";
-import { getHackerByTag } from "db/functions";
+import { getUserCommonDataByTag } from "db/functions";
 import WinTitleBar from "@/components/shared/WinTitleBar";
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
 
-	const user = await getHackerByTag(params.tag);
+	const user = await getUserCommonDataByTag(params.tag);
 	if (!user) return notFound();
 
 	return (
@@ -131,64 +127,6 @@ export default async function ({ params }: { params: { tag: string } }) {
 
 									{/* Right column - Details */}
 									<div className="space-y-4">
-										{/* About section */}
-										<div>
-											<div className="mb-2 flex items-center gap-2">
-												<span className="text-sm">
-													📝
-												</span>
-												<label className="text-sm font-bold text-black">
-													About:
-												</label>
-											</div>
-											<div
-												className="win98-inset min-h-[100px] bg-white p-2 text-sm"
-												style={{
-													maxHeight: "150px",
-													overflowY: "auto",
-												}}
-											>
-												<Balancer>{user.bio}</Balancer>
-											</div>
-										</div>
-
-										{/* Skills section */}
-										{user.skills &&
-										(user.skills as string[]).length > 0 ? (
-											<div>
-												<div className="mb-2 flex items-center gap-2">
-													<span className="text-sm">
-														⚙️
-													</span>
-													<label className="text-sm font-bold text-black">
-														Skills:
-													</label>
-												</div>
-												<div className="flex flex-wrap gap-1">
-													{(
-														user.skills as string[]
-													).map((skill, i) => (
-														<span
-															key={i}
-															className="border bg-card px-2 py-1 text-xs"
-															style={{
-																borderTopColor:
-																	"#ffffff",
-																borderLeftColor:
-																	"#ffffff",
-																borderRightColor:
-																	"#808080",
-																borderBottomColor:
-																	"#808080",
-															}}
-														>
-															{skill}
-														</span>
-													))}
-												</div>
-											</div>
-										) : null}
-
 										{/* Contact links section */}
 										<div>
 											<div className="mb-2 flex items-center gap-2">
@@ -199,118 +137,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 													Links:
 												</label>
 											</div>
-											<div className="space-y-2">
-												{user.hackerData.GitHub &&
-													user.hackerData.GitHub
-														.length > 0 && (
-														<Link
-															href={
-																"https://github.com/" +
-																user.hackerData
-																	.GitHub
-															}
-															target="_blank"
-															className="flex items-center gap-2 border bg-white px-2 py-1.5 text-sm hover:bg-[#000080] hover:text-white"
-															style={{
-																borderTopColor:
-																	"#808080",
-																borderLeftColor:
-																	"#808080",
-																borderRightColor:
-																	"#ffffff",
-																borderBottomColor:
-																	"#ffffff",
-															}}
-														>
-															<GitHubIcon className="h-4 w-4" />
-															<span className="underline">
-																{
-																	user
-																		.hackerData
-																		.GitHub
-																}
-															</span>
-														</Link>
-													)}
-												{user.hackerData.LinkedIn &&
-													user.hackerData.LinkedIn
-														.length > 0 && (
-														<Link
-															href={
-																"https://linkedin.com/in/" +
-																user.hackerData
-																	.LinkedIn
-															}
-															target="_blank"
-															className="flex items-center gap-2 border bg-white px-2 py-1.5 text-sm hover:bg-[#000080] hover:text-white"
-															style={{
-																borderTopColor:
-																	"#808080",
-																borderLeftColor:
-																	"#808080",
-																borderRightColor:
-																	"#ffffff",
-																borderBottomColor:
-																	"#ffffff",
-															}}
-														>
-															<LinkedinIcon className="h-4 w-4" />
-															<span className="underline">
-																{
-																	user
-																		.hackerData
-																		.LinkedIn
-																}
-															</span>
-														</Link>
-													)}
-												{user.hackerData
-													.PersonalWebsite &&
-													user.hackerData
-														.PersonalWebsite
-														.length > 0 && (
-														<Link
-															href={
-																user.hackerData.PersonalWebsite.startsWith(
-																	"http",
-																) ||
-																user.hackerData.PersonalWebsite.startsWith(
-																	"https",
-																)
-																	? user
-																			.hackerData
-																			.PersonalWebsite
-																	: "https://" +
-																		user
-																			.hackerData
-																			.PersonalWebsite
-															}
-															target="_blank"
-															className="flex items-center gap-2 border bg-white px-2 py-1.5 text-sm hover:bg-[#000080] hover:text-white"
-															style={{
-																borderTopColor:
-																	"#808080",
-																borderLeftColor:
-																	"#808080",
-																borderRightColor:
-																	"#ffffff",
-																borderBottomColor:
-																	"#ffffff",
-															}}
-														>
-															<Globe className="h-4 w-4" />
-															<span className="underline">
-																{user.hackerData.PersonalWebsite.replace(
-																	"https://",
-																	"",
-																).replace(
-																	"http://",
-																	"",
-																)}
-															</span>
-														</Link>
-													)}
-											</div>
+											<div className="space-y-2"></div>
 										</div>
 									</div>
 								</div>

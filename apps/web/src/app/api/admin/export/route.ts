@@ -1,7 +1,10 @@
 import { PermissionType } from "@/lib/constants/permission";
 import { isUserAdmin, userHasPermission } from "@/lib/utils/server/admin";
 import { auth } from "@clerk/nextjs/server";
-import { getAllHackers, getUser } from "db/functions";
+import {
+	getAllUsersCommonDataWithMetaData,
+	getUserCommonData,
+} from "db/functions";
 
 function escape(value: any) {
 	if (value === null) return "None";
@@ -37,7 +40,7 @@ export async function GET() {
 
 	if (!userId) return new Response("Unauthorized", { status: 401 });
 
-	const reqUserRecord = await getUser(userId);
+	const reqUserRecord = await getUserCommonData(userId);
 	if (!reqUserRecord) {
 		return new Response("Unauthorized", { status: 401 });
 	}
@@ -49,15 +52,15 @@ export async function GET() {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	const userTableData = (await getAllHackers()) ?? [];
+	const userTableData = (await getAllUsersCommonDataWithMetaData()) ?? [];
 
 	const flattenedUsers = userTableData.map((user) => {
 		// TODO: Have to use any here to avoid type errors as we reshape the data. Could be fixed with a better type definition.
 		let toRet: any = {
 			...user,
-			...user.hackerData,
+			...user.userMetaData,
 		};
-		delete toRet.hackerData;
+		delete toRet.userMetaData;
 		return toRet;
 	});
 

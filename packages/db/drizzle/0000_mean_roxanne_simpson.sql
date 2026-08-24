@@ -8,43 +8,6 @@ CREATE TABLE `banned_users` (
 	FOREIGN KEY (`banned_by_id`) REFERENCES `user_common_data`(`clerk_id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
-CREATE TABLE `chat_messages` (
-	`id` integer PRIMARY KEY NOT NULL,
-	`chat_id` text NOT NULL,
-	`message` text NOT NULL,
-	`author_id` text NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE `chats` (
-	`id` text PRIMARY KEY NOT NULL,
-	`type` text NOT NULL,
-	`ticket_id` text,
-	`author` text NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL,
-	FOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
-CREATE TABLE `chats_to_users` (
-	`chat_id` text NOT NULL,
-	`user_id` text NOT NULL,
-	PRIMARY KEY(`user_id`, `chat_id`),
-	FOREIGN KEY (`chat_id`) REFERENCES `chats`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`user_id`) REFERENCES `user_common_data`(`clerk_id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
-CREATE TABLE `discord_verification` (
-	`code` text(255) PRIMARY KEY NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL,
-	`clerk_id` text(255),
-	`discord_user_id` text(255) NOT NULL,
-	`discord_user_tag` text(255) NOT NULL,
-	`discord_profile_photo` text(255) NOT NULL,
-	`discord_name` text(255) NOT NULL,
-	`status` text DEFAULT 'pending' NOT NULL,
-	`guild` text(100) NOT NULL
-);
---> statement-breakpoint
 CREATE TABLE `error_log` (
 	`id` text(50) PRIMARY KEY NOT NULL,
 	`created_at` integer DEFAULT (current_timestamp) NOT NULL,
@@ -93,43 +56,23 @@ CREATE TABLE `scans` (
 	PRIMARY KEY(`user_id`, `event_id`)
 );
 --> statement-breakpoint
-CREATE TABLE `tickets` (
-	`id` text PRIMARY KEY NOT NULL,
-	`title` text(255) NOT NULL,
-	`description` text NOT NULL,
-	`status` text DEFAULT 'awaiting' NOT NULL,
-	`created_at` integer DEFAULT (current_timestamp) NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE `tickets_to_users` (
-	`ticket_id` text NOT NULL,
-	`user_id` text NOT NULL,
-	PRIMARY KEY(`user_id`, `ticket_id`),
-	FOREIGN KEY (`ticket_id`) REFERENCES `tickets`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`user_id`) REFERENCES `user_common_data`(`clerk_id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
 CREATE TABLE `user_common_data` (
 	`clerk_id` text(255) PRIMARY KEY NOT NULL,
 	`first_name` text(50) NOT NULL,
 	`last_name` text(50) NOT NULL,
 	`email` text(255) NOT NULL,
-	`hacker_tag` text(50) NOT NULL,
 	`age` integer NOT NULL,
-	`gender` text(50) NOT NULL,
+	`hacker_tag` text(50) NOT NULL,
+	`firstTimeAttendingRCC` integer DEFAULT true NOT NULL,
+	`attendeeType` text(50) NOT NULL,
+	`isPresenting` integer DEFAULT false NOT NULL,
 	`shirt_size` text(5) NOT NULL,
 	`diet_restrictions` text DEFAULT '[]' NOT NULL,
 	`accommodation_note` text,
-	`discord` text(60),
-	`pronouns` text(20) NOT NULL,
-	`bio` text NOT NULL,
-	`skills` text DEFAULT '[]' NOT NULL,
+	`acknowledgement` integer DEFAULT false NOT NULL,
 	`profile_photo` text(255) NOT NULL,
-	`phone_number` text(30) NOT NULL,
-	`country_of_residence` text(3) NOT NULL,
 	`is_fully_registered` integer DEFAULT false NOT NULL,
 	`signup_time` integer DEFAULT (current_timestamp) NOT NULL,
-	`is_searchable` integer DEFAULT true NOT NULL,
 	`role_id` integer NOT NULL,
 	`checkin_timestamp` integer,
 	`is_rsvped` integer DEFAULT false NOT NULL,
@@ -139,18 +82,24 @@ CREATE TABLE `user_common_data` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `user_common_data_email_unique` ON `user_common_data` (`email`);--> statement-breakpoint
 CREATE UNIQUE INDEX `user_common_data_hacker_tag_unique` ON `user_common_data` (`hacker_tag`);--> statement-breakpoint
-CREATE TABLE `user_hacker_data` (
+CREATE TABLE `user_meta_data` (
 	`clerk_id` text(255) PRIMARY KEY NOT NULL,
-	`university` text(200) NOT NULL,
-	`major` text(200) NOT NULL,
-	`school_id` text(50) NOT NULL,
-	`level_of_study` text(50) NOT NULL,
-	`heard_from` text(50),
-	`github` text(100),
-	`linkedin` text(100),
-	`personal_website` text(100),
+	`university` text,
+	`major` text,
+	`classification` text,
+	`universityEmail` text,
+	`company` text,
+	`title` text,
+	`organizerGroup` text(50),
+	`presentationName` text(255),
+	`heard_from` text(50) NOT NULL,
 	`resume` text(255) DEFAULT 'https://static.acmutsa.org/No%20Resume%20Provided.pdf' NOT NULL,
-	`group` integer NOT NULL,
-	`is_emailable` integer NOT NULL,
 	FOREIGN KEY (`clerk_id`) REFERENCES `user_common_data`(`clerk_id`) ON UPDATE no action ON DELETE cascade
 );
+--> statement-breakpoint
+CREATE UNIQUE INDEX `user_meta_data_universityEmail_unique` ON `user_meta_data` (`universityEmail`);
+--> statement-breakpoint
+INSERT INTO `roles` (name, position, permissions, color)
+VALUES ('super_admin', 0, -1, '#FF0000'), 
+('admin', 1, 8099, '#05CC12'),
+('participant', 2, 0, '#000000');

@@ -6,8 +6,7 @@ import superjson from "superjson";
 import { createScan } from "@/actions/admin/scanner-admin-actions";
 import { useAction } from "next-safe-action/hooks";
 import { type QRDataInterface } from "@/lib/utils/shared/qr";
-import type { Scan, Event, Hacker } from "db/types";
-import c from "config";
+import type { Scan, Event, UserWithRole } from "db/types";
 
 import {
 	Drawer,
@@ -43,7 +42,7 @@ interface PassScannerProps {
 	event: Event;
 	hasScanned: boolean;
 	scan: Scan | null;
-	scanUser: Hacker | null;
+	scanUser: UserWithRole | null;
 }
 
 export default function PassScanner({
@@ -70,8 +69,7 @@ export default function PassScanner({
 	const register = scanUser?.checkinTimestamp
 		? "Checked in!"
 		: "Not Checked In";
-	const guild =
-		Object.keys(c.groups)[scanUser?.hackerData.group || 0] ?? "None";
+	const group = scanUser?.attendeeType;
 	const role = scanUser?.role?.name ? scanUser?.role?.name : "Not Found";
 
 	function handleScanCreate() {
@@ -193,9 +191,9 @@ export default function PassScanner({
 									</span>
 									<span>
 										<span className="font-bold">
-											Guild:
+											Group:
 										</span>{" "}
-										{guild}
+										{group}
 									</span>
 								</DrawerDescription>
 							</DrawerHeader>

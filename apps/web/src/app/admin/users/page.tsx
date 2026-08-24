@@ -2,7 +2,7 @@ import { DataTable } from "@/components/admin/users/UserDataTable";
 import { columns } from "@/components/admin/users/UserColumns";
 import { Button } from "@/components/shadcn/ui/button";
 import { FolderInput } from "lucide-react";
-import { getAllUsers } from "db/functions";
+import { getAllUsersCommonDataWithRole } from "db/functions";
 import { notFound } from "next/navigation";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import { PermissionType } from "@/lib/constants/permission";
@@ -12,7 +12,7 @@ export default async function Page() {
 	const user = await getCurrentUser();
 	if (!userHasPermission(user, PermissionType.VIEW_USERS)) return notFound();
 
-	const userData = await getAllUsers();
+	const userData = await getAllUsersCommonDataWithRole();
 
 	return (
 		<div className="mx-auto max-w-7xl px-5">

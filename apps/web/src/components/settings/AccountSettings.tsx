@@ -5,7 +5,6 @@ import { Button } from "@/components/shadcn/ui/button";
 import { toast } from "sonner";
 import { useAction } from "next-safe-action/hooks";
 import { modifyAccountSettings } from "@/actions/user-profile-mod";
-import { Checkbox } from "@/components/shadcn/ui/checkbox";
 import { Loader2 } from "lucide-react";
 import { modifyAccountSettingsSchema } from "@/validators/settings";
 import z from "zod";
@@ -19,7 +18,7 @@ import {
 	FormLabel,
 	FormMessage,
 	FormDescription,
-} from "../shadcn/ui/form";
+} from "@/components/shadcn/ui/form";
 
 type UserProps = z.infer<typeof modifyAccountSettingsSchema>;
 
@@ -41,24 +40,12 @@ export default function AccountSettings({
 		useAction(modifyAccountSettings, {
 			onSuccess: ({ data }) => {
 				toast.dismiss();
-				if (!data?.success) {
-					if (data?.message == "hackertag_not_unique") {
-						toast.error(
-							`Hackertag '${form.getValues("hackerTag")}' already exists`,
-						);
-						form.setError("hackerTag", {
-							message: "Hackertag already exists",
-						});
-						form.setValue("hackerTag", user.hackerTag);
-					}
-				} else {
-					toast.success("Account updated successfully!", {
-						duration: 1500,
-					});
-					form.reset({
-						...form.getValues(),
-					});
-				}
+				toast.success("Account updated successfully!", {
+					duration: 1500,
+				});
+				form.reset({
+					...form.getValues(),
+				});
 			},
 			onError: () => {
 				toast.dismiss();
@@ -83,7 +70,7 @@ export default function AccountSettings({
 		<main>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(handleSubmit)}>
-					<div className="bg-panel rounded-lg border-2 border-muted px-5 py-10">
+					<div className="rounded-lg border-2 border-muted bg-panel px-5 py-10">
 						<h2 className="pb-5 text-3xl font-semibold">
 							Personal Information
 						</h2>
@@ -145,26 +132,6 @@ export default function AccountSettings({
 											</div>
 										</FormControl>
 										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="isSearchable"
-								render={({ field }) => (
-									<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border bg-background p-4 shadow">
-										<FormControl>
-											<Checkbox
-												checked={field.value}
-												onCheckedChange={field.onChange}
-											/>
-										</FormControl>
-										<div className="space-y-1 leading-none">
-											<FormLabel>
-												Make my profile searchable by
-												other hackers
-											</FormLabel>
-										</div>
 									</FormItem>
 								)}
 							/>

@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import ClientToast from "@/components/shared/ClientToast";
 
 import { TRPCReactProvider } from "@/trpc/react";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 import ProfileButton from "@/components/shared/ProfileButton";
 
 interface DashLayoutProps {
@@ -18,11 +18,11 @@ interface DashLayoutProps {
 export default async function DashLayout({ children }: DashLayoutProps) {
 	const clerkUser = await currentUser();
 
-	if (!clerkUser || (await getUser(clerkUser.id)) == undefined) {
+	if (!clerkUser || (await getUserCommonData(clerkUser.id)) == undefined) {
 		return redirect("/register");
 	}
 
-	const user = await getUser(clerkUser.id);
+	const user = await getUserCommonData(clerkUser.id);
 	if (!user) return redirect("/register");
 
 	if (

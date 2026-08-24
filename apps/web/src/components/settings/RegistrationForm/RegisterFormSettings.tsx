@@ -49,15 +49,13 @@ import {
 	modifyRegistrationData,
 } from "@/actions/user-profile-mod";
 import { toast } from "sonner";
-import Link from "next/link";
 import { Loader2 } from "lucide-react";
-import { HackerData, User } from "db/types";
+import { UserMetaData, User } from "db/types";
 import { registrationSettingsFormValidator } from "@/validators/settings";
-import { NOT_LOCAL_SCHOOL } from "@/lib/constants";
 
 interface RegistrationFormSettingsProps {
 	user: User;
-	data: HackerData;
+	data: UserMetaData;
 }
 
 export default function RegisterFormSettings({
@@ -68,21 +66,13 @@ export default function RegisterFormSettings({
 		resolver: zodResolver(registrationSettingsFormValidator),
 		defaultValues: {
 			dietaryRestrictions: user.dietRestrictions as any,
-			isEmailable: originalData.isEmailable,
 			accommodationNote: user.accommodationNote || "",
 			age: user.age,
-			gender: user.gender as any,
-			major: originalData.major,
-			github: originalData.GitHub ?? "",
+			major: originalData.major as "",
 			heardAboutEvent: originalData.heardFrom as any,
-			levelOfStudy: originalData.levelOfStudy as any,
-			linkedin: originalData.LinkedIn ?? "",
-			personalWebsite: originalData.PersonalWebsite ?? "",
+			classification: originalData.classification as any,
 			shirtSize: user.shirtSize as any,
-			schoolID: originalData.schoolID,
-			university: originalData.university,
-			phoneNumber: user.phoneNumber,
-			countryOfResidence: user.countryOfResidence,
+			university: originalData.university as "",
 		},
 	});
 
@@ -109,10 +99,6 @@ export default function RegisterFormSettings({
 	}, []);
 
 	useEffect(() => {
-		console.log("isDirty: ", isDirty);
-		console.log("isOldFile: ", isOldFile);
-		console.log("uploadedFile: ", uploadedFile);
-		console.log("oldResumeLink: ", oldResumeLink.current);
 		setHasDataChanged(
 			isDirty ||
 				(uploadedFile != null && !isOldFile) ||
@@ -120,19 +106,6 @@ export default function RegisterFormSettings({
 					uploadedFile == null),
 		);
 	}, [isDirty, uploadedFile, isOldFile, oldResumeLink.current]);
-
-	const universityValue = form.watch("university").toLowerCase();
-	const shortID = form.watch("schoolID").toLowerCase();
-
-	useEffect(() => {
-		if (universityValue != c.localUniversityName.toLowerCase()) {
-			form.setValue("schoolID", NOT_LOCAL_SCHOOL);
-		} else {
-			const ShortIDValue =
-				shortID === NOT_LOCAL_SCHOOL ? "" : originalData.schoolID;
-			form.setValue("schoolID", ShortIDValue);
-		}
-	}, [universityValue]);
 
 	async function onSubmit(
 		data: z.infer<typeof registrationSettingsFormValidator>,
@@ -225,7 +198,7 @@ export default function RegisterFormSettings({
 	});
 
 	return (
-		<div className="bg-panel rounded-md border-card p-6">
+		<div className="rounded-md border-card bg-panel p-6">
 			<Form {...form}>
 				<form
 					className="space-y-6"
@@ -246,165 +219,11 @@ export default function RegisterFormSettings({
 									</FormItem>
 								)}
 							/>
-							<FormField
-								control={form.control}
-								name="gender"
-								render={({ field }) => (
-									<FormItem className="col-span-2">
-										<FormLabel>Gender</FormLabel>
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full bg-background">
-													<SelectValue placeholder="Select a Gender" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent>
-												<SelectGroup>
-													<SelectItem value="MALE">
-														Male
-													</SelectItem>
-													<SelectItem value="FEMALE">
-														Female
-													</SelectItem>
-													<SelectItem value="NON-BINARY">
-														Non-binary
-													</SelectItem>
-													<SelectItem value="OTHER">
-														Other
-													</SelectItem>
-													<SelectItem value="PREFERNOTSAY">
-														Prefer not to say
-													</SelectItem>
-												</SelectGroup>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="phoneNumber"
-								render={({ field }) => (
-									<FormItem className={"col-span-3"}>
-										<FormLabel>Phone Number</FormLabel>
-										<FormControl>
-											<Input {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="countryOfResidence"
-								render={({ field }) => (
-									<FormItem className="col-span-4 grid-cols-2">
-										<FormLabel>
-											Country of Residence
-										</FormLabel>
-										<div className="flex w-full items-center justify-center">
-											<Popover>
-												<PopoverTrigger asChild>
-													<FormControl>
-														<Button
-															variant="outline"
-															role="combobox"
-															className={cn(
-																"w-full justify-between",
-																!field.value &&
-																	"text-muted-foreground",
-															)}
-														>
-															{field.value
-																? c.registration.countries.find(
-																		(
-																			selectedCountry,
-																		) =>
-																			selectedCountry.code ===
-																			field.value,
-																	)?.name
-																: "Select a Country"}
-															<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-														</Button>
-													</FormControl>
-												</PopoverTrigger>
-												<PopoverContent className="no-scrollbar max-h-[400px] w-[250px] overflow-y-auto p-0">
-													<Command>
-														<CommandInput placeholder="Search countries..." />
-														<CommandList>
-															<CommandEmpty>
-																No country
-																found.
-															</CommandEmpty>
-															<CommandGroup>
-																{c.registration.countries.map(
-																	(
-																		country,
-																	) => (
-																		<CommandItem
-																			value={
-																				country.name
-																			}
-																			key={
-																				country.name
-																			}
-																			onSelect={(
-																				_,
-																			) => {
-																				const countryResult =
-																					c.registration.countries.find(
-																						(
-																							countryObject,
-																						) =>
-																							countryObject.name ===
-																							country.name,
-																					);
-																				form.setValue(
-																					"countryOfResidence",
-																					countryResult?.code ??
-																						"00",
-																				);
-																			}}
-																			className="cursor-pointer"
-																		>
-																			<Check
-																				className={`mr-2 h-4 w-4 ${
-																					country.name.toLowerCase() ===
-																					field.value
-																						? "block"
-																						: "hidden"
-																				} `}
-																			/>
-																			{
-																				country.name
-																			}
-																		</CommandItem>
-																	),
-																)}
-															</CommandGroup>
-														</CommandList>
-													</Command>
-												</PopoverContent>
-											</Popover>
-										</div>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
 						</div>
 					</FormGroupWrapper>
 					<FormGroupWrapper title="University Info">
 						<div
-							className={`grid ${
-								universityValue ===
-								c.localUniversityName.toLowerCase()
-									? "grid-cols-1 md:grid-cols-6"
-									: "grid-cols-1 md:grid-cols-5"
-							} gap-x-2 gap-y-4`}
+							className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-6`}
 						>
 							<FormField
 								control={form.control}
@@ -564,10 +383,10 @@ export default function RegisterFormSettings({
 							/>
 							<FormField
 								control={form.control}
-								name="levelOfStudy"
+								name="classification"
 								render={({ field }) => (
 									<FormItem className="col-span-2 flex flex-col md:col-span-1">
-										<FormLabel>Level of Study</FormLabel>
+										<FormLabel>Classification</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
@@ -600,33 +419,6 @@ export default function RegisterFormSettings({
 												</SelectGroup>
 											</SelectContent>
 										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="schoolID"
-								render={({ field }) => (
-									<FormItem
-										className={`${
-											universityValue.toLowerCase() ===
-											c.localUniversityName.toLowerCase()
-												? "col-span-2 flex flex-col md:col-span-1"
-												: "hidden"
-										}`}
-									>
-										<FormLabel>
-											{c.localUniversitySchoolIDName}
-										</FormLabel>
-										<FormControl>
-											<Input
-												placeholder={
-													c.localUniversitySchoolIDName
-												}
-												{...field}
-											/>
-										</FormControl>
 										<FormMessage />
 									</FormItem>
 								)}
@@ -816,115 +608,7 @@ export default function RegisterFormSettings({
 							/>
 						</div>
 					</FormGroupWrapper>
-					<FormGroupWrapper title="Career Info">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-2 md:grid-cols-3 md:gap-y-2">
-							<FormField
-								control={form.control}
-								name="github"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>GitHub Username</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Username"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="linkedin"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Linkedin Username</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="Username"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="personalWebsite"
-								render={({ field }) => (
-									<FormItem>
-										<FormLabel>Personal Website</FormLabel>
-										<FormControl>
-											<Input
-												placeholder="https://example.com/"
-												{...field}
-											/>
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-						</div>
-						<FormField
-							control={form.control}
-							name={"personalWebsite"}
-							render={({ field }) => (
-								<FormItem>
-									<FormLabel>Resume</FormLabel>
-									<FormControl>
-										<div
-											{...getRootProps()}
-											className={`bg-background border-2${
-												uploadedFile
-													? ""
-													: "cursor-pointer"
-											} flex min-h-[200px] flex-col items-center justify-center rounded-lg border-dashed border-white`}
-										>
-											<input {...getInputProps()} />
-											<p className="p-2 text-center">
-												{uploadedFile ? (
-													isOldFile ? (
-														<Link
-															href={
-																oldResumeLink.current
-															}
-														>
-															{uploadedFile.name}{" "}
-															(
-															{Math.round(
-																uploadedFile.size,
-															)}
-															kb)
-														</Link>
-													) : (
-														`${uploadedFile.name} (${Math.round(uploadedFile.size / 1024)}kb)`
-													)
-												) : isDragActive ? (
-													"Drop your resume here..."
-												) : (
-													"Drag 'n' drop your resume here, or click to select a file"
-												)}
-											</p>
-											{uploadedFile ? (
-												<Button
-													className="mt-4"
-													onClick={() => {
-														setUploadedFile(null);
-														setIsOldFile(false);
-													}}
-												>
-													Remove
-												</Button>
-											) : null}
-										</div>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
-					</FormGroupWrapper>
+
 					<Button
 						type={"submit"}
 						disabled={isLoading || loadingState === "executing"}

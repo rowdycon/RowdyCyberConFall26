@@ -53,7 +53,7 @@ export function RegistrationToggles({
 
 	return (
 		<>
-			<div className="bg-panel rounded-lg border-2 border-muted px-5 py-10">
+			<div className="rounded-lg border-2 border-muted bg-panel px-5 py-10">
 				<h2 className="pb-5 text-3xl font-semibold">Registration</h2>
 				<div className="max-w-[500px]">
 					<div className="flex items-center border-y border-y-muted py-4">
@@ -76,7 +76,7 @@ export function RegistrationToggles({
 				</div>
 			</div>
 
-			<div className="bg-panel mt-5 rounded-lg border-2 border-muted px-5 py-10">
+			<div className="mt-5 rounded-lg border-2 border-muted bg-panel px-5 py-10">
 				<h2 className="pb-5 text-3xl font-semibold">RSVPs</h2>
 				<div className="max-w-[500px]">
 					<div className="flex items-center border-t border-t-muted py-4">
@@ -100,7 +100,7 @@ export function RegistrationToggles({
 							type="number"
 							onSubmit={(newLimit) => {
 								toast.success(
-									`Hacker RSVP limit successfully changed to ${newLimit}!`,
+									`User RSVP limit successfully changed to ${newLimit}!`,
 								);
 								executeSetRSVPLimit({ rsvpLimit: newLimit });
 							}}

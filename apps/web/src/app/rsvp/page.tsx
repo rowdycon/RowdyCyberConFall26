@@ -14,7 +14,7 @@ import {
 } from "@/lib/utils/server/redis";
 import Link from "next/link";
 import { Button } from "@/components/shadcn/ui/button";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 
 export default async function RsvpPage({
 	searchParams,
@@ -32,7 +32,7 @@ export default async function RsvpPage({
 		);
 	}
 
-	const user = await getUser(userId);
+	const user = await getUserCommonData(userId);
 	if (!user) return redirect("/register");
 
 	if (
@@ -44,10 +44,7 @@ export default async function RsvpPage({
 
 	const rsvpEnabled = parseRedisBoolean(
 		(await redisGet("config:registration:allowRSVPs")) as
-			| string
-			| boolean
-			| null
-			| undefined,
+			string | boolean | null | undefined,
 		true,
 	);
 

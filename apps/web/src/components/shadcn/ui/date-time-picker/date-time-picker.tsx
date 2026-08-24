@@ -1,91 +1,80 @@
 "use client";
 
+import { CalendarDate, type DateValue } from "@internationalized/date";
+import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import React, { useRef, useState } from "react";
-import {
-	DateValue,
-	useButton,
-	useDatePicker,
-	useInteractOutside,
-} from "react-aria";
-import { DatePickerStateOptions, useDatePickerState } from "react-stately";
-import { useForwardedRef } from "@/lib/hooks/useForwardedRef";
+import { useState } from "react";
 import { cn } from "@/lib/utils/client/cn";
 import { Button } from "../button";
+import { Input } from "../input";
 import { Popover, PopoverContent, PopoverTrigger } from "../popover";
 import { Calendar } from "./calendar";
-import { DateField } from "./date-field";
-import { TimeField } from "./time-field";
 
-const DateTimePicker = React.forwardRef<
-	HTMLDivElement,
-	DatePickerStateOptions<DateValue>
->((props, forwardedRef) => {
-	const ref = useForwardedRef(forwardedRef);
-	const buttonRef = useRef<HTMLButtonElement | null>(null);
-	const contentRef = useRef<HTMLDivElement | null>(null);
+interface DateTimePickerProps {
+	value: Date | null;
+	onChange: (date: Date | null) => void;
+	isDisabled?: boolean;
+}
 
+function DateTimePicker({ value, onChange, isDisabled }: DateTimePickerProps) {
 	const [open, setOpen] = useState(false);
 
-	const state = useDatePickerState(props);
-	const {
-		groupProps,
-		fieldProps,
-		buttonProps: _buttonProps,
-		dialogProps,
-		calendarProps,
-	} = useDatePicker(props, state, ref);
-	const { buttonProps } = useButton(_buttonProps, buttonRef);
+	const calendarValue = value
+		? new CalendarDate(
+				value.getFullYear(),
+				value.getMonth() + 1,
+				value.getDate(),
+			)
+		: null;
 
-	useInteractOutside({
-		ref: contentRef,
-		onInteractOutside: (e) => {
-			setOpen(false);
-		},
-	});
+	const handleDateSelect = (date: DateValue) => {
+		const newDate = value ? new Date(value) : new Date();
+		newDate.setFullYear(date.year, date.month - 1, date.day);
+		onChange(newDate);
+	};
+
+	const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const time = e.target.value; // "HH:mm"
+		if (!time) return;
+		const [hours, minutes] = time.split(":").map(Number);
+		const newDate = value ? new Date(value) : new Date();
+		newDate.setHours(hours, minutes, 0, 0);
+		onChange(newDate);
+	};
 
 	return (
-		<div
-			{...groupProps}
-			ref={ref}
-			className={cn(
-				groupProps.className,
-				"flex items-center rounded-md bg-background ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
-			)}
-		>
-			<DateField {...fieldProps} />
-			<Popover open={open} onOpenChange={setOpen}>
-				<PopoverTrigger asChild>
-					<Button
-						{...buttonProps}
-						variant="outline"
-						className="rounded-l-none"
-						disabled={props.isDisabled}
-						onClick={() => setOpen(true)}
-					>
-						<CalendarIcon className="h-5 w-5" />
-					</Button>
-				</PopoverTrigger>
-				<PopoverContent
-					ref={contentRef}
-					className="w-full bg-card"
-					align="center"
+		<Popover open={open} onOpenChange={setOpen}>
+			<PopoverTrigger asChild>
+				<Button
+					variant="outline"
+					disabled={isDisabled}
+					className={cn(
+						"w-full justify-start bg-background text-left font-normal",
+						!value && "text-muted-foreground",
+					)}
 				>
-					<div {...dialogProps} className="space-y-3">
-						<Calendar {...calendarProps} />
-						{!!state.hasTime && (
-							<TimeField
-								value={state.timeValue}
-								onChange={state.setTimeValue}
-							/>
-						)}
-					</div>
-				</PopoverContent>
-			</Popover>
-		</div>
+					<CalendarIcon className="mr-2 h-4 w-4" />
+					{value
+						? format(value, "MMM d, yyyy, h:mm a")
+						: "Pick a date & time"}
+				</Button>
+			</PopoverTrigger>
+			<PopoverContent className="w-auto bg-card" align="start">
+				<div className="space-y-3">
+					<Calendar
+						value={calendarValue}
+						onChange={handleDateSelect}
+					/>
+					<Input
+						type="time"
+						value={value ? format(value, "HH:mm") : ""}
+						onChange={handleTimeChange}
+						className="bg-background"
+					/>
+				</div>
+			</PopoverContent>
+		</Popover>
 	);
-});
-
-DateTimePicker.displayName = "DateTimePicker";
+}
 
 export { DateTimePicker };

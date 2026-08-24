@@ -1,14 +1,13 @@
 import AccountSettings from "@/components/settings/AccountSettings";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import ProfileSettings from "@/components/settings/ProfileSettings";
 import RegistrationSettings from "@/components/settings/RegistrationSettings";
-import { getUser } from "db/functions";
+import { getUserCommonData } from "db/functions";
 
 export default async function Page() {
 	const { userId } = await auth();
 	if (!userId) return redirect("/sign-in");
-	const user = await getUser(userId);
+	const user = await getUserCommonData(userId);
 	if (!user) return redirect("/sign-in");
 	const { email, ...userData } = user;
 
@@ -16,8 +15,7 @@ export default async function Page() {
 		<main>
 			<Header tag="Account" />
 			<AccountSettings user={userData} email={email} />
-			<Header tag="Profile" />
-			<ProfileSettings profile={userData} />
+			{/* <Header tag="Profile" /> */}
 			<Header tag={"Registration"} />
 			<RegistrationSettings />
 		</main>
