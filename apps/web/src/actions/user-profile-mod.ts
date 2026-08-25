@@ -24,14 +24,20 @@ export const modifyRegistrationData = authenticatedAction
 		async ({
 			parsedInput: {
 				age,
+				firstTimeAttendingRCC,
+				isPresenting,
+				presentationName,
 				university,
 				major,
 				classification,
-				heardAboutEvent,
+				universityEmail,
+				company,
+				title,
+				organizerGroup,
+				heardFrom,
 				shirtSize,
-				dietaryRestrictions,
+				dietRestrictions,
 				accommodationNote,
-				uploadedFile,
 			},
 			ctx: { userId },
 		}) => {
@@ -42,25 +48,27 @@ export const modifyRegistrationData = authenticatedAction
 					.set({
 						age,
 						shirtSize,
-						dietRestrictions: dietaryRestrictions,
+						firstTimeAttendingRCC,
+						isPresenting,
+						dietRestrictions: dietRestrictions,
 						accommodationNote,
 					})
 					.where(eq(userCommonData.clerkID, userId)),
 				db
 					.update(userMetaData)
 					.set({
+						presentationName,
 						university,
 						major,
 						classification,
-						heardFrom: heardAboutEvent,
-						resume: uploadedFile,
+						universityEmail,
+						company,
+						title,
+						organizerGroup,
+						heardFrom,
 					})
 					.where(eq(userMetaData.clerkID, userId)),
 			]).catch(async (err) => {
-				console.log(
-					`Error occured at modify registration data: ${err}`,
-				);
-				// If there's an error
 				return {
 					success: false,
 				};
@@ -68,14 +76,20 @@ export const modifyRegistrationData = authenticatedAction
 			return {
 				success: true,
 				newAge: age,
+				newFirstTimeAttendingRCC: firstTimeAttendingRCC,
+				newIsPresenting: isPresenting,
+				newPresentationName: presentationName,
 				newUniversity: university,
 				newMajor: major,
 				newClassification: classification,
-				newHeardFrom: heardAboutEvent,
+				newUniversityEmail: universityEmail,
+				newCompany: company,
+				newTitle: title,
+				newOrganizerGroup: organizerGroup,
+				newHeardFrom: heardFrom,
 				newShirtSize: shirtSize,
-				newDietaryRestrictions: dietaryRestrictions,
+				newDietaryRestrictions: dietRestrictions,
 				newAccommodationNote: accommodationNote,
-				newUploadedFile: uploadedFile,
 			};
 		},
 	);

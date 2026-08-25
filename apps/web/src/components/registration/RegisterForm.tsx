@@ -723,9 +723,7 @@ export default function RegisterForm({
 											control={form.control}
 											name="university"
 											render={({ field }) => (
-												<FormItem
-													className={`col-span-2 flex flex-col lg:col-span-3`}
-												>
+												<FormItem>
 													<FormLabel>
 														{formatRegistrationField(
 															"University",
@@ -838,9 +836,7 @@ export default function RegisterForm({
 											control={form.control}
 											name="classification"
 											render={({ field }) => (
-												<FormItem
-													className={`col-span-2 flex flex-col md:col-span-1 lg:col-span-3`}
-												>
+												<FormItem>
 													<FormLabel>
 														{formatRegistrationField(
 															"Classification",
@@ -907,9 +903,7 @@ export default function RegisterForm({
 											control={form.control}
 											name="major"
 											render={({ field }) => (
-												<FormItem
-													className={`col-span-2 flex flex-col md:col-span-2 lg:col-span-2`}
-												>
+												<FormItem>
 													<FormLabel>
 														{formatRegistrationField(
 															"Major",
