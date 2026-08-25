@@ -5,7 +5,7 @@ import { db, sql } from "db";
 import { del } from "@/lib/utils/server/file-upload";
 import z from "zod";
 import { returnValidationErrors } from "next-safe-action";
-import { registrationFormValidator } from "@/validators/shared/registration";
+import { registrationFormValidator } from "@/validators/registration";
 import { userCommonData, userMetaData } from "db/schema";
 import { currentUser } from "@clerk/nextjs/server";
 import c, { defaultRoleId } from "config";

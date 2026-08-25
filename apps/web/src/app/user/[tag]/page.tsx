@@ -4,12 +4,17 @@ import RoleBadge from "@/components/dash/shared/RoleBadge";
 import Navbar from "@/components/shared/Navbar";
 import { getUserCommonDataByTag } from "db/functions";
 import WinTitleBar from "@/components/shared/WinTitleBar";
+import c from "config";
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
 
 	const user = await getUserCommonDataByTag(params.tag);
 	if (!user) return notFound();
+
+	const isPresenting = user.isPresenting;
+	type AttendeeType = (typeof c.registration.attendeeTypes)[number];
+	const attendeeType: AttendeeType = user.attendeeType as AttendeeType;
 
 	return (
 		<>
@@ -137,7 +142,86 @@ export default async function ({ params }: { params: { tag: string } }) {
 													Links:
 												</label>
 											</div>
-											<div className="space-y-2"></div>
+											<div className="space-y-2">
+												{user.email}
+											</div>
+											<div className="space-y-2">
+												{attendeeType}
+											</div>
+											<div className="space-y-2">
+												{isPresenting}
+											</div>
+											{isPresenting && (
+												<div className="space-y-2">
+													{
+														user.userMetaData
+															.presentationName
+													}
+												</div>
+											)}
+											<div>
+												{attendeeType ===
+													"Student Organizer" && (
+													<div className="space-y-2">
+														{
+															user.userMetaData
+																.organizerGroup
+														}
+													</div>
+												)}
+												{attendeeType ===
+													"Cyber Professional" && (
+													<div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.company
+															}
+														</div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.title
+															}
+														</div>
+													</div>
+												)}
+												{attendeeType ===
+													"University Student" && (
+													<div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.university
+															}
+														</div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.universityEmail
+															}
+														</div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.classification
+															}
+														</div>
+														<div className="space-y-2">
+															{
+																user
+																	.userMetaData
+																	.major
+															}
+														</div>
+													</div>
+												)}
+											</div>
 										</div>
 									</div>
 								</div>

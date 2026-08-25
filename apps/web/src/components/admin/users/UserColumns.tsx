@@ -153,7 +153,9 @@ function UserDropDownActions({ row }: { row: Row<userValidatorType> }) {
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
 				<DropdownMenuItem>
-					<Link href={`/admin/users/${user.clerkID}`}>View User</Link>
+					<Link href={`/admin/users/${user.hackerTag}`}>
+						View User
+					</Link>
 				</DropdownMenuItem>
 				<DropdownMenuItem
 					onClick={() => navigator.clipboard.writeText(user.clerkID)}

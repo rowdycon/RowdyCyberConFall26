@@ -674,38 +674,6 @@ const c = {
 	// Come in and change this date to whenever the event starts
 	startDate: new Date(new Date(2026, 10, 7).setHours(9)),
 	prettyLocation: "San Pedro I",
-	roleBadges: {
-		participant: {
-			title: "Participant",
-			color: "hsl(var(--hackathon-primary))",
-			foreground: "#ffffff",
-			checked: false,
-		},
-		volunteer: {
-			title: "Volunteer",
-			foreground: "#ffffff",
-			checked: false,
-			color: "#4CAF50",
-		},
-		mlh: {
-			title: "MLH",
-			color: "#ffffff",
-			foreground: "#E73426",
-			checked: "#E73426",
-		},
-		admin: {
-			title: "Organizer",
-			color: "#f59e0b",
-			foreground: "#ffffff",
-			checked: true,
-		},
-		super_admin: {
-			title: "Organizer",
-			foreground: "#ffffff",
-			color: "#f59e0b",
-			checked: true,
-		},
-	},
 	featureFlags: {
 		core: {
 			requireUsersApproval: false,

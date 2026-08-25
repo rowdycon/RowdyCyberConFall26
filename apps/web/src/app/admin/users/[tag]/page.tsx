@@ -13,7 +13,7 @@ import { notFound } from "next/navigation";
 import { userHasPermission } from "@/lib/utils/server/admin";
 import ApproveUserButton from "@/components/admin/users/ApproveUserButton";
 import c from "config";
-import { getUserCommonData } from "db/functions";
+import { getUserCommonDataByTag } from "db/functions";
 import BanUserDialog from "@/components/admin/users/BanUserDialog";
 import { db, eq } from "db";
 import { bannedUsers } from "db/schema";
@@ -22,11 +22,11 @@ import { PermissionType } from "@/lib/constants/permission";
 import Restricted from "@/components/Restricted";
 import { getCurrentUser } from "@/lib/utils/server/user";
 
-export default async function Page({ params }: { params: { slug: string } }) {
+export default async function Page({ params }: { params: { tag: string } }) {
 	const admin = await getCurrentUser();
 	if (!userHasPermission(admin, PermissionType.VIEW_USERS)) return notFound();
 
-	const subject = await getUserCommonData(params.slug);
+	const subject = await getUserCommonDataByTag(params.tag);
 
 	if (!subject) {
 		return <p className="text-center font-bold">User Not Found</p>;

@@ -52,7 +52,7 @@ import {
 	registrationFormValidator,
 	registrationValidatorLocalStorage,
 	registrationResumeValidator,
-} from "@/validators/shared/registration";
+} from "@/validators/registration";
 import { formatRegistrationField } from "@/lib/utils/client/shared";
 import clsx from "clsx";
 import RegistrationFeedbackAlert from "./RegistrationFeedbackAlert";

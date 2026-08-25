@@ -3,7 +3,7 @@ import { scans, userCommonData } from "../schema";
 import { sql } from "drizzle-orm";
 
 export async function getUsersWithPoints() {
-	return await await db
+	return await db
 		.select({
 			userId: scans.userID,
 			firstName: userCommonData.firstName,

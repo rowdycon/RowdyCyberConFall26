@@ -6,16 +6,6 @@ import {
 	primaryKey,
 } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
-import { nanoid } from "nanoid";
-
-export const uuid = customType<{ data: string; notNull: true; default: true }>({
-	dataType() {
-		return "text";
-	},
-	toDriver() {
-		return nanoid();
-	},
-});
 
 export const fileTypesEnum = customType<{
 	data: "resume" | "profilePhoto";
@@ -30,19 +20,7 @@ export const fileTypesEnum = customType<{
 	},
 });
 
-export const chatType = customType<{
-	data: "ticket";
-	notNull: true;
-	default: true;
-}>({
-	dataType() {
-		return "text";
-	},
-	toDriver(value) {
-		return value;
-	},
-});
-
+// TABLES
 export const userCommonData = sqliteTable("user_common_data", {
 	clerkID: text("clerk_id", { length: 255 }).primaryKey(),
 	firstName: text("first_name", { length: 50 }).notNull(),
@@ -95,31 +73,6 @@ export const roles = sqliteTable("roles", {
 	color: text("color", { length: 7 }), // e.g. #RRGGBB
 });
 
-export const rolesRelations = relations(roles, ({ many }) => ({
-	users: many(userCommonData),
-}));
-
-export const userCommonRelations = relations(
-	userCommonData,
-	({ one, many }) => ({
-		userMetaData: one(userMetaData, {
-			fields: [userCommonData.clerkID],
-			references: [userMetaData.clerkID],
-		}),
-
-		files: many(files),
-		scans: many(scans),
-		banInstance: one(bannedUsers, {
-			fields: [userCommonData.clerkID],
-			references: [bannedUsers.userID],
-		}),
-		role: one(roles, {
-			fields: [userCommonData.role_id],
-			references: [roles.id],
-		}),
-	}),
-);
-
 export const userMetaData = sqliteTable("user_meta_data", {
 	clerkID: text("clerk_id", { length: 255 })
 		.primaryKey()
@@ -137,13 +90,6 @@ export const userMetaData = sqliteTable("user_meta_data", {
 		.notNull()
 		.default("https://static.acmutsa.org/No%20Resume%20Provided.pdf"),
 });
-
-export const userMetaRelations = relations(userMetaData, ({ one, many }) => ({
-	commonData: one(userCommonData, {
-		fields: [userMetaData.clerkID],
-		references: [userCommonData.clerkID],
-	}),
-}));
 
 export const bannedUsers = sqliteTable("banned_users", {
 	id: integer("id", { mode: "number" }).notNull().primaryKey(),
@@ -171,10 +117,6 @@ export const events = sqliteTable("events", {
 	hidden: integer("hidden", { mode: "boolean" }).notNull().default(false),
 });
 
-export const eventsRelations = relations(events, ({ many }) => ({
-	scans: many(scans),
-}));
-
 export const files = sqliteTable("files", {
 	id: text("id", { length: 255 }).notNull().primaryKey().unique(),
 	presignedURL: text("presigned_url").notNull(),
@@ -185,13 +127,6 @@ export const files = sqliteTable("files", {
 	type: fileTypesEnum("type").notNull(),
 	ownerID: text("owner_id", { length: 255 }).notNull(),
 });
-
-export const filesRelations = relations(files, ({ one }) => ({
-	owner: one(userCommonData, {
-		fields: [files.ownerID],
-		references: [userCommonData.clerkID],
-	}),
-}));
 
 export const scans = sqliteTable(
 	"scans",
@@ -206,6 +141,60 @@ export const scans = sqliteTable(
 	(table) => [primaryKey({ columns: [table.userID, table.eventID] })],
 );
 
+export const errorLog = sqliteTable("error_log", {
+	id: text("id", { length: 50 }).notNull().primaryKey(),
+	createdAt: integer("created_at", { mode: "timestamp_ms" })
+		.notNull()
+		.default(sql`(current_timestamp)`),
+	userID: text("user_id", { length: 255 }),
+	route: text("route", { length: 255 }),
+	message: text("message").notNull(),
+});
+
+// RELATIONS
+export const rolesRelations = relations(roles, ({ many }) => ({
+	users: many(userCommonData),
+}));
+
+export const userMetaRelations = relations(userMetaData, ({ one, many }) => ({
+	commonData: one(userCommonData, {
+		fields: [userMetaData.clerkID],
+		references: [userCommonData.clerkID],
+	}),
+}));
+
+export const userCommonRelations = relations(
+	userCommonData,
+	({ one, many }) => ({
+		userMetaData: one(userMetaData, {
+			fields: [userCommonData.clerkID],
+			references: [userMetaData.clerkID],
+		}),
+
+		files: many(files),
+		scans: many(scans),
+		banInstance: one(bannedUsers, {
+			fields: [userCommonData.clerkID],
+			references: [bannedUsers.userID],
+		}),
+		role: one(roles, {
+			fields: [userCommonData.role_id],
+			references: [roles.id],
+		}),
+	}),
+);
+
+export const eventsRelations = relations(events, ({ many }) => ({
+	scans: many(scans),
+}));
+
+export const filesRelations = relations(files, ({ one }) => ({
+	owner: one(userCommonData, {
+		fields: [files.ownerID],
+		references: [userCommonData.clerkID],
+	}),
+}));
+
 export const scansRelations = relations(scans, ({ one }) => ({
 	user: one(userCommonData, {
 		fields: [scans.userID],
@@ -216,13 +205,3 @@ export const scansRelations = relations(scans, ({ one }) => ({
 		references: [events.id],
 	}),
 }));
-
-export const errorLog = sqliteTable("error_log", {
-	id: text("id", { length: 50 }).notNull().primaryKey(),
-	createdAt: integer("created_at", { mode: "timestamp_ms" })
-		.notNull()
-		.default(sql`(current_timestamp)`),
-	userID: text("user_id", { length: 255 }),
-	route: text("route", { length: 255 }),
-	message: text("message").notNull(),
-});

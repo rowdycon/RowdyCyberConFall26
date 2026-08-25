@@ -127,7 +127,7 @@ export default async function Page() {
 									className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
 								>
 									<Link
-										href={`/admin/users/${user.clerkID}`}
+										href={`/admin/users/${user.hackerTag}`}
 										className="font-medium hover:underline"
 									>
 										{user.firstName} {user.lastName}
