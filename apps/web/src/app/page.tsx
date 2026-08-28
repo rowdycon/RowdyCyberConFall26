@@ -18,7 +18,7 @@ export default function Home() {
 		<div
 			className={`${oswald.variable} relative min-h-screen w-full overflow-x-hidden`}
 		>
-			<div className="win98-bg fixed inset-0 -z-10" />
+			<div className="aero-bg fixed inset-0 -z-10" />
 			<main className="relative z-10 overflow-x-hidden">
 				<Navbar />
 				<Hero />

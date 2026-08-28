@@ -8,7 +8,7 @@ interface NavbarItemProps {
 export default function NavbarItem({ children, link }: NavbarItemProps) {
 	return (
 		<Link href={link} target="_blank">
-			<button className="win98-btn flex h-8 items-center">
+			<button className="aero-btn flex h-8 items-center text-xs">
 				{children}
 			</button>
 		</Link>

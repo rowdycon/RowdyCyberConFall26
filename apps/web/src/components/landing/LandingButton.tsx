@@ -10,12 +10,10 @@ export default async function LandingButton() {
 			<div className="grid grid-cols-1">
 				<div className="flex h-full w-full flex-col items-center gap-4 space-y-2 md:flex-row md:space-y-0">
 					<Link href={"/register"}>
-						<button className="win98-btn px-8">
-							Register Now!
-						</button>
+						<button className="aero-btn px-8">Register Now!</button>
 					</Link>
 					<Link href={"/sign-in"}>
-						<button className="win98-btn px-8">Sign In</button>
+						<button className="aero-btn px-8">Sign In</button>
 					</Link>
 				</div>
 			</div>
@@ -27,16 +25,14 @@ export default async function LandingButton() {
 	if (!user) {
 		return (
 			<Link href={"/register"}>
-				<button className="win98-btn px-8">
-					Complete Registration
-				</button>
+				<button className="aero-btn px-8">Complete Registration</button>
 			</Link>
 		);
 	}
 
 	return (
 		<Link href={"/dash"}>
-			<button className="win98-btn px-8">Dashboard</button>
+			<button className="aero-btn px-8">Dashboard</button>
 		</Link>
 	);
 }

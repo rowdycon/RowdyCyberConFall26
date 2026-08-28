@@ -15,17 +15,17 @@ function PartnerCard({ partner }: { partner: Partner }) {
 			href={partner.url}
 			target="_blank"
 			rel="noopener noreferrer"
-			className="block h-full"
+			className="group block h-full"
 		>
-			<div className="win98-btn flex h-full flex-col items-center p-4 text-center transition-transform hover:scale-105">
-				<div className="win98-inset mb-3 flex aspect-square w-full max-w-[140px] items-center justify-center bg-white p-2">
+			<div className="aero-glass flex h-full flex-col items-center p-5 text-center transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-2xl">
+				{/* Circular logo tile */}
+				<div className="mb-4 flex aspect-square w-full max-w-[120px] items-center justify-center rounded-full border-2 border-white/80 bg-white p-4 shadow-md transition-transform duration-300 group-hover:scale-105">
 					<Image
 						src={`/img/logo/${partner.logo}`}
 						alt={`${partner.name} logo`}
-						width={120}
-						height={120}
-						className="max-h-full max-w-full object-contain"
-						style={{ imageRendering: "auto" }}
+						width={110}
+						height={110}
+						className="max-h-full max-w-full rounded-full object-contain"
 					/>
 				</div>
 

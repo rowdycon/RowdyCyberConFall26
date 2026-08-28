@@ -3,8 +3,25 @@ import Image from "next/image";
 import RoleBadge from "@/components/dash/shared/RoleBadge";
 import Navbar from "@/components/shared/Navbar";
 import { getUserCommonDataByTag } from "db/functions";
-import WinTitleBar from "@/components/shared/WinTitleBar";
 import c from "config";
+
+function Field({
+	label,
+	value,
+}: {
+	label: string;
+	value: React.ReactNode | null | undefined;
+}) {
+	if (!value) return null;
+	return (
+		<div className="aero-inset flex flex-col gap-0.5 px-4 py-2.5">
+			<span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+				{label}
+			</span>
+			<span className="text-sm font-medium">{value}</span>
+		</div>
+	);
+}
 
 export default async function ({ params }: { params: { tag: string } }) {
 	if (!params.tag || params.tag.length <= 1) return notFound();
@@ -15,237 +32,140 @@ export default async function ({ params }: { params: { tag: string } }) {
 	const isPresenting = user.isPresenting;
 	type AttendeeType = (typeof c.registration.attendeeTypes)[number];
 	const attendeeType: AttendeeType = user.attendeeType as AttendeeType;
+	const meta = user.userMetaData;
 
 	return (
 		<>
 			<Navbar />
-			<div className="min-h-screen w-full overflow-x-hidden px-4 py-12">
-				{/* Floating icons background */}
-				<div className="pointer-events-none fixed inset-0 opacity-5">
-					{[...Array(12)].map((_, i) => (
-						<div
-							key={i}
-							className="absolute animate-pulse"
-							style={{
-								left: `${(i * 17) % 100}%`,
-								top: `${(i * 23) % 100}%`,
-								fontSize: "24px",
-								animationDelay: `${i * 0.3}s`,
-							}}
-						>
-							👤
-						</div>
-					))}
-				</div>
-
-				{/* Main window container */}
+			<div className="aero-bg-soft min-h-screen w-full overflow-x-hidden px-4 py-12">
 				<div className="relative z-10 mx-auto max-w-4xl">
-					<div className="win98-window">
-						{/* Title bar */}
-						<WinTitleBar
-							title={`👤 ${user.firstName} ${user.lastName} - Properties`}
+					<div className="aero-glass overflow-visible">
+						{/* Banner */}
+						<div
+							className="h-32 rounded-t-2xl"
+							style={{
+								background:
+									"linear-gradient(135deg, #0982cd 0%, #45c3f0 55%, #6eebbe 100%)",
+								boxShadow:
+									"inset 0 1px 0 rgba(255,255,255,0.6)",
+							}}
 						/>
 
-						{/* Window content */}
-						<div className="p-2">
-							{/* Tabs */}
-							<div className="mb-2 flex border-b-2 border-white">
-								<button className="win98-btn">General</button>
-								<button className="win98-btn">Contact</button>
-								<button className="win98-btn">Details</button>
-							</div>
-
-							{/* Tab content */}
-							<div className="win98-inset min-h-[400px] bg-white p-4">
-								<div className="grid gap-6 md:grid-cols-[200px_1fr]">
-									{/* Left column - Profile picture and basic info */}
-									<div className="flex flex-col items-center">
-										{/* Profile picture with Windows 98 frame */}
-										<div
-											className="mb-3 border-2 bg-white p-1"
-											style={{
-												borderTopColor: "#808080",
-												borderLeftColor: "#808080",
-												borderRightColor: "#ffffff",
-												borderBottomColor: "#ffffff",
-											}}
-										>
-											<div className="relative h-40 w-40 overflow-hidden">
-												<Image
-													fill
-													src={user.profilePhoto}
-													alt={`@${user.hackerTag}'s Profile Photo`}
-													className="pixelated object-cover"
-													style={{
-														imageRendering:
-															"pixelated",
-													}}
-												/>
-											</div>
-										</div>
-
-										{/* Name label */}
-										<div className="mb-2 w-full text-center">
-											<label className="text-xs text-black">
-												Name:
-											</label>
-											<div
-												className="mt-1 border bg-white px-2 py-1 text-sm"
-												style={{
-													borderTopColor: "#808080",
-													borderLeftColor: "#808080",
-													borderRightColor: "#ffffff",
-													borderBottomColor:
-														"#ffffff",
-												}}
-											>
-												{user.firstName} {user.lastName}
-											</div>
-										</div>
-
-										{/* Username label */}
-										<div className="mb-2 w-full text-center">
-											<label className="text-xs text-black">
-												Username:
-											</label>
-											<div
-												className="mt-1 flex items-center justify-center gap-1 border bg-white px-2 py-1"
-												style={{
-													borderTopColor: "#808080",
-													borderLeftColor: "#808080",
-													borderRightColor: "#ffffff",
-													borderBottomColor:
-														"#ffffff",
-												}}
-											>
-												<span className="font-mono text-sm">
-													@{user.hackerTag}
-												</span>
-											</div>
-										</div>
-
-										{/* Role badge */}
-										<div className="mt-2">
-											<RoleBadge role={user.role} />
-										</div>
-									</div>
-
-									{/* Right column - Details */}
-									<div className="space-y-4">
-										{/* Contact links section */}
-										<div>
-											<div className="mb-2 flex items-center gap-2">
-												<span className="text-sm">
-													🔗
-												</span>
-												<label className="text-sm font-bold text-black">
-													Links:
-												</label>
-											</div>
-											<div className="space-y-2">
-												{user.email}
-											</div>
-											<div className="space-y-2">
-												{attendeeType}
-											</div>
-											<div className="space-y-2">
-												{isPresenting}
-											</div>
-											{isPresenting && (
-												<div className="space-y-2">
-													{
-														user.userMetaData
-															.presentationName
-													}
-												</div>
-											)}
-											<div>
-												{attendeeType ===
-													"Student Organizer" && (
-													<div className="space-y-2">
-														{
-															user.userMetaData
-																.organizerGroup
-														}
-													</div>
-												)}
-												{attendeeType ===
-													"Cyber Professional" && (
-													<div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.company
-															}
-														</div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.title
-															}
-														</div>
-													</div>
-												)}
-												{attendeeType ===
-													"University Student" && (
-													<div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.university
-															}
-														</div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.universityEmail
-															}
-														</div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.classification
-															}
-														</div>
-														<div className="space-y-2">
-															{
-																user
-																	.userMetaData
-																	.major
-															}
-														</div>
-													</div>
-												)}
-											</div>
-										</div>
-									</div>
+						<div className="px-6 pb-8 sm:px-10">
+							{/* Avatar overlapping banner */}
+							<div className="-mt-16 mb-4 flex flex-col items-center gap-4 sm:flex-row sm:items-end">
+								<div className="relative h-32 w-32 shrink-0 overflow-hidden rounded-full border-4 border-white shadow-xl">
+									<Image
+										fill
+										src={user.profilePhoto}
+										alt={`@${user.hackerTag}'s Profile Photo`}
+										className="object-cover"
+									/>
+								</div>
+								<div className="flex flex-col items-center gap-1 pb-1 sm:items-start">
+									<h1 className="text-2xl font-bold">
+										{user.firstName} {user.lastName}
+									</h1>
+									<p className="font-mono text-sm text-muted-foreground">
+										@{user.hackerTag}
+									</p>
+								</div>
+								<div className="flex flex-1 items-center justify-center gap-2 pb-1 sm:justify-end">
+									<RoleBadge role={user.role} />
+									{/* Attendee type badge */}
+									<span
+										className="rounded-full border border-white/60 px-4 py-1 text-xs font-bold text-white"
+										style={{
+											background:
+												"linear-gradient(180deg, #45c3f0 0%, #0982cd 100%)",
+											boxShadow:
+												"inset 0 1px 0 rgba(255,255,255,0.6)",
+											textShadow:
+												"0 1px 2px rgba(0,60,110,0.4)",
+										}}
+									>
+										{attendeeType}
+									</span>
 								</div>
 							</div>
 
-							{/* Bottom buttons */}
-							<div className="mt-3 flex justify-end gap-2">
-								<button className="win98-btn px-6">OK</button>
-								<button className="win98-btn px-6">
-									Cancel
-								</button>
-								<button className="win98-btn px-6">
-									Apply
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
+							{/* Details grid */}
+							<div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+								<Field label="Email" value={user.email} />
+								<Field
+									label="Attendee Type"
+									value={attendeeType}
+								/>
 
-				{/* Desktop-style file icon decoration */}
-				<div className="fixed bottom-8 left-8 hidden md:block">
-					<div className="flex cursor-pointer flex-col items-center">
-						<div className="mb-1 text-4xl">💾</div>
-						<div className="text-xs">User Profile</div>
+								{attendeeType === "University Student" && (
+									<>
+										<Field
+											label="University"
+											value={meta.university}
+										/>
+										<Field
+											label="University Email"
+											value={meta.universityEmail}
+										/>
+										<Field
+											label="Classification"
+											value={meta.classification}
+										/>
+										<Field
+											label="Major"
+											value={meta.major}
+										/>
+									</>
+								)}
+
+								{attendeeType === "Cyber Professional" && (
+									<>
+										<Field
+											label="Company"
+											value={meta.company}
+										/>
+										<Field
+											label="Title"
+											value={meta.title}
+										/>
+									</>
+								)}
+
+								{attendeeType === "Student Organizer" && (
+									<Field
+										label="Organizer Group"
+										value={meta.organizerGroup}
+									/>
+								)}
+							</div>
+
+							{/* Presentation card */}
+							{isPresenting && meta.presentationName && (
+								<div className="mt-6">
+									<div className="aero-glass p-5">
+										<div className="mb-1 flex items-center gap-2">
+											<span
+												className="flex h-8 w-8 items-center justify-center rounded-full text-base text-white"
+												style={{
+													background:
+														"linear-gradient(180deg, #6eebbe 0%, #2bb98a 100%)",
+													boxShadow:
+														"inset 0 1px 0 rgba(255,255,255,0.6)",
+												}}
+											>
+												🎤
+											</span>
+											<span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+												Presenting
+											</span>
+										</div>
+										<p className="text-base font-bold">
+											{meta.presentationName}
+										</p>
+									</div>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 			</div>

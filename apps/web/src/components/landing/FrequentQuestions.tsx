@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import WinTitleBar from "../shared/WinTitleBar";
 
 interface FAQ {
 	question: string;
@@ -28,7 +27,7 @@ const faqs: FAQ[] = [
 					href="https://forms.gle/G8t8UQxiQLGbFLVE9"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="text-[#0000FF] underline"
+					className="text-primary underline"
 				>
 					here
 				</a>
@@ -61,7 +60,7 @@ const faqs: FAQ[] = [
 					href="https://docs.google.com/spreadsheets/d/19yuormuJRxJL-zdw5Uc7rLdvCFTpus9dUlTM72Xiorg/edit?gid=0#gid=0"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="text-[#0000FF] underline"
+					className="text-primary underline"
 				>
 					here
 				</a>
@@ -86,47 +85,63 @@ export default function FrequentQuestions() {
 	};
 
 	return (
-		<section className="mb-12 w-full py-8" id="FAQ">
-			<div className="mx-auto max-w-6xl px-4">
-				<div className="mb-8 border-2 bg-card text-card-foreground">
-					<WinTitleBar title="Frequently Asked Questions" />
+		<section className="mb-12 w-full py-16" id="FAQ">
+			<div className="mx-auto max-w-3xl px-4">
+				{/* Section title */}
+				<div className="mb-10 flex flex-col items-center">
+					<h2
+						className="text-center text-3xl font-bold text-white md:text-4xl"
+						style={{ textShadow: "0 2px 6px rgba(0,60,110,0.45)" }}
+					>
+						Frequently Asked Questions
+					</h2>
+					<div
+						className="mt-3 h-1 w-24 rounded-full"
+						style={{
+							background:
+								"linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent)",
+						}}
+					/>
+				</div>
 
-					<div className="p-4">
-						<div className="win98-inset win98-scrollbar max-h-[500px] overflow-y-auto p-4">
-							{faqs.map((faq, index: number) => (
-								<div key={index} className="mb-2">
-									{/* FAQ Item styled like Windows 98 Explorer folder */}
-									<div
-										className="win98-btn flex w-full cursor-pointer items-center justify-between px-3 py-2 text-left"
-										onClick={() => toggleFAQ(index)}
-									>
-										<div className="flex items-center gap-2">
-											<span className="text-sm">
-												{openIndex === index
-													? "📂"
-													: "📁"}
-											</span>
-											<span className="text-sm font-bold">
-												{faq.question}
-											</span>
-										</div>
-										<span className="text-xs">
-											{openIndex === index ? "−" : "+"}
-										</span>
+				{/* Free-floating glass accordion capsules */}
+				<div className="space-y-4">
+					{faqs.map((faq, index: number) => (
+						<div
+							key={index}
+							className="aero-glass transition-all duration-300"
+						>
+							<button
+								className="flex w-full cursor-pointer items-center justify-between px-6 py-4 text-left"
+								onClick={() => toggleFAQ(index)}
+								aria-expanded={openIndex === index}
+							>
+								<span className="text-sm font-bold md:text-base">
+									{faq.question}
+								</span>
+								<span
+									className={`ml-4 flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-base font-bold text-white transition-transform duration-300 ${openIndex === index ? "rotate-45" : ""}`}
+									style={{
+										background:
+											"linear-gradient(180deg, rgba(120,210,255,0.95) 0%, rgba(9,130,205,0.95) 100%)",
+										boxShadow:
+											"inset 0 1px 0 rgba(255,255,255,0.6)",
+									}}
+								>
+									+
+								</span>
+							</button>
+
+							{/* Answer */}
+							{openIndex === index && (
+								<div className="px-6 pb-5">
+									<div className="border-t border-white/60 pt-4 text-sm leading-relaxed">
+										{faq.answer}
 									</div>
-
-									{/* Answer panel */}
-									{openIndex === index && (
-										<div className="mt-1">
-											<div className="border border-[#808080] bg-gray-200 p-3 text-sm">
-												{faq.answer}
-											</div>
-										</div>
-									)}
 								</div>
-							))}
+							)}
 						</div>
-					</div>
+					))}
 				</div>
 			</div>
 		</section>

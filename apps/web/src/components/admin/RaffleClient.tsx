@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useMemo, useCallback } from "react";
-import WinTitleBar from "../shared/WinTitleBar";
+import GlassHeader from "../shared/GlassHeader";
 
 type Participant = {
 	userId: string;
@@ -60,21 +60,21 @@ export function RaffleClient({
 
 	return (
 		<div>
-			<div className="win98-window mx-auto max-w-2xl">
-				<WinTitleBar title="Raffle Draw" />
+			<div className="aero-glass mx-auto max-w-2xl">
+				<GlassHeader title="Raffle Draw" />
 
-				<div className="border-2 border-b-[#808080] border-l-white border-r-[#808080] border-t-white bg-[#d4d0c8] p-2">
-					<div className="mb-2 flex gap-2 text-[11px]">
-						<div className="win98-inset px-2 py-1">
-							<span className="text-[#808080]">
+				<div className="p-4">
+					<div className="mb-3 flex gap-2 text-xs">
+						<div className="aero-inset px-3 py-1.5">
+							<span className="text-muted-foreground">
 								Participants:{" "}
 							</span>
 							<span className="font-bold">
 								{participants.length.toLocaleString()}
 							</span>
 						</div>
-						<div className="win98-inset px-2 py-1">
-							<span className="text-[#808080]">
+						<div className="aero-inset px-3 py-1.5">
+							<span className="text-muted-foreground">
 								Total tickets:{" "}
 							</span>
 							<span className="font-bold">
@@ -83,20 +83,22 @@ export function RaffleClient({
 						</div>
 					</div>
 
-					<fieldset className="win98-fieldset mb-2">
-						<legend className="px-1 text-[11px]">Draw</legend>
-						<div className="flex items-center gap-2 p-1">
-							<div className="win98-inset flex h-7 flex-1 items-center overflow-hidden px-2 text-[11px] font-bold">
+					<div className="aero-inset mb-3 p-3">
+						<div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+							Draw
+						</div>
+						<div className="flex items-center gap-2">
+							<div className="aero-inset flex h-9 flex-1 items-center overflow-hidden px-3 text-sm font-bold">
 								{isSpinning ? (
-									<span className="text-[#000080]">
+									<span className="text-primary">
 										{drumName || "..."}
 									</span>
 								) : winner ? (
-									<span className="text-[#000080]">
+									<span className="text-primary">
 										{winner.firstName} {winner.lastName}
 									</span>
 								) : (
-									<span className="text-[#808080]">
+									<span className="text-muted-foreground">
 										Press "Draw" to pick a winner
 									</span>
 								)}
@@ -104,13 +106,13 @@ export function RaffleClient({
 							<button
 								onClick={draw}
 								disabled={isSpinning}
-								className="win98-btn px-4 py-1 text-[11px] disabled:opacity-50"
+								className="aero-btn px-5 py-1.5 text-xs disabled:opacity-50"
 							>
 								{isSpinning ? "Drawing..." : "Draw"}
 							</button>
 						</div>
 						{winner && !isSpinning && (
-							<div className="mx-1 mb-1 border border-[#808080] bg-[#ffffe1] px-2 py-1 text-[11px]">
+							<div className="aero-inset mt-2 bg-secondary/10 px-3 py-1.5 text-xs">
 								🏆{" "}
 								<strong>
 									{winner.firstName} {winner.lastName}
@@ -118,32 +120,32 @@ export function RaffleClient({
 								— {winner.points.toLocaleString()} tickets
 							</div>
 						)}
-					</fieldset>
+					</div>
 
 					{history.length > 0 && (
-						<fieldset className="win98-fieldset">
-							<legend className="px-1 text-[11px]">
+						<div className="aero-inset p-3">
+							<div className="mb-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
 								History
-							</legend>
-							<div className="win98-inset m-1 bg-white">
-								<table className="w-full text-[11px]">
+							</div>
+							<div className="aero-inset overflow-hidden bg-white/70">
+								<table className="w-full text-xs">
 									<tbody>
 										{history.map((w, i) => (
 											<tr
 												key={i}
 												className={
 													i % 2 === 0
-														? "bg-white"
-														: "bg-[#f0f0f0]"
+														? "bg-white/60"
+														: "bg-white/30"
 												}
 											>
-												<td className="w-6 px-1.5 py-0.5 text-[#808080]">
+												<td className="w-8 px-2 py-1 text-muted-foreground">
 													#{history.length - i}
 												</td>
-												<td className="px-1.5 py-0.5">
+												<td className="px-2 py-1">
 													{w.firstName} {w.lastName}
 												</td>
-												<td className="px-1.5 py-0.5 text-right text-[#808080]">
+												<td className="px-2 py-1 text-right text-muted-foreground">
 													{w.points.toLocaleString()}{" "}
 													tickets
 												</td>
@@ -152,11 +154,11 @@ export function RaffleClient({
 									</tbody>
 								</table>
 							</div>
-						</fieldset>
+						</div>
 					)}
 
-					<div className="mt-2 flex gap-1">
-						<div className="win98-inset flex-1 px-1.5 py-0.5 text-[10px] text-[#808080]">
+					<div className="mt-3 flex gap-1">
+						<div className="aero-inset flex-1 px-2 py-1 text-[11px] text-muted-foreground">
 							{isSpinning
 								? "Drawing..."
 								: winner

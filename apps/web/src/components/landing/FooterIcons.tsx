@@ -11,33 +11,6 @@ export function DiscordIcon(props: ComponentProps<"svg">) {
 	);
 }
 
-export function Windows98Icon(props: ComponentProps<"svg">) {
-	return (
-		<svg viewBox="0 0 24 24" fill="none" {...props}>
-			{/* Red Pane */}
-			<path
-				d="M3 5.446c3.21-.92 5.564 1.144 8.25-.196V11.2c-2.486 1.157-5.036-.857-8.25.143V5.446z"
-				fill="#FF0000"
-			/>
-			{/* Green Pane */}
-			<path
-				d="M12.75 4.857c2.957-1.114 5.743.857 8.25.107V10.75c-2.486 1.05-5.335-1.121-8.25 0V4.857z"
-				fill="#00FF00"
-			/>
-			{/* Blue Pane */}
-			<path
-				d="M3 12.893c3.21-.92 5.564 1.144 8.25-.197V18.65c-2.486 1.157-5.036-.857-8.25.143v-5.9z"
-				fill="#0000FF"
-			/>
-			{/* Yellow Pane */}
-			<path
-				d="M12.75 12.304c2.957-1.115 5.743.857 8.25.107v5.786c-2.486 1.05-5.335-1.122-8.25 0v-5.893z"
-				fill="#FFFF00"
-			/>
-		</svg>
-	);
-}
-
 export function InstagramIcon(props: ComponentProps<"svg">) {
 	return (
 		<svg viewBox="0 0 24 24" fill="none" {...props}>

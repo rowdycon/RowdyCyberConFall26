@@ -1,4 +1,4 @@
-import type { NavItemToggleType } from "@/validators/shared/navitemtoggle";
+import type { NavItemToggleType } from "@/validators/navitemtoggle";
 import c from "config";
 import { Redis } from "@upstash/redis";
 

@@ -15,11 +15,9 @@ export default function RegistrationSettings() {
 					Registration data is only editable in the form.{" "}
 				</div>
 				<Button
-					variant={"secondary"}
 					asChild
 					disabled={isLoading}
 					onClick={() => setIsLoading(true)}
-					className="bg-background"
 				>
 					{isLoading ? (
 						<div className={"flex"}>
