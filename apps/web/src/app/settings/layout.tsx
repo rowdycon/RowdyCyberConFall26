@@ -29,8 +29,9 @@ export default async function SettingsLayout({
 
 	return (
 		<>
+			<div className="aero-page-bg fixed inset-0 -z-10" />
 			<ClientToast />
-			<div className="m-5 flex items-center justify-between">
+			<div className="m-5 flex items-center justify-between rounded-2xl border border-white/50 bg-white/40 px-4 py-3 shadow-md backdrop-blur-md">
 				<div className="flex items-center gap-x-4">
 					<Link href="/">
 						<Image
@@ -41,9 +42,11 @@ export default async function SettingsLayout({
 						/>
 					</Link>
 
-					<div className="h-[45%] w-[2px] rotate-[25deg] bg-muted-foreground" />
+					<div className="h-[45%] w-[2px] rotate-[25deg] bg-[#0b4a86]/40" />
 					<Link href="/dash">
-						<h2 className="font-bold tracking-tight">Dashboard</h2>
+						<h2 className="font-bold tracking-tight text-[#0b4a86]">
+							Dashboard
+						</h2>
 					</Link>
 				</div>
 				<ProfileButton />

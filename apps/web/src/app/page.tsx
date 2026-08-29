@@ -1,4 +1,4 @@
-import Hero from "@/components/landing/Hero";
+import CyberconDesktop from "@/components/landing/desktop/CyberconDesktop";
 import About from "@/components/landing/About";
 
 import Partners from "@/components/landing/Partners";
@@ -18,10 +18,10 @@ export default function Home() {
 		<div
 			className={`${oswald.variable} relative min-h-screen w-full overflow-x-hidden`}
 		>
-			<div className="win98-bg fixed inset-0 -z-10" />
-			<main className="relative z-10 overflow-x-hidden">
+			<div className="aero-page-bg fixed inset-0 -z-10" />
+			<main className="relative z-10 overflow-x-hidden pb-12 md:pb-10">
 				<Navbar />
-				<Hero />
+				<CyberconDesktop />
 				<About />
 				<Partners />
 				<FrequentQuestions />

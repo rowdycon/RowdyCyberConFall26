@@ -18,6 +18,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 
 	return (
 		<>
+			<div className="aero-page-bg fixed inset-0 -z-10" />
 			<Navbar />
 			<div className="min-h-screen w-full overflow-x-hidden px-4 py-12">
 				{/* Floating icons background */}

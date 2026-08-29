@@ -26,6 +26,7 @@ export default async function Page() {
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
 		return (
 			<>
+				<div className="aero-page-bg fixed inset-0 -z-10" />
 				<Navbar />
 				<main className="overflow-x-hidden">
 					<div className="mx-auto min-h-screen max-w-5xl px-5 py-10">

@@ -50,6 +50,19 @@
 	--sidebar-accent-foreground: 0 0% 0%;
 	--sidebar-border: 0 0% 50%;
 	--sidebar-ring: 0 0% 0%;
+
+	/* Frutiger Aero desktop layering scale. Every absolutely-positioned
+	   piece of the CyberconDesktop scene references one of these instead
+	   of a one-off number, so the stacking order stays intentional. */
+	--z-sky: 0;
+	--z-clouds: 10;
+	--z-fish: 20;
+	--z-orb: 30;
+	--z-window: 40;
+	--z-hero: 50;
+	--z-controls: 60;
+	--z-butterfly: 70;
+	--z-overlay: 90;
 }
 
 @theme inline {
@@ -100,143 +113,260 @@ html {
 }
 
 @layer components {
-	/* Classic Windows 98 button */
+	/* Frutiger Aero glossy button (name kept as win98-btn so Navbar/Footer
+	   don't need markup changes; the look underneath is glass now). */
 	.win98-btn {
-		@apply relative border-2 bg-card px-4 py-2 text-foreground;
-		border-style: solid;
-		border-top-color: oklch(0.873 0.004 264.052);
-		border-left-color: oklch(0.873 0.004 264.052);
-		border-right-color: oklch(0.568 0.004 264.052);
-		border-bottom-color: oklch(0.568 0.004 264.052);
-		box-shadow: inset -1px -1px oklch(0 0 0);
+		@apply relative inline-flex items-center justify-center gap-1 rounded-full border border-white/60 px-4 py-2 text-foreground transition-all duration-150;
+		background: linear-gradient(
+			180deg,
+			#eefaff 0%,
+			#aee4ff 45%,
+			#4fb3e8 100%
+		);
+		box-shadow:
+			0 2px 6px rgba(10, 60, 110, 0.25),
+			inset 0 1px 0 rgba(255, 255, 255, 0.85);
 		font-size: 12px;
 		min-width: 75px;
 		text-align: center;
 	}
 
+	.win98-btn:hover {
+		filter: brightness(1.05);
+		transform: translateY(-1px);
+	}
+
 	.win98-btn:active {
-		border-top-color: oklch(0.568 0.004 264.052);
-		border-left-color: oklch(0.568 0.004 264.052);
-		border-right-color: oklch(0.873 0.004 264.052);
-		border-bottom-color: oklch(0.873 0.004 264.052);
-		box-shadow: inset 1px 1px oklch(0 0 0);
-		padding-left: 18px;
-		padding-top: 10px;
-		padding-right: 14px;
-		padding-bottom: 6px;
+		filter: brightness(0.96);
+		transform: translateY(0);
 	}
 
-	/* Windows 98 window */
+	/* Aero glass window/panel */
 	.win98-window {
-		@apply border-2 bg-card text-card-foreground;
-		border-style: solid;
-		border-top-color: oklch(0.873 0.004 264.052);
-		border-left-color: oklch(0.873 0.004 264.052);
-		border-right-color: oklch(0 0 0);
-		border-bottom-color: oklch(0 0 0);
+		@apply relative overflow-hidden rounded-2xl border border-white/50 bg-white/25 text-card-foreground backdrop-blur-xl transition-transform duration-300;
 		box-shadow:
-			inset -1px -1px oklch(0.568 0.004 264.052),
-			inset 1px 1px oklch(1 0 0);
+			0 12px 30px rgba(10, 50, 100, 0.28),
+			inset 0 1px 0 rgba(255, 255, 255, 0.65);
 	}
 
-	/* Windows 98 inset field */
+	.win98-window:hover {
+		transform: translateY(-2px);
+	}
+
+	/* Recessed glass field (system tray, inset readouts, content panels) */
 	.win98-inset {
-		@apply border-2 bg-input;
-		border-style: solid;
-		border-top-color: oklch(0.568 0.004 264.052);
-		border-left-color: oklch(0.568 0.004 264.052);
-		border-right-color: oklch(0.873 0.004 264.052);
-		border-bottom-color: oklch(0.873 0.004 264.052);
+		@apply relative rounded-xl border border-white/40 bg-white/15 backdrop-blur-md;
 		box-shadow:
-			inset -1px -1px oklch(1 0 0),
-			inset 1px 1px oklch(0 0 0);
+			inset 0 2px 6px rgba(10, 40, 80, 0.28),
+			inset 0 -1px 0 rgba(255, 255, 255, 0.35);
 	}
 
-	/* Windows 98 scrollbar */
+	/* Thin glass scrollbar */
 	.win98-scrollbar {
-		scrollbar-width: 16px;
-		scrollbar-color: oklch(0.803 0.004 264.052) oklch(0.95 0 0);
+		scrollbar-width: thin;
+		scrollbar-color: #7fc4ee rgba(255, 255, 255, 0.2);
 	}
 
 	.win98-scrollbar::-webkit-scrollbar {
-		width: 16px;
-		height: 16px;
+		width: 10px;
+		height: 10px;
 	}
 
 	.win98-scrollbar::-webkit-scrollbar-track {
-		background: oklch(0.803 0.004 264.052);
-		border: 1px solid oklch(0.568 0.004 264.052);
+		background: rgba(255, 255, 255, 0.2);
+		border-radius: 999px;
 	}
 
 	.win98-scrollbar::-webkit-scrollbar-thumb {
-		background: oklch(0.803 0.004 264.052);
-		border: 1px solid;
-		border-color: oklch(1 0 0) oklch(0.568 0.004 264.052)
-			oklch(0.568 0.004 264.052) oklch(1 0 0);
-		box-shadow: inset 1px 1px 0 oklch(0.873 0.004 264.052);
+		background: linear-gradient(180deg, #bfe6fb, #4fa8e0);
+		border-radius: 999px;
 	}
 
-	.win98-scrollbar::-webkit-scrollbar-button {
-		background: oklch(0.803 0.004 264.052);
-		border: 1px solid;
-		border-color: oklch(1 0 0) oklch(0.568 0.004 264.052)
-			oklch(0.568 0.004 264.052) oklch(1 0 0);
-		box-shadow: inset 1px 1px 0 oklch(0.873 0.004 264.052);
-		width: 16px;
-		height: 16px;
-	}
-
-	.win98-bg {
-		background: linear-gradient(
-			135deg,
-			#008080 0%,
-			#0a4a4a 25%,
-			#005a5a 50%,
-			#003838 75%,
-			#004848 100%
-		);
-		/* Add subtle noise texture for authenticity */
-		background-image: linear-gradient(
-				135deg,
-				#008080 0%,
-				#0a4a4a 25%,
-				#005a5a 50%,
-				#003838 75%,
-				#004848 100%
-			),
-			repeating-linear-gradient(
-				0deg,
-				transparent,
-				transparent 2px,
-				rgba(0, 0, 0, 0.05) 2px,
-				rgba(0, 0, 0, 0.05) 4px
-			);
-	}
-
-	/* Alternative: Classic Windows 98 clouds wallpaper style */
-	.win98-bg-clouds {
+	/* Aero sky page background (light chrome sections below the hero) */
+	.aero-page-bg {
 		background: linear-gradient(
 			180deg,
-			#5a9fd4 0%,
-			#7db9e8 50%,
+			#bfe4ff 0%,
+			#dff3ff 35%,
+			#f3fbff 70%,
 			#ffffff 100%
 		);
-		background-image: radial-gradient(
-				ellipse at 20% 30%,
-				rgba(255, 255, 255, 0.8) 0%,
-				transparent 50%
+	}
+
+	/* Reusable glass panel used by every desktop window */
+	.aero-glass {
+		@apply relative overflow-hidden rounded-2xl border border-white/50 bg-white/25 text-foreground backdrop-blur-xl;
+		box-shadow:
+			0 12px 30px rgba(10, 50, 100, 0.22),
+			inset 0 1px 0 rgba(255, 255, 255, 0.6);
+	}
+
+	.aero-glass::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		pointer-events: none;
+		background: linear-gradient(
+			180deg,
+			rgba(255, 255, 255, 0.55) 0%,
+			rgba(255, 255, 255, 0.08) 40%,
+			rgba(255, 255, 255, 0) 65%
+		);
+	}
+
+	/* Glossy Aero title bar used at the top of every desktop window. Stays
+	   solidly blue (not near-white) at the top so the white title text
+	   keeps contrast — the "gloss" is a thin sheen layered on top rather
+	   than baked into the base gradient. */
+	.aero-titlebar {
+		@apply relative flex h-9 shrink-0 items-center justify-between gap-2 px-3;
+		background:
+			linear-gradient(
+				180deg,
+				rgba(255, 255, 255, 0.55) 0%,
+				rgba(255, 255, 255, 0) 45%
 			),
-			radial-gradient(
-				ellipse at 60% 20%,
-				rgba(255, 255, 255, 0.6) 0%,
-				transparent 50%
+			linear-gradient(180deg, #4fa8e0 0%, #1c6fb8 55%, #0b4a86 100%);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.7),
+			inset 0 -1px 0 rgba(0, 40, 80, 0.4);
+	}
+
+	/* Glossy pill CTA button for the new Aero hero. Base stays a saturated
+	   blue throughout (not pale cyan) so the white label keeps contrast;
+	   the gloss is a thin highlight layered on top instead. */
+	.aero-btn {
+		@apply relative inline-flex items-center justify-center gap-2 rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-white transition-all duration-150;
+		background:
+			linear-gradient(
+				180deg,
+				rgba(255, 255, 255, 0.45) 0%,
+				rgba(255, 255, 255, 0) 50%
 			),
-			radial-gradient(
-				ellipse at 80% 40%,
-				rgba(255, 255, 255, 0.7) 0%,
-				transparent 50%
-			),
-			linear-gradient(180deg, #5a9fd4 0%, #7db9e8 50%, #ffffff 100%);
+			linear-gradient(180deg, #3fa0e8 0%, #1c6fb8 55%, #0b4a86 100%);
+		box-shadow:
+			0 4px 12px rgba(10, 60, 110, 0.35),
+			inset 0 1px 0 rgba(255, 255, 255, 0.5);
+		text-shadow: 0 1px 2px rgba(5, 30, 60, 0.35);
+	}
+
+	.aero-btn:hover {
+		filter: brightness(1.06);
+		transform: translateY(-1px);
+		box-shadow:
+			0 6px 16px rgba(10, 60, 110, 0.4),
+			inset 0 1px 0 rgba(255, 255, 255, 0.85);
+	}
+
+	.aero-btn:active {
+		transform: translateY(0);
+		filter: brightness(0.97);
+	}
+
+	.aero-btn-secondary {
+		@apply relative inline-flex items-center justify-center gap-2 rounded-full border border-white/60 px-6 py-3 text-sm font-semibold text-[#0b4a86] transition-all duration-150;
+		background: linear-gradient(180deg, #ffffff 0%, #eaf7ff 60%, #cdeaff 100%);
+		box-shadow:
+			0 4px 12px rgba(10, 60, 110, 0.2),
+			inset 0 1px 0 rgba(255, 255, 255, 0.9);
+	}
+
+	.aero-btn-secondary:hover {
+		filter: brightness(1.03);
+		transform: translateY(-1px);
+	}
+
+	/* Desktop grid zones — see CyberconDesktop.tsx. Mobile/tablet stack
+	   everything into one column; the lg breakpoint switches to the real
+	   icons/hero/rail zone layout. */
+	.cybercon-grid {
+		display: grid;
+		grid-template-areas:
+			"icons"
+			"hero"
+			"rail";
+		grid-template-columns: 1fr;
+		gap: 1.5rem;
+	}
+
+	@media (min-width: 1024px) {
+		.cybercon-grid {
+			grid-template-areas: "icons hero rail";
+			grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(
+					0,
+					3fr
+				);
+			align-items: start;
+			gap: 1.25rem;
+		}
+	}
+
+	.cybercon-area-icons {
+		grid-area: icons;
+	}
+	.cybercon-area-hero {
+		grid-area: hero;
+	}
+	.cybercon-area-rail {
+		grid-area: rail;
+	}
+
+	/* Circular event-start clock widget — the glossy glass ring around the
+	   plain, high-contrast face (the face itself stays flat white so the
+	   numerals/hands never fight a busy gradient for contrast). */
+	.aero-clock-bezel {
+		background: radial-gradient(
+			circle at 32% 22%,
+			rgba(255, 255, 255, 0.95) 0%,
+			rgba(255, 255, 255, 0.55) 14%,
+			rgba(198, 232, 255, 0.6) 34%,
+			rgba(79, 168, 224, 0.65) 64%,
+			rgba(11, 74, 134, 0.75) 100%
+		);
+		box-shadow:
+			inset 0 2px 6px rgba(255, 255, 255, 0.65),
+			inset 0 -8px 16px rgba(10, 50, 100, 0.3);
+	}
+
+	.aero-clock-glow {
+		background: radial-gradient(
+			circle,
+			rgba(120, 200, 255, 0.35) 0%,
+			rgba(120, 200, 255, 0) 70%
+		);
+		filter: blur(10px);
+	}
+
+	/* Procedural glass bubble — a radial highlight + a cooler rim so it reads
+	   as a translucent sphere at any size, from a 12px speck to a 100px
+	   foreground bubble, without ever needing a raster asset. */
+	.aero-bubble-shape {
+		background: radial-gradient(
+			circle at 30% 26%,
+			rgba(255, 255, 255, 0.95) 0%,
+			rgba(255, 255, 255, 0.6) 9%,
+			rgba(255, 255, 255, 0.15) 22%,
+			rgba(210, 240, 255, 0.22) 45%,
+			rgba(150, 210, 245, 0.16) 68%,
+			rgba(150, 210, 245, 0.05) 85%,
+			rgba(150, 210, 245, 0) 100%
+		);
+		border: 1px solid rgba(255, 255, 255, 0.55);
+		box-shadow:
+			inset -3px -3px 6px rgba(70, 140, 195, 0.2),
+			inset 2px 2px 4px rgba(255, 255, 255, 0.5);
+	}
+
+	.aero-clock-highlight {
+		background: conic-gradient(
+			from 0deg,
+			rgba(255, 255, 255, 0) 0%,
+			rgba(255, 255, 255, 0.6) 6%,
+			rgba(255, 255, 255, 0) 18%,
+			rgba(255, 255, 255, 0) 100%
+		);
+		animation: clockGleam 8s linear infinite;
 	}
 }
 
@@ -300,35 +430,208 @@ html {
 	}
 }
 
-/* Windows 98 Desktop Background Styles - Add to globals.css */
+/* Frutiger Aero desktop scene animations (CyberconDesktop + children) */
 
-/* Hero window content animations */
-@keyframes gridScroll {
-	0% {
-		transform: translate(0, 0);
-	}
-	100% {
-		transform: translate(4px, 4px);
-	}
-}
-
-@keyframes glowPulse {
-	0% {
-		opacity: 0.5;
-		transform: scale(1);
-	}
-	100% {
-		opacity: 1;
-		transform: scale(1.1);
-	}
-}
-
-@keyframes pixelShimmer {
+@keyframes orbPulse {
 	0%,
 	100% {
-		opacity: 0.1;
+		transform: scale(1);
+		opacity: 0.85;
 	}
 	50% {
-		opacity: 0.3;
+		transform: scale(1.06);
+		opacity: 1;
+	}
+}
+
+@keyframes cloudDrift {
+	0%,
+	100% {
+		transform: translateX(-3%);
+	}
+	50% {
+		transform: translateX(3%);
+	}
+}
+
+@keyframes fishDrift {
+	0%,
+	100% {
+		transform: translate(-6%, 0) scaleX(-1);
+	}
+	48% {
+		transform: translate(6%, -3%) scaleX(-1);
+	}
+	50% {
+		transform: translate(6%, -3%) scaleX(1);
+	}
+	98% {
+		transform: translate(-6%, 0) scaleX(1);
+	}
+}
+
+@keyframes butterflyPath {
+	0% {
+		left: 6%;
+		top: 20%;
+		transform: rotate(-6deg);
+	}
+	20% {
+		left: 80%;
+		top: 10%;
+		transform: rotate(4deg);
+	}
+	40% {
+		left: 88%;
+		top: 58%;
+		transform: rotate(-4deg);
+	}
+	60% {
+		left: 55%;
+		top: 80%;
+		transform: rotate(6deg);
+	}
+	80% {
+		left: 10%;
+		top: 62%;
+		transform: rotate(-3deg);
+	}
+	100% {
+		left: 6%;
+		top: 20%;
+		transform: rotate(-6deg);
+	}
+}
+
+@keyframes butterflyFlap {
+	0%,
+	100% {
+		transform: scaleY(1);
+	}
+	50% {
+		transform: scaleY(0.8);
+	}
+}
+
+@keyframes meterPulse {
+	0%,
+	100% {
+		transform: scaleY(0.85);
+	}
+	50% {
+		transform: scaleY(1);
+	}
+}
+
+@keyframes bubbleFloat {
+	0%,
+	100% {
+		transform: translateY(0) scale(1);
+		opacity: 0.45;
+	}
+	50% {
+		transform: translateY(-16px) scale(1.05);
+		opacity: 0.75;
+	}
+}
+
+/* Bubbles rise the full height of the scene and fade in/out at the ends of
+   the trip, so the loop restart is invisible. Each instance sets --rise
+   (total travel), --drift (horizontal wobble) and --peak-opacity inline so
+   no two bubbles move identically. */
+@keyframes bubbleRise {
+	0% {
+		transform: translate(0, 0) scale(0.85);
+		opacity: 0;
+	}
+	10% {
+		opacity: var(--peak-opacity, 0.5);
+	}
+	50% {
+		transform: translate(var(--drift, 14px), calc(var(--rise, -60vh) * 0.5))
+			scale(1.05);
+	}
+	90% {
+		opacity: var(--peak-opacity, 0.5);
+	}
+	100% {
+		transform: translate(calc(var(--drift, 14px) * -1), var(--rise, -60vh))
+			scale(0.92);
+		opacity: 0;
+	}
+}
+
+@keyframes clockGleam {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes aeroEnter {
+	from {
+		opacity: 0;
+		transform: translateY(14px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+/* One-shot entrance for the desktop's interactive zones (hero, icons,
+   clock/calendar) — staggered per-component via inline animation-delay. */
+.aero-enter {
+	animation: aeroEnter 0.6s ease-out both;
+}
+
+/* Scroll-triggered reveal for content below the hero (About/Partners/FAQ).
+   A plain class toggle (not an inline transform) so it never outranks a
+   hover-lift rule declared on the same element. */
+.aero-reveal {
+	opacity: 0;
+	transform: translateY(24px);
+	transition:
+		opacity 0.7s ease-out,
+		transform 0.7s ease-out;
+}
+
+.aero-reveal-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Respect reduced-motion: keep every decorative layer visible but still,
+   rather than hiding it (per the "keep the atmosphere" requirement). */
+@media (prefers-reduced-motion: reduce) {
+	.aero-orb,
+	.aero-cloud,
+	.aero-fish,
+	.aero-butterfly,
+	.aero-butterfly-wings,
+	.aero-bubble,
+	.aero-clock-highlight {
+		animation: none !important;
+	}
+
+	.aero-enter {
+		animation: none !important;
+		opacity: 1 !important;
+		transform: none !important;
+	}
+
+	.aero-reveal,
+	.aero-reveal-visible {
+		opacity: 1 !important;
+		transform: none !important;
+		transition: none !important;
+	}
+
+	.win98-window,
+	.aero-glass {
+		transition: none !important;
+	}
+
+	html {
+		scroll-behavior: auto;
 	}
 }

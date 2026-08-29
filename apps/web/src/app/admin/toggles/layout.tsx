@@ -20,17 +20,17 @@ export default async function Layout({ children }: ToggleLayoutProps) {
 		<div className="mx-auto max-w-5xl px-3 py-4">
 			<div className="flex flex-col gap-4 md:flex-row md:gap-6">
 				{/* Sidebar */}
-				<div className="flex gap-2 overflow-x-auto rounded-md border-card bg-panel p-3 md:w-56 md:flex-col md:overflow-visible md:p-4">
+				<div className="flex gap-2 overflow-x-auto rounded-xl border border-white/50 bg-white/30 p-3 backdrop-blur-md md:w-56 md:flex-col md:overflow-visible md:p-4">
 					<ToggleItem name="Toggles" path="/admin/toggles" />
 
-					<Separator className="hidden bg-card md:block" />
+					<Separator className="hidden bg-white/40 md:block" />
 
 					<ToggleItem
 						name="Landing Page"
 						path="/admin/toggles/landing"
 					/>
 
-					<Separator className="hidden bg-card md:block" />
+					<Separator className="hidden bg-white/40 md:block" />
 
 					<Restricted
 						permissions={[PermissionType.MANAGE_REGISTRATION]}

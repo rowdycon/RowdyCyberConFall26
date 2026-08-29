@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import WinTitleBar from "../shared/WinTitleBar";
+import Reveal from "../shared/Reveal";
 
 interface FAQ {
 	question: string;
@@ -88,7 +89,7 @@ export default function FrequentQuestions() {
 	return (
 		<section className="mb-12 w-full py-8" id="FAQ">
 			<div className="mx-auto max-w-6xl px-4">
-				<div className="mb-8 border-2 bg-card text-card-foreground">
+				<Reveal className="win98-window mb-8">
 					<WinTitleBar title="Frequently Asked Questions" />
 
 					<div className="p-4">
@@ -118,7 +119,7 @@ export default function FrequentQuestions() {
 									{/* Answer panel */}
 									{openIndex === index && (
 										<div className="mt-1">
-											<div className="border border-[#808080] bg-gray-200 p-3 text-sm">
+											<div className="win98-inset p-3 text-sm">
 												{faq.answer}
 											</div>
 										</div>
@@ -127,7 +128,7 @@ export default function FrequentQuestions() {
 							))}
 						</div>
 					</div>
-				</div>
+				</Reveal>
 			</div>
 		</section>
 	);

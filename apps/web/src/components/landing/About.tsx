@@ -1,12 +1,13 @@
 import Link from "next/link";
 import WinTitleBar from "../shared/WinTitleBar";
+import Reveal from "../shared/Reveal";
 
 export default function About() {
 	return (
 		<section className="w-full py-8" id="About">
 			{/* Who are we section */}
 			<div className="mx-auto max-w-6xl px-4">
-				<div className="mb-8 border-2 bg-card text-card-foreground">
+				<Reveal className="win98-window mb-8">
 					<WinTitleBar title="About RowdyCyberCon" />
 
 					<div className="p-4">
@@ -37,7 +38,7 @@ export default function About() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</Reveal>
 
 				{/* Volunteering section */}
 				{/* <div className="win98-window mb-8 bg-card">
@@ -81,7 +82,7 @@ export default function About() {
 				</div> */}
 
 				{/* Partnering section */}
-				<div className="mb-8 border-2 bg-card text-card-foreground">
+				<Reveal className="win98-window mb-8">
 					<WinTitleBar title="Partnership Information" />
 
 					<div className="p-4">
@@ -113,7 +114,7 @@ export default function About() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</Reveal>
 			</div>
 		</section>
 	);

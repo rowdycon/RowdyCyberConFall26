@@ -1,12 +1,13 @@
 import partnerData from "./partners.json";
 import PartnerCard from "./PartnerCard";
 import WinTitleBar from "../shared/WinTitleBar";
+import Reveal from "../shared/Reveal";
 
 export default function Partners() {
 	return (
 		<section className="w-full py-8" id="Partners">
 			<div className="mx-auto max-w-6xl px-4">
-				<div className="mb-8 border-2 bg-card text-card-foreground">
+				<Reveal className="win98-window mb-8">
 					<WinTitleBar title="Our Partners" />
 					<div className="p-4">
 						<div className="win98-inset p-6">
@@ -20,7 +21,7 @@ export default function Partners() {
 							</div>
 						</div>
 					</div>
-				</div>
+				</Reveal>
 			</div>
 		</section>
 	);

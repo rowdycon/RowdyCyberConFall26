@@ -173,15 +173,12 @@ export default function Footer() {
 						: "pointer-events-none translate-y-4 opacity-0"
 				}`}
 			>
-				<div
-					className={`win98-window ${isMobile ? "w-full" : "w-72"}`}
-					style={{ boxShadow: "4px 4px 0 rgba(0,0,0,0.3)" }}
-				>
+				<div className={`win98-window ${isMobile ? "w-full" : "w-72"}`}>
 					{/* Banner on left side */}
 					<div className="flex">
 						{/* Vertical banner */}
 						<div
-							className={`flex ${isMobile ? "w-8" : "w-10"} flex-col justify-end bg-gradient-to-b from-[#000080] to-[#1084d0] p-2`}
+							className={`flex ${isMobile ? "w-8" : "w-10"} flex-col justify-end bg-gradient-to-b from-[#4fa8e0] to-[#0b4a86] p-2`}
 						>
 							<span
 								className={`${isMobile ? "text-xs" : "text-sm"} font-bold tracking-wider text-white`}
@@ -200,10 +197,10 @@ export default function Footer() {
 							{menuSections.map((section) => (
 								<div key={section.id}>
 									<div
-										className={`group flex cursor-pointer items-center justify-between ${isMobile ? "px-2 py-3" : "px-3 py-2"} hover:bg-[#000080] hover:text-white ${
+										className={`group flex cursor-pointer items-center justify-between ${isMobile ? "px-2 py-3" : "px-3 py-2"} hover:bg-[#1c6fb8] hover:text-white ${
 											activeSubmenu === section.id &&
 											isMobile
-												? "bg-[#000080] text-white"
+												? "bg-[#1c6fb8] text-white"
 												: ""
 										}`}
 										onClick={() =>
@@ -234,7 +231,7 @@ export default function Footer() {
 									{/* Submenu - Mobile (collapsible) */}
 									{isMobile &&
 										activeSubmenu === section.id && (
-											<div className="border-t border-[#808080] bg-[#D4D0C8]">
+											<div className="border-t border-white/40 bg-white/40">
 												{section.items.map((item) => (
 													<a
 														key={item.label}
@@ -249,7 +246,7 @@ export default function Footer() {
 																null,
 															);
 														}}
-														className="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm hover:bg-[#000080] hover:text-white"
+														className="flex cursor-pointer items-center gap-2 px-4 py-2 text-sm hover:bg-[#1c6fb8] hover:text-white"
 													>
 														<span>{item.icon}</span>
 														<span className="text-xs">
@@ -265,11 +262,7 @@ export default function Footer() {
 										activeSubmenu === section.id && (
 											<div
 												className="win98-window absolute bottom-0 left-full ml-0.5 w-56"
-												style={{
-													boxShadow:
-														"4px 4px 0 rgba(0,0,0,0.3)",
-													maxHeight: "300px",
-												}}
+												style={{ maxHeight: "300px" }}
 												onMouseEnter={() =>
 													setActiveSubmenu(section.id)
 												}
@@ -293,7 +286,7 @@ export default function Footer() {
 																		null,
 																	);
 																}}
-																className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-sm hover:bg-[#000080] hover:text-white"
+																className="flex cursor-pointer items-center gap-2 px-3 py-1.5 text-sm hover:bg-[#1c6fb8] hover:text-white"
 															>
 																<span>
 																	{item.icon}
@@ -311,7 +304,7 @@ export default function Footer() {
 							))}
 
 							{/* Divider */}
-							<div className="mx-2 my-1 border-b border-t border-[#808080] border-b-white" />
+							<div className="mx-2 my-1 border-b border-t border-white/40" />
 
 							{/* Quick links */}
 							<a
@@ -319,7 +312,7 @@ export default function Footer() {
 								target="_blank"
 								rel="noopener noreferrer"
 								onClick={() => setShowStartMenu(false)}
-								className={`flex cursor-pointer items-center gap-2 ${isMobile ? "px-2 py-3 text-xs" : "px-3 py-2 text-sm"} hover:bg-[#000080] hover:text-white`}
+								className={`flex cursor-pointer items-center gap-2 ${isMobile ? "px-2 py-3 text-xs" : "px-3 py-2 text-sm"} hover:bg-[#1c6fb8] hover:text-white`}
 							>
 								<span>💬</span>
 								<span className="font-medium">
@@ -328,7 +321,7 @@ export default function Footer() {
 							</a>
 
 							{/* Divider */}
-							<div className="mx-2 my-1 border-b border-t border-[#808080] border-b-white" />
+							<div className="mx-2 my-1 border-b border-t border-white/40" />
 
 							{/* Credits */}
 							<a
@@ -336,7 +329,7 @@ export default function Footer() {
 								target="_blank"
 								rel="noopener noreferrer"
 								onClick={() => setShowStartMenu(false)}
-								className={`flex cursor-pointer items-center gap-2 ${isMobile ? "px-2 py-3 text-xs" : "px-3 py-2 text-sm"} text-[#808080] hover:bg-[#000080] hover:text-white`}
+								className={`flex cursor-pointer items-center gap-2 ${isMobile ? "px-2 py-3 text-xs" : "px-3 py-2 text-sm"} text-[#0b4a86]/60 hover:bg-[#1c6fb8] hover:text-white`}
 							>
 								<span>🛠️</span>
 								<span>Powered by HackKit</span>
@@ -348,7 +341,7 @@ export default function Footer() {
 
 			{/* Taskbar */}
 			<footer
-				className={`fixed bottom-0 left-0 right-0 z-40 ${isMobile ? "h-12" : "h-10"} border-t-2 border-[#DFDFDF] bg-card shadow-lg`}
+				className={`fixed bottom-0 left-0 right-0 z-40 ${isMobile ? "h-12" : "h-10"} border-t border-white/40 bg-white/50 shadow-lg backdrop-blur-xl`}
 			>
 				<div className="flex h-full items-center gap-1 px-1">
 					{/* Start Button */}
@@ -364,7 +357,7 @@ export default function Footer() {
 
 					{/* Divider */}
 					{!isMobile && (
-						<div className="mx-1 h-6 w-px bg-[#808080]" />
+						<div className="mx-1 h-6 w-px bg-white/50" />
 					)}
 
 					{/* Quick Launch - only on desktop */}
@@ -417,7 +410,7 @@ export default function Footer() {
 										}
 									>
 										<Icon
-											className={`${isMobile ? "h-5 w-5" : "h-4 w-4"} cursor-pointer transition-colors hover:text-[#000080]`}
+											className={`${isMobile ? "h-5 w-5" : "h-4 w-4"} cursor-pointer transition-colors hover:text-[#1c6fb8]`}
 										/>
 									</a>
 									{showTooltip === label && !isMobile && (
@@ -450,7 +443,7 @@ export default function Footer() {
 
 						{/* Divider in tray */}
 						{!isMobile && (
-							<div className="mx-1 h-4 w-px bg-[#808080]" />
+							<div className="mx-1 h-4 w-px bg-white/50" />
 						)}
 
 						{/* Volume - hide on mobile */}
@@ -458,7 +451,7 @@ export default function Footer() {
 
 						{/* Divider */}
 						{!isMobile && (
-							<div className="mx-1 h-4 w-px bg-[#808080]" />
+							<div className="mx-1 h-4 w-px bg-white/50" />
 						)}
 
 						{/* Clock */}

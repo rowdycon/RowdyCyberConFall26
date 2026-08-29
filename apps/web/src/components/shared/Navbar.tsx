@@ -25,31 +25,27 @@ export default async function Navbar({ className }: NavbarProps) {
 
 			{/* Menu bar */}
 			<div
-				className={`h-10 w-full border-b bg-card ${className || ""}`}
-				style={{
-					borderBottomColor: "#808080",
-					boxShadow: "inset 0 -1px 0 #ffffff",
-				}}
+				className={`h-10 w-full border-b border-white/40 bg-white/40 backdrop-blur-md ${className || ""}`}
 			>
 				<div className="mx-auto flex h-full w-full max-w-7xl items-center justify-between px-1 lg:max-w-full lg:px-2">
 					{/* Left - Menu items */}
 					<div className="flex items-center">
 						{/* File-style menu items */}
 						<Link href="/" className="group relative">
-							<div className="px-2 py-1 text-xs text-black">
-								<span className="p-2 hover:bg-[#000080] hover:text-white">
+							<div className="px-2 py-1 text-xs text-[#0b4a86]">
+								<span className="rounded p-2 hover:bg-[#1c6fb8] hover:text-white">
 									<span className="underline">F</span>ile
 								</span>
-								<span className="p-2 hover:bg-[#000080] hover:text-white">
+								<span className="rounded p-2 hover:bg-[#1c6fb8] hover:text-white">
 									<span className="underline">E</span>dit
 								</span>
-								<span className="p-2 hover:bg-[#000080] hover:text-white">
+								<span className="rounded p-2 hover:bg-[#1c6fb8] hover:text-white">
 									<span className="underline">V</span>iew
 								</span>
-								<span className="p-2 hover:bg-[#000080] hover:text-white">
+								<span className="rounded p-2 hover:bg-[#1c6fb8] hover:text-white">
 									<span className="underline">T</span>ools
 								</span>
-								<span className="p-2 hover:bg-[#000080] hover:text-white">
+								<span className="rounded p-2 hover:bg-[#1c6fb8] hover:text-white">
 									<span className="underline">H</span>elp
 								</span>
 							</div>
@@ -61,7 +57,7 @@ export default async function Navbar({ className }: NavbarProps) {
 						<div className="hidden text-xs md:flex">
 							<NavBarLinksGrouper />
 						</div>
-						<div className="mx-1 hidden h-5 w-[2px] border-l border-r border-l-[#808080] border-r-[#ffffff] md:block" />
+						<div className="mx-1 hidden h-5 w-px bg-white/50 md:block" />
 
 						{/* Toolbar buttons */}
 						<div className="mr-2 hidden items-center gap-0.5 md:flex">
@@ -109,7 +105,7 @@ export default async function Navbar({ className }: NavbarProps) {
 						</div>
 
 						{/* Divider */}
-						<div className="mx-1 hidden h-5 w-[2px] border-l border-r border-l-[#808080] border-r-[#ffffff] md:block" />
+						<div className="mx-1 hidden h-5 w-px bg-white/50 md:block" />
 
 						<ProfileButton />
 					</div>
@@ -117,40 +113,16 @@ export default async function Navbar({ className }: NavbarProps) {
 			</div>
 
 			{/* Address bar */}
-			<div
-				className="flex h-8 w-full items-center gap-2 border-b bg-card px-2"
-				style={{
-					borderBottomColor: "#808080",
-					boxShadow: "inset 0 -1px 0 #ffffff",
-				}}
-			>
-				<span className="text-xs text-black">Address:</span>
-				<div
-					className="flex h-[26px] flex-1 items-center gap-1 border bg-white px-1"
-					style={{
-						borderTopColor: "#808080",
-						borderLeftColor: "#808080",
-						borderRightColor: "#ffffff",
-						borderBottomColor: "#ffffff",
-						boxShadow: "inset 1px 1px 0 #404040",
-					}}
-				>
+			<div className="flex h-8 w-full items-center gap-2 border-b border-white/40 bg-white/30 px-2 backdrop-blur-md">
+				<span className="text-xs text-[#0b4a86]">Address:</span>
+				<div className="flex h-[26px] flex-1 items-center gap-1 rounded-md border border-white/50 bg-white/70 px-1">
 					<span className="text-sm">📄</span>
-					<span className="truncate text-xs text-black">
+					<span className="truncate text-xs text-[#0b4a86]">
 						https://rowdycybercon.org/
 					</span>
 				</div>
-				<button
-					className="flex h-[22px] items-center gap-1 border-2 px-3"
-					style={{
-						borderTopColor: "#ffffff",
-						borderLeftColor: "#ffffff",
-						borderRightColor: "#404040",
-						borderBottomColor: "#404040",
-						boxShadow: "inset -1px -1px 0 #808080",
-					}}
-				>
-					<span className="text-xs text-black">Go</span>
+				<button className="aero-btn-secondary flex h-[22px] items-center gap-1 px-3">
+					<span className="text-xs">Go</span>
 				</button>
 			</div>
 		</div>
