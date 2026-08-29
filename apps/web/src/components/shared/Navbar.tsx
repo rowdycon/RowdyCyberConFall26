@@ -6,7 +6,11 @@ import { currentUser } from "@clerk/nextjs/server";
 import NavBarLinksGrouper from "./NavBarLinksGrouper";
 import { getUserCommonData } from "db/functions";
 
-export default async function Navbar() {
+interface NavbarProps {
+	className?: string;
+}
+
+export default async function Navbar({ className }: NavbarProps) {
 	const user = await currentUser();
 	const registrationIsComplete =
 		user != null && (await getUserCommonData(user.id)) != undefined;
@@ -14,9 +18,7 @@ export default async function Navbar() {
 	return (
 		<div className="sticky top-0 z-50 px-2 pt-2 sm:px-4">
 			<nav
-				className={
-					"aero-glass flex h-14 w-full items-center justify-between px-3 sm:px-5"
-				}
+				className={`aero-glass flex h-14 w-full items-center justify-between px-3 sm:px-5 ${className}`}
 			>
 				{/* Logo & name */}
 				<Link href="/" className="flex items-center gap-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import type { NavItemToggleType } from "@/validators/shared/navitemtoggle";
+import type { NavItemToggleType } from "@/validators/navitemtoggle";
 import {
 	Table,
 	TableBody,
@@ -37,6 +37,7 @@ import { Switch } from "@/components/shadcn/ui/switch";
 interface NavItemsManagerProps {
 	navItems: NavItemToggleType[];
 }
+
 interface EditNavItemDialogProps {
 	existingName: string;
 	existingUrl: string;
