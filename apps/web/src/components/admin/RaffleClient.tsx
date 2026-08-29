@@ -63,10 +63,10 @@ export function RaffleClient({
 			<div className="win98-window mx-auto max-w-2xl">
 				<WinTitleBar title="Raffle Draw" />
 
-				<div className="border-2 border-b-[#808080] border-l-white border-r-[#808080] border-t-white bg-[#d4d0c8] p-2">
+				<div className="p-3">
 					<div className="mb-2 flex gap-2 text-[11px]">
 						<div className="win98-inset px-2 py-1">
-							<span className="text-[#808080]">
+							<span className="text-[#0b4a86]/70">
 								Participants:{" "}
 							</span>
 							<span className="font-bold">
@@ -74,7 +74,7 @@ export function RaffleClient({
 							</span>
 						</div>
 						<div className="win98-inset px-2 py-1">
-							<span className="text-[#808080]">
+							<span className="text-[#0b4a86]/70">
 								Total tickets:{" "}
 							</span>
 							<span className="font-bold">
@@ -83,20 +83,20 @@ export function RaffleClient({
 						</div>
 					</div>
 
-					<fieldset className="win98-fieldset mb-2">
-						<legend className="px-1 text-[11px]">Draw</legend>
+					<fieldset className="win98-inset mb-2 border-none px-2 pb-2 pt-1">
+						<legend className="px-1 text-[11px] font-bold text-[#0b4a86]">Draw</legend>
 						<div className="flex items-center gap-2 p-1">
 							<div className="win98-inset flex h-7 flex-1 items-center overflow-hidden px-2 text-[11px] font-bold">
 								{isSpinning ? (
-									<span className="text-[#000080]">
+									<span className="text-[#1c6fb8]">
 										{drumName || "..."}
 									</span>
 								) : winner ? (
-									<span className="text-[#000080]">
+									<span className="text-[#1c6fb8]">
 										{winner.firstName} {winner.lastName}
 									</span>
 								) : (
-									<span className="text-[#808080]">
+									<span className="text-[#0b4a86]/60">
 										Press "Draw" to pick a winner
 									</span>
 								)}
@@ -110,7 +110,7 @@ export function RaffleClient({
 							</button>
 						</div>
 						{winner && !isSpinning && (
-							<div className="mx-1 mb-1 border border-[#808080] bg-[#ffffe1] px-2 py-1 text-[11px]">
+							<div className="mx-1 mb-1 rounded-lg border border-white/50 bg-[#fff9d6]/80 px-2 py-1 text-[11px] backdrop-blur-sm">
 								🏆{" "}
 								<strong>
 									{winner.firstName} {winner.lastName}
@@ -121,11 +121,11 @@ export function RaffleClient({
 					</fieldset>
 
 					{history.length > 0 && (
-						<fieldset className="win98-fieldset">
-							<legend className="px-1 text-[11px]">
+						<fieldset className="win98-inset border-none px-2 pb-2 pt-1">
+							<legend className="px-1 text-[11px] font-bold text-[#0b4a86]">
 								History
 							</legend>
-							<div className="win98-inset m-1 bg-white">
+							<div className="win98-inset m-1 bg-white/70">
 								<table className="w-full text-[11px]">
 									<tbody>
 										{history.map((w, i) => (
@@ -133,17 +133,17 @@ export function RaffleClient({
 												key={i}
 												className={
 													i % 2 === 0
-														? "bg-white"
-														: "bg-[#f0f0f0]"
+														? "bg-white/40"
+														: "bg-white/10"
 												}
 											>
-												<td className="w-6 px-1.5 py-0.5 text-[#808080]">
+												<td className="w-6 px-1.5 py-0.5 text-[#0b4a86]/60">
 													#{history.length - i}
 												</td>
 												<td className="px-1.5 py-0.5">
 													{w.firstName} {w.lastName}
 												</td>
-												<td className="px-1.5 py-0.5 text-right text-[#808080]">
+												<td className="px-1.5 py-0.5 text-right text-[#0b4a86]/60">
 													{w.points.toLocaleString()}{" "}
 													tickets
 												</td>
@@ -156,7 +156,7 @@ export function RaffleClient({
 					)}
 
 					<div className="mt-2 flex gap-1">
-						<div className="win98-inset flex-1 px-1.5 py-0.5 text-[10px] text-[#808080]">
+						<div className="win98-inset flex-1 px-1.5 py-0.5 text-[10px] text-[#0b4a86]/70">
 							{isSpinning
 								? "Drawing..."
 								: winner

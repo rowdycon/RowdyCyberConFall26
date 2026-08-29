@@ -71,10 +71,10 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 		<div className="relative">
 			{/* Lanyard hole at top */}
 			<div
-				className="absolute left-1/2 top-0 z-10 h-12 w-12 -translate-x-1/2 -translate-y-6 rounded-full border-4 border-[#808080] bg-background"
+				className="absolute left-1/2 top-0 z-10 h-12 w-12 -translate-x-1/2 -translate-y-6 rounded-full border-4 border-white/70 bg-white/40 backdrop-blur-md"
 				style={{
 					boxShadow:
-						"inset 2px 2px 4px rgba(0,0,0,0.3), 2px 2px 4px rgba(0,0,0,0.2)",
+						"inset 2px 2px 4px rgba(10,50,100,0.25), 2px 2px 6px rgba(10,50,100,0.2)",
 				}}
 			/>
 
@@ -87,17 +87,13 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 				/>
 
 				{/* Content */}
-				<div className="bg-card p-3">
+				<div className="p-3">
 					{/* Header section with gradient */}
 					<div
-						className="mb-3 border-2 p-3"
+						className="mb-3 rounded-xl border border-white/40 p-3"
 						style={{
 							background:
-								"linear-gradient(135deg, #000080 0%, #1084d0 100%)",
-							borderTopColor: "#404040",
-							borderLeftColor: "#404040",
-							borderRightColor: "#ffffff",
-							borderBottomColor: "#ffffff",
+								"linear-gradient(180deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 45%), linear-gradient(180deg, #4fa8e0 0%, #1c6fb8 55%, #0b4a86 100%)",
 						}}
 					>
 						<div className="flex items-center justify-between">
@@ -121,39 +117,22 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 					</div>
 
 					{/* ID Card Content */}
-					<div className="win98-inset bg-white p-3">
+					<div className="win98-inset bg-white/80 p-3">
 						<div className="grid gap-4 md:grid-cols-[140px_1fr]">
 							{/* Left - Photo */}
 							<div className="flex flex-col items-center">
-								<div
-									className="mb-2 border-2 bg-card p-1"
-									style={{
-										borderTopColor: "#808080",
-										borderLeftColor: "#808080",
-										borderRightColor: "#ffffff",
-										borderBottomColor: "#ffffff",
-									}}
-								>
+								<div className="win98-inset mb-2 p-1">
 									<Image
 										src={clerk.imageUrl}
 										alt={`${user.firstName}'s Profile Picture`}
 										width={120}
 										height={120}
-										className="pixelated"
-										style={{ imageRendering: "pixelated" }}
+										className="rounded-md"
 									/>
 								</div>
 
 								{/* Security level badge */}
-								<div
-									className="w-full border bg-[#000080] py-1 text-center"
-									style={{
-										borderTopColor: "#1084d0",
-										borderLeftColor: "#1084d0",
-										borderRightColor: "#000060",
-										borderBottomColor: "#000060",
-									}}
-								>
+								<div className="w-full rounded-full border border-white/40 bg-[#1c6fb8] py-1 text-center">
 									<span className="font-mono text-xs font-bold text-white">
 										{attendeeType}
 									</span>
@@ -167,15 +146,7 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 									<label className="text-xs font-bold text-black">
 										NAME:
 									</label>
-									<div
-										className="mt-0.5 border bg-white px-2 py-1"
-										style={{
-											borderTopColor: "#808080",
-											borderLeftColor: "#808080",
-											borderRightColor: "#ffffff",
-											borderBottomColor: "#ffffff",
-										}}
-									>
+									<div className="win98-inset mt-0.5 bg-white/70 px-2 py-1">
 										<span className="text-sm font-bold uppercase">
 											{user.firstName} {user.lastName}
 										</span>
@@ -187,15 +158,7 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 									<label className="text-xs font-bold text-black">
 										USER ID:
 									</label>
-									<div
-										className="mt-0.5 border bg-white px-2 py-1 font-mono"
-										style={{
-											borderTopColor: "#808080",
-											borderLeftColor: "#808080",
-											borderRightColor: "#ffffff",
-											borderBottomColor: "#ffffff",
-										}}
-									>
+									<div className="win98-inset mt-0.5 bg-white/70 px-2 py-1 font-mono">
 										<span className="text-sm">
 											@{user.hackerTag}
 										</span>
@@ -207,15 +170,7 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 									<label className="text-xs font-bold text-black">
 										LOCATION:
 									</label>
-									<div
-										className="mt-0.5 border bg-white px-2 py-1 font-mono"
-										style={{
-											borderTopColor: "#808080",
-											borderLeftColor: "#808080",
-											borderRightColor: "#ffffff",
-											borderBottomColor: "#ffffff",
-										}}
-									>
+									<div className="win98-inset mt-0.5 bg-white/70 px-2 py-1 font-mono">
 										<span className="text-sm">
 											{c.prettyLocation}
 										</span>
@@ -238,27 +193,18 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 						</div>
 
 						{/* Divider */}
-						<div className="my-3 border-b-2 border-t-2 border-b-white border-t-[#808080]" />
+						<div className="my-3 border-t border-[#0b4a86]/20" />
 
 						{/* Bottom section with QR and logo */}
 						<div className="flex items-center justify-between">
 							{/* Logo and branding */}
 							<div className="flex items-center gap-2">
-								<div
-									className="border-2 bg-card p-2"
-									style={{
-										borderTopColor: "#ffffff",
-										borderLeftColor: "#ffffff",
-										borderRightColor: "#808080",
-										borderBottomColor: "#808080",
-									}}
-								>
+								<div className="win98-inset p-2">
 									<Image
 										src={c.icon.svg}
 										height={50}
 										width={50}
 										alt=""
-										className="pixelated"
 									/>
 								</div>
 								<div>
@@ -274,31 +220,23 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 							{/* QR Code */}
 							<Drawer>
 								<DrawerTrigger asChild>
-									<button
-										className="cursor-pointer border-2 bg-white p-2 transition-all hover:scale-105"
-										style={{
-											borderTopColor: "#808080",
-											borderLeftColor: "#808080",
-											borderRightColor: "#ffffff",
-											borderBottomColor: "#ffffff",
-										}}
-									>
+									<button className="win98-inset cursor-pointer bg-white p-2 transition-transform hover:scale-105">
 										<QRCode
 											className="h-20 w-20"
 											bgColor="#ffffff"
-											fgColor="#000080"
+											fgColor="#0b2a52"
 											value={qrPayload}
 										/>
 									</button>
 								</DrawerTrigger>
-								<DrawerContent className="flex h-[90%] w-full items-center justify-center bg-card focus-visible:outline-none">
+								<DrawerContent className="aero-page-bg flex h-[90%] w-full items-center justify-center focus-visible:outline-none">
 									<div className="win98-window max-w-md">
 										<WinTitleBar title="Scan QR Code" />
 										<div className="bg-white p-8">
 											<QRCode
 												className="h-full w-full"
 												bgColor="#ffffff"
-												fgColor="#000080"
+												fgColor="#0b2a52"
 												value={qrPayload}
 											/>
 										</div>
@@ -309,7 +247,7 @@ function EventPass({ qrPayload, user, clerk, attendeeType }: EventPassProps) {
 					</div>
 
 					{/* Status bar at bottom */}
-					<div className="mt-3 flex border-2 border-panel text-sm">
+					<div className="mt-3 flex rounded-lg border border-white/40 bg-white/30 text-sm backdrop-blur-sm">
 						<div className="flex flex-1 items-center gap-2 px-2 py-0.5">
 							<span>✓</span>
 							<span>Valid Credential</span>

@@ -12,7 +12,7 @@ export default async function MobileNavBarLinks() {
 					<div key={nav.name}>
 						{nav.enabled ? (
 							<Link href={nav.url} target="_blank">
-								<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+								<DropdownMenuItem className="mx-1 my-0.5 cursor-pointer rounded-lg px-4 py-1.5 text-sm text-[#0b4a86] transition-colors hover:bg-[#1c6fb8] hover:text-white focus:bg-[#1c6fb8] focus:text-white">
 									{nav.name}
 								</DropdownMenuItem>
 							</Link>

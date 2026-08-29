@@ -21,6 +21,10 @@ import Restricted from "../Restricted";
 import { PermissionType } from "@/lib/constants/permission";
 import c from "config";
 
+const menuItemClass =
+	"mx-1 my-0.5 cursor-pointer rounded-lg px-4 py-1.5 text-sm text-[#0b4a86] transition-colors hover:bg-[#1c6fb8] hover:text-white focus:bg-[#1c6fb8] focus:text-white";
+const menuDividerClass = "mx-2 my-1 h-px bg-white/40";
+
 export default async function ProfileButton() {
 	const clerkUser = await auth();
 	const { userId } = clerkUser;
@@ -30,50 +34,30 @@ export default async function ProfileButton() {
 		return (
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button
-						className="relative flex items-center justify-center border-2 px-2 py-1 text-sm text-black"
-						style={{
-							borderTopColor: "#fff",
-							borderLeftColor: "#fff",
-							borderRightColor: "#000",
-							borderBottomColor: "#000",
-							boxShadow:
-								"inset -1px -1px #808080, inset 1px 1px #dfdfdf",
-							fontFamily:
-								'"MS Sans Serif", Tahoma, Arial, sans-serif',
-						}}
-					>
+					<button className="win98-btn flex h-9 min-w-0 items-center justify-center px-3">
 						<DefaultDropdownTrigger />
 					</button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
-					className="mt-1 w-48 rounded-none border-2 p-0 shadow-none"
-					style={{
-						borderTopColor: "#dfdfdf",
-						borderLeftColor: "#dfdfdf",
-						borderRightColor: "#000",
-						borderBottomColor: "#000",
-						boxShadow:
-							"inset -1px -1px #808080, inset 1px 1px #fff",
-					}}
+					className="win98-window mt-2 w-48 p-1"
 					align="end"
 					forceMount
 				>
-					<DropdownMenuGroup className="p-1">
+					<DropdownMenuGroup>
 						<Link href={`/sign-in`}>
-							<DropdownMenuItem className="cursor-pointer rounded-none px-6 py-1.5 text-lg text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem className={menuItemClass}>
 								Sign In
 							</DropdownMenuItem>
 						</Link>
 						<Link href={`/register`}>
-							<DropdownMenuItem className="cursor-pointer rounded-none px-6 py-1.5 text-lg text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem className={menuItemClass}>
 								Register
 							</DropdownMenuItem>
 						</Link>
 						<MobileNavBarLinks />
 
 						<Link href={`/bug-report`}>
-							<DropdownMenuItem className="cursor-pointer rounded-none px-6 py-1.5 text-lg text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem className={menuItemClass}>
 								Report a Bug
 							</DropdownMenuItem>
 						</Link>
@@ -91,52 +75,32 @@ export default async function ProfileButton() {
 		return (
 			<DropdownMenu>
 				<DropdownMenuTrigger asChild>
-					<button
-						className="relative flex min-w-[75px] items-center justify-center border-2 px-2 py-1 text-sm text-black"
-						style={{
-							borderTopColor: "#fff",
-							borderLeftColor: "#fff",
-							borderRightColor: "#000",
-							borderBottomColor: "#000",
-							boxShadow:
-								"inset -1px -1px #808080, inset 1px 1px #dfdfdf",
-							fontFamily:
-								'"MS Sans Serif", Tahoma, Arial, sans-serif',
-						}}
-					>
+					<button className="win98-btn flex h-9 min-w-[75px] items-center justify-center px-3">
 						<DefaultDropdownTrigger />
 					</button>
 				</DropdownMenuTrigger>
 				<DropdownMenuContent
-					className="mt-1 w-48 rounded-none border-2 p-0 shadow-none"
-					style={{
-						borderTopColor: "#dfdfdf",
-						borderLeftColor: "#dfdfdf",
-						borderRightColor: "#000",
-						borderBottomColor: "#000",
-						boxShadow:
-							"inset -1px -1px #808080, inset 1px 1px #fff",
-					}}
+					className="win98-window mt-2 w-48 p-1"
 					align="end"
 					forceMount
 				>
-					<DropdownMenuGroup className="p-1">
+					<DropdownMenuGroup>
 						<Link href={`/register`}>
-							<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem className={menuItemClass}>
 								Complete Registration
 							</DropdownMenuItem>
 						</Link>
 						<MobileNavBarLinks />
 						<Link href={`/bug-report`}>
-							<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem className={menuItemClass}>
 								Report a Bug
 							</DropdownMenuItem>
 						</Link>
 					</DropdownMenuGroup>
 
-					<div className="mx-1 my-1 h-[2px] border-b border-t border-b-white border-t-[#808080]" />
+					<div className={menuDividerClass} />
 					<SignOutButton redirectUrl={"/"}>
-						<DropdownMenuItem className="text-md m-1 cursor-pointer rounded-none px-6 py-1.5 text-[#800000] hover:bg-[#800000] hover:text-white focus:bg-[#800000] focus:text-white">
+						<DropdownMenuItem className="mx-1 my-0.5 cursor-pointer rounded-lg px-4 py-1.5 text-sm text-[#b3261e] transition-colors hover:bg-[#b3261e] hover:text-white focus:bg-[#b3261e] focus:text-white">
 							Sign out
 						</DropdownMenuItem>
 					</SignOutButton>
@@ -149,112 +113,88 @@ export default async function ProfileButton() {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<button
-					className="relative flex min-w-0 items-center justify-center border-2 bg-card p-0.5"
-					style={{
-						borderTopColor: "#fff",
-						borderLeftColor: "#fff",
-						borderRightColor: "#000",
-						borderBottomColor: "#000",
-						boxShadow:
-							"inset -1px -1px #808080, inset 1px 1px #dfdfdf",
-					}}
-				>
-					<Avatar className="h-7 w-7 border-2 border-[#808080]">
+				<button className="relative flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/30 p-0.5 shadow-md backdrop-blur-md transition-transform duration-150 hover:-translate-y-0.5 hover:bg-white/50">
+					<Avatar className="h-full w-full border border-white/60">
 						<AvatarImage
 							src={user.profilePhoto}
 							alt={`@${user.hackerTag}`}
 						/>
-						<AvatarFallback className="bg-[#000080] text-[10px] font-bold text-white">
+						<AvatarFallback className="bg-[#1c6fb8] text-[10px] font-bold text-white">
 							{user.firstName.charAt(0) + user.lastName.charAt(0)}
 						</AvatarFallback>
 					</Avatar>
 				</button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
-				className="mt-1 w-52 rounded-none border-2 p-0 shadow-none"
-				style={{
-					borderTopColor: "#dfdfdf",
-					borderLeftColor: "#dfdfdf",
-					borderRightColor: "#000",
-					borderBottomColor: "#000",
-					boxShadow: "inset -1px -1px #808080, inset 1px 1px #fff",
-				}}
+				className="win98-window mt-2 w-52 p-1"
 				align="end"
 				forceMount
 			>
-				<DropdownMenuLabel
-					className="m-1 border-2 bg-white p-2 font-normal"
-					style={{
-						borderTopColor: "#808080",
-						borderLeftColor: "#808080",
-						borderRightColor: "#dfdfdf",
-						borderBottomColor: "#dfdfdf",
-						boxShadow: "inset -1px -1px #fff, inset 1px 1px #000",
-					}}
-				>
+				<DropdownMenuLabel className="mx-1 mb-1 mt-0.5 rounded-lg border border-white/50 bg-white/30 p-2 font-normal">
 					<div className="flex flex-col space-y-0.5">
-						<p className="text-[12px] font-bold leading-tight text-black">
+						<p className="text-[12px] font-bold leading-tight text-[#0b2a52]">
 							{`${user.firstName} ${user.lastName}`}
 						</p>
-						<p className="text-[11px] font-semibold leading-tight text-[#808080]">
+						<p className="text-[11px] font-semibold leading-tight text-[#0b4a86]/60">
 							@{user.hackerTag}
 						</p>
 					</div>
 				</DropdownMenuLabel>
 
-				<div className="mx-1 my-1 h-[2px] border-b border-t border-b-white border-t-[#808080]" />
-				<DropdownMenuGroup className="p-1">
+				<div className={menuDividerClass} />
+				<DropdownMenuGroup>
 					<Link href={"/dash"}>
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Dashboard
 						</DropdownMenuItem>
 					</Link>
 					<Link href={`/@${user.hackerTag}`}>
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Profile
 						</DropdownMenuItem>
 					</Link>
 					<Link href={`/dash/pass`}>
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Event Pass
 						</DropdownMenuItem>
 					</Link>
 
 					<Link href={c.links.guide} target="_blank">
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Survival Guide
 						</DropdownMenuItem>
 					</Link>
 
 					<Restricted user={user} permissions={PermissionType.ADMIN}>
 						<Link href={`/admin`}>
-							<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 font-bold text-[#000080] hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+							<DropdownMenuItem
+								className={`${menuItemClass} font-bold`}
+							>
 								Admin
 							</DropdownMenuItem>
 						</Link>
 					</Restricted>
-					<div className="my-1 h-[2px] border-b border-t border-b-white border-t-[#808080]" />
+					<div className={menuDividerClass} />
 
 					<MobileNavBarLinks />
 
 					<Link href={`/bug-report`}>
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Report a Bug
 						</DropdownMenuItem>
 					</Link>
 
 					<Link href={"/settings"}>
-						<DropdownMenuItem className="text-md cursor-pointer rounded-none px-6 py-1.5 text-black hover:bg-[#000080] hover:text-white focus:bg-[#000080] focus:text-white">
+						<DropdownMenuItem className={menuItemClass}>
 							Settings
 						</DropdownMenuItem>
 					</Link>
 				</DropdownMenuGroup>
 
-				<div className="mx-1 my-1 h-[2px] border-b border-t border-b-white border-t-[#808080]" />
+				<div className={menuDividerClass} />
 
 				<SignOutButton redirectUrl={"/"}>
-					<DropdownMenuItem className="text-md m-1 cursor-pointer rounded-none px-6 py-1.5 text-[#800000] hover:bg-[#800000] hover:text-white focus:bg-[#800000] focus:text-white">
+					<DropdownMenuItem className="mx-1 my-0.5 cursor-pointer rounded-lg px-4 py-1.5 text-sm text-[#b3261e] transition-colors hover:bg-[#b3261e] hover:text-white focus:bg-[#b3261e] focus:text-white">
 						Sign out
 					</DropdownMenuItem>
 				</SignOutButton>

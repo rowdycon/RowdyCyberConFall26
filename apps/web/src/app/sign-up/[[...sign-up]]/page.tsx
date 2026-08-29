@@ -13,6 +13,7 @@ export default async function Page() {
 	if (parseRedisBoolean(defaultRegistrationEnabled, true) === true) {
 		return (
 			<main className="flex min-h-screen items-center justify-center">
+				<div className="aero-page-bg fixed inset-0 -z-10" />
 				<SignUp fallbackRedirectUrl={"/register"} />
 			</main>
 		);

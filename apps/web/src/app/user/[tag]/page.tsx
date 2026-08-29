@@ -50,37 +50,25 @@ export default async function ({ params }: { params: { tag: string } }) {
 						{/* Window content */}
 						<div className="p-2">
 							{/* Tabs */}
-							<div className="mb-2 flex border-b-2 border-white">
+							<div className="mb-2 flex gap-1 border-b border-white/40 pb-1">
 								<button className="win98-btn">General</button>
 								<button className="win98-btn">Contact</button>
 								<button className="win98-btn">Details</button>
 							</div>
 
 							{/* Tab content */}
-							<div className="win98-inset min-h-[400px] bg-white p-4">
+							<div className="win98-inset min-h-[400px] p-4">
 								<div className="grid gap-6 md:grid-cols-[200px_1fr]">
 									{/* Left column - Profile picture and basic info */}
 									<div className="flex flex-col items-center">
 										{/* Profile picture with Windows 98 frame */}
-										<div
-											className="mb-3 border-2 bg-white p-1"
-											style={{
-												borderTopColor: "#808080",
-												borderLeftColor: "#808080",
-												borderRightColor: "#ffffff",
-												borderBottomColor: "#ffffff",
-											}}
-										>
+										<div className="win98-inset mb-3 p-1.5">
 											<div className="relative h-40 w-40 overflow-hidden">
 												<Image
 													fill
 													src={user.profilePhoto}
 													alt={`@${user.hackerTag}'s Profile Photo`}
-													className="pixelated object-cover"
-													style={{
-														imageRendering:
-															"pixelated",
-													}}
+													className="object-cover"
 												/>
 											</div>
 										</div>
@@ -90,16 +78,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 											<label className="text-xs text-black">
 												Name:
 											</label>
-											<div
-												className="mt-1 border bg-white px-2 py-1 text-sm"
-												style={{
-													borderTopColor: "#808080",
-													borderLeftColor: "#808080",
-													borderRightColor: "#ffffff",
-													borderBottomColor:
-														"#ffffff",
-												}}
-											>
+											<div className="win98-inset mt-1 px-2 py-1 text-sm">
 												{user.firstName} {user.lastName}
 											</div>
 										</div>
@@ -109,16 +88,7 @@ export default async function ({ params }: { params: { tag: string } }) {
 											<label className="text-xs text-black">
 												Username:
 											</label>
-											<div
-												className="mt-1 flex items-center justify-center gap-1 border bg-white px-2 py-1"
-												style={{
-													borderTopColor: "#808080",
-													borderLeftColor: "#808080",
-													borderRightColor: "#ffffff",
-													borderBottomColor:
-														"#ffffff",
-												}}
-											>
+											<div className="win98-inset mt-1 flex items-center justify-center gap-1 px-2 py-1">
 												<span className="font-mono text-sm">
 													@{user.hackerTag}
 												</span>

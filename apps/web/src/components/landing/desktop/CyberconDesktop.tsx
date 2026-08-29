@@ -31,7 +31,7 @@ import Clock from "./windows/Clock";
 export default function CyberconDesktop() {
 	return (
 		<section
-			className="relative isolate min-h-screen w-full overflow-hidden"
+			className="relative isolate w-full overflow-hidden lg:min-h-screen"
 			aria-label="RowdyCyberCon desktop"
 		>
 			<ParallaxLayer speed={0.04} className="pointer-events-none absolute inset-0 z-[var(--z-sky)]">
@@ -50,7 +50,7 @@ export default function CyberconDesktop() {
 				<Orb />
 			</ParallaxLayer>
 
-			<div className="cybercon-grid relative z-[var(--z-window)] mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 lg:px-10 lg:py-8">
+			<div className="cybercon-grid relative z-[var(--z-window)] mx-auto w-full max-w-[1600px] px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
 				<DesktopIcons />
 				<Hero />
 				<div className="cybercon-area-rail aero-enter grid grid-cols-2 gap-3" style={{ animationDelay: "160ms" }}>

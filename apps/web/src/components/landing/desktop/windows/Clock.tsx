@@ -19,7 +19,7 @@ const HOUR_MARKS = Array.from({ length: 12 }, (_, i) => {
  */
 export default function Clock() {
 	return (
-		<div className="flex flex-col items-center justify-center gap-2.5">
+		<div className="flex h-full flex-col items-center justify-start gap-2.5 pt-1">
 			<div className="relative aspect-square w-full max-w-[9.5rem]">
 				<div className="aero-clock-glow absolute inset-[-22%] rounded-full" />
 
