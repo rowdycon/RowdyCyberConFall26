@@ -1,24 +1,6 @@
 {
 	"partners": [
 		{
-			"name": "Alamo ISSA",
-			"logo": "alamo_issa.png",
-			"url": "https://www.alamoissa.org/",
-			"tier": "Gold Sponsor"
-		},
-		{
-			"name": "XP League",
-			"logo": "xp_league.png",
-			"url": "https://www.xpleague.com/texas-san-antonio-nw/",
-			"tier": "Gold Sponsor"
-		},
-		{
-			"name": "SimSpace",
-			"logo": "simspace.png",
-			"url": "https://simspace.com/",
-			"tier": "Gold Sponsor"
-		},
-		{
 			"name": "ISACA",
 			"logo": "isaca_logo.jpeg",
 			"url": "https://www.isaca.org/",
@@ -31,15 +13,15 @@
 			"tier": "Gold Sponsor"
 		},
 		{
-			"name": "Northwest Vista College",
-			"logo": "northwest_vista.png",
-			"url": "https://www.alamo.edu/nvc/",
+			"name": "HEB",
+			"logo": "HEB.png",
+			"url": "https://www.heb.com/",
 			"tier": "Gold Sponsor"
 		},
 		{
-			"name": "Acceligence",
-			"logo": "acceligence.png.webp",
-			"url": "https://acceligence.com/",
+			"name": "CYBR.Sec.Careers",
+			"logo": "CYBR_SEC.png",
+			"url": "https://www.cybrseccareers.org/",
 			"tier": "Gold Sponsor"
 		}
 	]

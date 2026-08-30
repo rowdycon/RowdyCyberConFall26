@@ -309,7 +309,7 @@ export default function RegisterForm({
 					isLoading={isLoading}
 				/>
 			) : (
-				<div className="relative rounded-md bg-panel p-6">
+				<div className="relative rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 					<Form {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
@@ -410,7 +410,7 @@ export default function RegisterForm({
 														</div>
 														<Input
 															className="rounded-l-none"
-															placeholder={`${c.hackathonName.toLowerCase()}`}
+															placeholder="rowdycybercon"
 															{...field}
 														/>
 													</div>
@@ -473,7 +473,7 @@ export default function RegisterForm({
 																className={clsx(
 																	"flex w-[95%] justify-start",
 																	{
-																		"text-muted-foreground":
+																		"text-muted-foreground/50":
 																			!field.value,
 																	},
 																)}
@@ -644,7 +644,7 @@ export default function RegisterForm({
 												</FormLabel>
 												<FormControl>
 													<Input
-														placeholder="something"
+														placeholder="Get started in Cyber..."
 														{...field}
 													/>
 												</FormControl>
@@ -653,71 +653,76 @@ export default function RegisterForm({
 										)}
 									/>
 								)}
-
-								<FormField
-									control={form.control}
-									name="attendeeType"
-									render={({ field }) => (
-										<FormItem
-											className={`col-span-2 flex flex-col md:col-span-1 lg:col-span-3`}
-										>
-											<FormLabel>
-												{formatRegistrationField(
-													"Attendee Type",
-													registrationFormSchema.shape[
-														field.name
-													].isOptional(),
-												)}
-											</FormLabel>
-											<Select
-												onValueChange={field.onChange}
-												defaultValue={field.value}
-											>
-												<FormControl>
-													<SelectTrigger className="w-full bg-background">
-														<div
-															className={clsx(
-																"flex w-[95%] justify-start",
-																{
-																	"text-muted-foreground":
-																		!field.value,
-																},
+								<div className="grid grid-cols-1 gap-x-2 gap-y-4">
+									<FormField
+										control={form.control}
+										name="attendeeType"
+										render={({ field }) => (
+											<FormItem>
+												<FormLabel>
+													{formatRegistrationField(
+														"Attendee Type",
+														registrationFormSchema.shape[
+															field.name
+														].isOptional(),
+													)}
+												</FormLabel>
+												<Select
+													onValueChange={
+														field.onChange
+													}
+													defaultValue={field.value}
+												>
+													<FormControl>
+														<SelectTrigger className="w-full bg-background">
+															<div
+																className={clsx(
+																	"flex w-[95%] justify-start",
+																	{
+																		"text-muted-foreground/50":
+																			!field.value,
+																	},
+																)}
+															>
+																<p className="overflow-hidden text-ellipsis whitespace-nowrap">
+																	{field.value ||
+																		`Select an Option`}
+																</p>
+															</div>
+														</SelectTrigger>
+													</FormControl>
+													<SelectContent>
+														<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
+															{c.registration.attendeeTypes.map(
+																(atType) => (
+																	<SelectItem
+																		value={
+																			atType
+																		}
+																		key={
+																			atType
+																		}
+																	>
+																		{atType}
+																	</SelectItem>
+																),
 															)}
-														>
-															<p className="overflow-hidden text-ellipsis whitespace-nowrap">
-																{field.value ||
-																	`Select an Option`}
-															</p>
-														</div>
-													</SelectTrigger>
-												</FormControl>
-												<SelectContent>
-													<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
-														{c.registration.attendeeTypes.map(
-															(atType) => (
-																<SelectItem
-																	value={
-																		atType
-																	}
-																	key={atType}
-																>
-																	{atType}
-																</SelectItem>
-															),
-														)}
-													</SelectGroup>
-												</SelectContent>
-											</Select>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
+														</SelectGroup>
+													</SelectContent>
+												</Select>
+												<FormMessage />
+											</FormItem>
+										)}
+									/>
+								</div>
 							</FormGroupWrapper>
 
 							{attendeeType === "University Student" && (
 								<FormGroupWrapper title="University Info">
 									<div
-										className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-4 lg:grid-cols-6`}
+										className={
+											"grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2"
+										}
 									>
 										<FormField
 											control={form.control}
@@ -743,7 +748,7 @@ export default function RegisterForm({
 																	className={cn(
 																		"w-full justify-between",
 																		!field.value &&
-																			"text-muted-foreground",
+																			"text-muted-foreground/50",
 																	)}
 																>
 																	<p className="truncate whitespace-nowrap">
@@ -859,7 +864,7 @@ export default function RegisterForm({
 																	className={clsx(
 																		"flex w-[95%] justify-start",
 																		{
-																			"text-muted-foreground":
+																			"text-muted-foreground/50":
 																				!field.value,
 																		},
 																	)}
@@ -872,7 +877,7 @@ export default function RegisterForm({
 															</SelectTrigger>
 														</FormControl>
 														<SelectContent>
-															<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+															<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 																{c.registration.classifications.map(
 																	(
 																		classification,
@@ -921,7 +926,7 @@ export default function RegisterForm({
 																	className={cn(
 																		"w-full justify-between",
 																		!field.value &&
-																			"text-muted-foreground",
+																			"text-muted-foreground/50",
 																	)}
 																>
 																	<p className="truncate whitespace-nowrap">
@@ -1027,7 +1032,9 @@ export default function RegisterForm({
 							{attendeeType === "Cyber Professional" && (
 								<FormGroupWrapper title="Company Info">
 									<div
-										className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-4 lg:grid-cols-6`}
+										className={
+											"grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2"
+										}
 									>
 										<FormField
 											control={form.control}
@@ -1088,9 +1095,7 @@ export default function RegisterForm({
 											control={form.control}
 											name="organizerGroup"
 											render={({ field }) => (
-												<FormItem
-													className={`col-span-2 flex flex-col md:col-span-1 lg:col-span-3`}
-												>
+												<FormItem>
 													<FormLabel>
 														{formatRegistrationField(
 															"Organizer Group",
@@ -1113,7 +1118,7 @@ export default function RegisterForm({
 																	className={clsx(
 																		"flex w-[95%] justify-start",
 																		{
-																			"text-muted-foreground":
+																			"text-muted-foreground/50":
 																				!field.value,
 																		},
 																	)}
@@ -1126,7 +1131,7 @@ export default function RegisterForm({
 															</SelectTrigger>
 														</FormControl>
 														<SelectContent>
-															<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+															<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 																{c.registration.organizerGroups.map(
 																	(group) => (
 																		<SelectItem
@@ -1181,7 +1186,7 @@ export default function RegisterForm({
 																className={clsx(
 																	"flex w-[95%] justify-start",
 																	{
-																		"text-muted-foreground":
+																		"text-muted-foreground/50":
 																			!field.value,
 																	},
 																)}
@@ -1418,8 +1423,9 @@ export default function RegisterForm({
 													to follow the Rowdy CyberCon
 													Community Guidelines found
 													<a
-														href=""
+														href="/guidelines"
 														className="text-blue-500"
+														target="_blank"
 													>
 														{" "}
 														here

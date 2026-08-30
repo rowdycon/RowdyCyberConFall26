@@ -1,4 +1,5 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import {
 	Form,
@@ -230,14 +231,14 @@ export default function RegisterFormSettings({
 	// });
 
 	return (
-		<div className="rounded-md border-card bg-panel p-6">
+		<div className="rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 			<Form {...form}>
 				<form
 					className="space-y-6"
 					onSubmit={form.handleSubmit(onSubmit)}
 				>
 					<FormGroupWrapper title="General">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
+						<div className="grid grid-cols-1 gap-x-2 gap-y-4">
 							<FormField
 								control={form.control}
 								name="age"
@@ -318,9 +319,7 @@ export default function RegisterFormSettings({
 								control={form.control}
 								name="attendeeType"
 								render={({ field }) => (
-									<FormItem
-										className={`col-span-2 flex flex-col md:col-span-1 lg:col-span-3`}
-									>
+									<FormItem>
 										<FormLabel>
 											{formatRegistrationField(
 												"Attendee Type",
@@ -340,7 +339,7 @@ export default function RegisterFormSettings({
 														className={clsx(
 															"flex w-[95%] justify-start",
 															{
-																"text-muted-foreground":
+																"text-muted-foreground/50":
 																	!field.value,
 															},
 														)}
@@ -353,7 +352,7 @@ export default function RegisterFormSettings({
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+												<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 													{c.registration.attendeeTypes.map(
 														(atType) => (
 															<SelectItem
@@ -427,36 +426,6 @@ export default function RegisterFormSettings({
 									</FormItem>
 								)}
 							/>
-							{isPresentor && (
-								<FormField
-									control={form.control}
-									name="presentationName"
-									render={({ field }) => (
-										<FormItem>
-											<FormLabel>
-												{formatRegistrationField(
-													"Presentation Name",
-													registrationSettingsFormSchema.shape[
-														field.name
-													].isOptional(),
-												)}
-											</FormLabel>
-											<FormControl>
-												<Input
-													placeholder="something"
-													{...field}
-												/>
-											</FormControl>
-											<FormMessage />
-										</FormItem>
-									)}
-								/>
-							)}
-						</div>
-					</FormGroupWrapper>
-
-					<FormGroupWrapper title="Hackathon Experience">
-						<div className="grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-2">
 							<FormField
 								control={form.control}
 								name="heardFrom"
@@ -475,30 +444,22 @@ export default function RegisterFormSettings({
 											defaultValue={field.value}
 										>
 											<FormControl>
-												<SelectTrigger className="w-full bg-background placeholder:text-muted-foreground">
+												<SelectTrigger className="w-full bg-background">
 													<SelectValue placeholder="Heard From..." />
 												</SelectTrigger>
 											</FormControl>
 											<SelectContent>
-												<SelectGroup>
-													<SelectItem value="Instagram">
-														Instagram
-													</SelectItem>
-													<SelectItem value="Class Presentation">
-														Class Presentation
-													</SelectItem>
-													<SelectItem value="Twitter">
-														Twitter
-													</SelectItem>
-													<SelectItem value="Event Site">
-														Event Site
-													</SelectItem>
-													<SelectItem value="Friend">
-														Friend
-													</SelectItem>
-													<SelectItem value="Other">
-														Other
-													</SelectItem>
+												<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
+													{c.registration.heardFromOptions.map(
+														(option) => (
+															<SelectItem
+																value={option}
+																key={option}
+															>
+																{option}
+															</SelectItem>
+														),
+													)}
 												</SelectGroup>
 											</SelectContent>
 										</Select>
@@ -507,6 +468,31 @@ export default function RegisterFormSettings({
 								)}
 							/>
 						</div>
+						{isPresentor && (
+							<FormField
+								control={form.control}
+								name="presentationName"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>
+											{formatRegistrationField(
+												"Presentation Name",
+												registrationSettingsFormSchema.shape[
+													field.name
+												].isOptional(),
+											)}
+										</FormLabel>
+										<FormControl>
+											<Input
+												placeholder="Get started in Cyber..."
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+						)}
 					</FormGroupWrapper>
 
 					{attendeeType === "University Student" && (
@@ -538,7 +524,7 @@ export default function RegisterFormSettings({
 															className={cn(
 																"w-full justify-between",
 																!field.value &&
-																	"text-muted-foreground",
+																	"text-muted-foreground/50",
 															)}
 														>
 															<p className="truncate whitespace-nowrap">
@@ -646,7 +632,7 @@ export default function RegisterFormSettings({
 															className={clsx(
 																"flex w-[95%] justify-start",
 																{
-																	"text-muted-foreground":
+																	"text-muted-foreground/50":
 																		!field.value,
 																},
 															)}
@@ -659,7 +645,7 @@ export default function RegisterFormSettings({
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+													<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 														{c.registration.classifications.map(
 															(
 																classification,
@@ -708,7 +694,7 @@ export default function RegisterFormSettings({
 															className={cn(
 																"w-full justify-between",
 																!field.value &&
-																	"text-muted-foreground",
+																	"text-muted-foreground/50",
 															)}
 														>
 															<p className="truncate whitespace-nowrap">
@@ -899,7 +885,7 @@ export default function RegisterFormSettings({
 															className={clsx(
 																"flex w-[95%] justify-start",
 																{
-																	"text-muted-foreground":
+																	"text-muted-foreground/50":
 																		!field.value,
 																},
 															)}
@@ -912,7 +898,7 @@ export default function RegisterFormSettings({
 													</SelectTrigger>
 												</FormControl>
 												<SelectContent>
-													<SelectGroup className="max-h-[400px] w-[calc(var(--radix-select-trigger-width)+10rem)] overflow-y-scroll">
+													<SelectGroup className="max-h-[400px] w-[var(--radix-select-trigger-width)]">
 														{c.registration.organizerGroups.map(
 															(group) => (
 																<SelectItem
@@ -956,7 +942,7 @@ export default function RegisterFormSettings({
 											defaultValue={field.value}
 										>
 											<FormControl>
-												<SelectTrigger className="w-full bg-background placeholder:text-muted-foreground">
+												<SelectTrigger className="w-full bg-background">
 													<SelectValue placeholder="Shirt Size" />
 												</SelectTrigger>
 											</FormControl>

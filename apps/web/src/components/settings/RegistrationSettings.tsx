@@ -10,16 +10,14 @@ export default function RegistrationSettings() {
 
 	return (
 		<main>
-			<div className="rounded-lg border-2 border-muted bg-panel px-5 py-5">
+			<div className="rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				<div className={"mb-5"}>
 					Registration data is only editable in the form.{" "}
 				</div>
 				<Button
-					variant={"secondary"}
 					asChild
 					disabled={isLoading}
 					onClick={() => setIsLoading(true)}
-					className="bg-background"
 				>
 					{isLoading ? (
 						<div className={"flex"}>

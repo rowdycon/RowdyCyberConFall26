@@ -633,10 +633,10 @@ const c = {
 		guide: "https://rowdycon.notion.site/Guide-56f8318aeea7461bac459ae3fbc02273",
 	},
 	icon: {
-		sm: "/img/logo/rowdyconlogo.png",
-		md: "/img/logo/rowdyconlogo.png",
-		lg: "/img/logo/rowdyconlogo.png",
-		svg: "/img/logo/rowdyconlogo.png",
+		sm: "/img/logo/RCCLogo.png",
+		md: "/img/logo/RCCLogo.png",
+		lg: "/img/logo/RCCLogo.png",
+		svg: "/img/logo/RCCLogo.png",
 	},
 	dashPaths: {
 		dash: {
@@ -690,6 +690,7 @@ const staticUploads = {
 
 const publicRoutes = [
 	"/",
+	"/guidelines",
 	/^\/schedule(\/.*)?$/,
 	/^\/@/,
 	/^\/user\//,

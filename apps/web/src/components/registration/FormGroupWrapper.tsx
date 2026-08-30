@@ -8,8 +8,8 @@ export default function FormGroupWrapper({
 	title,
 }: FormGroupWrapperProps) {
 	return (
-		<div className="relative rounded-lg border border-white p-5">
-			<p className="absolute top-0 z-10 -translate-y-[10px] bg-background px-2 text-sm">
+		<div className="relative rounded-lg border border-border/70 p-5 pt-6">
+			<p className="absolute top-0 z-10 -translate-y-1/2 rounded-full border border-border/50 bg-white px-3 py-0.5 text-sm font-medium text-foreground shadow-sm">
 				{title}
 			</p>
 			<div className="relative top-0 space-y-6">{children}</div>

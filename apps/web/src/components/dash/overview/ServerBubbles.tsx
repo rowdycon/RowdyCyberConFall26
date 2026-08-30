@@ -55,7 +55,7 @@ export function QuickQR({ qrPayload }: { qrPayload: string }) {
 				<QRCode
 					className="h-full"
 					bgColor="#ffffff"
-					fgColor="#000080"
+					fgColor="#0982cd"
 					value={qrPayload}
 				/>
 			</div>
