@@ -1,4 +1,5 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 import {
 	Form,
@@ -330,7 +331,7 @@ export default function RegisterFormSettings({
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
-											// disabled
+											disabled
 										>
 											<FormControl>
 												<SelectTrigger className="w-full bg-background">

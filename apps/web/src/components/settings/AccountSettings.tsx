@@ -36,6 +36,10 @@ export default function AccountSettings({
 		},
 	});
 
+	const {
+		formState: { isDirty },
+	} = form;
+
 	const { execute: runModifyAccountSettings, status: loadingState } =
 		useAction(modifyAccountSettings, {
 			onSuccess: ({ data }) => {
@@ -57,12 +61,6 @@ export default function AccountSettings({
 
 	function handleSubmit(data: UserProps) {
 		toast.dismiss();
-		console.log("form is dirty", form.formState.dirtyFields);
-		console.log(form.formState.isDirty);
-		if (!form.formState.isDirty) {
-			toast.error("Please change something before updating");
-			return;
-		}
 		runModifyAccountSettings(data);
 	}
 
@@ -125,7 +123,6 @@ export default function AccountSettings({
 													@
 												</div>
 												<Input
-													placeholder="shadcn"
 													className="rounded-l-none"
 													{...field}
 												/>
@@ -139,7 +136,7 @@ export default function AccountSettings({
 						<Button
 							className="mt-5"
 							type="submit"
-							disabled={loadingState === "executing"}
+							disabled={loadingState === "executing" || !isDirty}
 						>
 							{loadingState === "executing" ? (
 								<>

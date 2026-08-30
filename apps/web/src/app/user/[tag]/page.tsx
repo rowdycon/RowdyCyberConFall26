@@ -172,3 +172,5 @@ export default async function ({ params }: { params: { tag: string } }) {
 		</>
 	);
 }
+
+export const dynamic = "force-dynamic";
