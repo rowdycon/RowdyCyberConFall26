@@ -1,5 +1,6 @@
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
+import Butterfly from "@/components/landing/Butterfly";
 
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
@@ -19,6 +20,7 @@ export default function Home() {
 			className={`${oswald.variable} relative min-h-screen w-full overflow-x-hidden`}
 		>
 			<div className="aero-bg fixed inset-0 -z-10" />
+			<Butterfly />
 			<main className="relative z-10 overflow-x-hidden">
 				<Navbar />
 				<Hero />

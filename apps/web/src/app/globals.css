@@ -206,30 +206,81 @@ html {
 
 	/* Signature Frutiger Aero sky background */
 	.aero-bg {
-		background:
-			radial-gradient(
-				ellipse at 20% 15%,
-				rgba(255, 255, 255, 0.45) 0%,
-				transparent 45%
-			),
-			radial-gradient(
-				ellipse at 80% 85%,
-				rgba(80, 220, 170, 0.35) 0%,
-				transparent 50%
-			),
-			radial-gradient(
-				ellipse at 65% 25%,
-				rgba(140, 235, 255, 0.4) 0%,
-				transparent 45%
-			),
-			linear-gradient(
-				180deg,
-				#0b7fc4 0%,
-				#2ba6e0 30%,
-				#5cc9ef 55%,
-				#9fe8f7 80%,
-				#d8f7e8 100%
-			);
+		background-image: url("/img/assets/background.jpg");
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	/* Center hero panel — glossy icy-blue acrylic, not flat glassmorphism.
+	   Layers: a directional tint (bright upper-left → deeper blue lower-
+	   right, giving the "light falloff toward the bottom" the edges get
+	   their extra brightness from an inset glow ring rather than a solid
+	   border, ::before is a soft corner highlight/reflection, ::after is
+	   a slow diagonal sheen that drifts across on a long loop and speeds
+	   up slightly on hover. */
+	.aero-acrylic-panel {
+		position: relative;
+		border-radius: 1.75rem;
+		overflow: hidden;
+		background: linear-gradient(
+			160deg,
+			rgba(255, 255, 255, 0.5) 0%,
+			rgba(205, 236, 255, 0.32) 20%,
+			rgba(150, 205, 240, 0.2) 55%,
+			rgba(120, 185, 230, 0.24) 100%
+		);
+		backdrop-filter: blur(8px) saturate(130%);
+		-webkit-backdrop-filter: blur(8px) saturate(130%);
+		border: 1.5px solid rgba(255, 255, 255, 0.6);
+		box-shadow:
+			inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+			inset 0 1px 0 rgba(255, 255, 255, 0.85),
+			inset 0 -40px 60px -30px rgba(40, 110, 170, 0.28),
+			0 25px 55px -15px rgba(4, 55, 100, 0.32),
+			0 0 45px rgba(150, 215, 250, 0.22);
+		transition:
+			filter 700ms ease,
+			box-shadow 700ms ease;
+	}
+
+	.aero-acrylic-panel:hover {
+		filter: brightness(1.03);
+	}
+
+	.aero-acrylic-panel::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background: radial-gradient(
+			ellipse 55% 40% at 16% 10%,
+			rgba(255, 255, 255, 0.6) 0%,
+			rgba(255, 255, 255, 0.2) 42%,
+			transparent 72%
+		);
+		pointer-events: none;
+		z-index: 0;
+	}
+
+	.aero-acrylic-panel::after {
+		content: "";
+		position: absolute;
+		inset: -30%;
+		background: linear-gradient(
+			115deg,
+			transparent 40%,
+			rgba(255, 255, 255, 0.3) 50%,
+			transparent 60%
+		);
+		animation: acrylicSheen 16s ease-in-out infinite;
+		pointer-events: none;
+		mix-blend-mode: screen;
+		z-index: 0;
+	}
+
+	.aero-acrylic-panel:hover::after {
+		animation-duration: 7s;
 	}
 
 	/* Softer variant for interior pages */
@@ -346,5 +397,112 @@ html {
 	50% {
 		opacity: 0.9;
 		transform: scale(1.08);
+	}
+}
+
+/* Very slow diagonal sheen drifting across the acrylic hero panel. */
+@keyframes acrylicSheen {
+	0%,
+	100% {
+		transform: translate(-25%, -12%);
+		opacity: 0.55;
+	}
+	50% {
+		transform: translate(25%, 12%);
+		opacity: 0.9;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aero-acrylic-panel::after {
+		animation: none !important;
+	}
+}
+
+/* Organic, meandering flight path for Butterfly.tsx — varied segment
+   lengths and a couple of brief "lingers" (two adjacent stops with almost
+   the same position) so it never reads as a mechanical loop. */
+@keyframes butterflyDrift {
+	0% {
+		left: 8%;
+		top: 20%;
+		transform: rotate(-4deg);
+		animation-timing-function: ease-in-out;
+	}
+	11% {
+		left: 24%;
+		top: 11%;
+		transform: rotate(7deg);
+		animation-timing-function: ease-in;
+	}
+	20% {
+		left: 37%;
+		top: 24%;
+		transform: rotate(-3deg);
+	}
+	27% {
+		left: 38%;
+		top: 25%;
+		transform: rotate(-2deg);
+		animation-timing-function: ease-out;
+	}
+	38% {
+		left: 58%;
+		top: 13%;
+		transform: rotate(6deg);
+	}
+	48% {
+		left: 80%;
+		top: 28%;
+		transform: rotate(-6deg);
+		animation-timing-function: ease-in;
+	}
+	57% {
+		left: 88%;
+		top: 42%;
+		transform: rotate(3deg);
+	}
+	64% {
+		left: 87%;
+		top: 43%;
+		transform: rotate(4deg);
+		animation-timing-function: ease-out;
+	}
+	76% {
+		left: 66%;
+		top: 60%;
+		transform: rotate(-5deg);
+	}
+	86% {
+		left: 41%;
+		top: 68%;
+		transform: rotate(6deg);
+	}
+	94% {
+		left: 19%;
+		top: 47%;
+		transform: rotate(-4deg);
+	}
+	100% {
+		left: 8%;
+		top: 20%;
+		transform: rotate(-4deg);
+	}
+}
+
+@keyframes butterflyFlap {
+	0%,
+	100% {
+		transform: scaleY(1);
+	}
+	50% {
+		transform: scaleY(0.75);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.aero-butterfly,
+	.aero-butterfly-wings {
+		animation: none !important;
 	}
 }
