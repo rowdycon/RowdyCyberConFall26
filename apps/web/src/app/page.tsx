@@ -1,6 +1,5 @@
 import Hero from "@/components/landing/Hero";
 import About from "@/components/landing/About";
-import Butterfly from "@/components/landing/Butterfly";
 
 import Partners from "@/components/landing/Partners";
 import Footer from "@/components/landing/Footer";
@@ -8,6 +7,7 @@ import Navbar from "@/components/shared/Navbar";
 
 import { Oswald } from "next/font/google";
 import FrequentQuestions from "@/components/landing/FrequentQuestions";
+import PageBubbles from "@/components/landing/PageBubbles";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -17,10 +17,9 @@ const oswald = Oswald({
 export default function Home() {
 	return (
 		<div
-			className={`${oswald.variable} relative min-h-screen w-full overflow-x-hidden`}
+			className={`${oswald.variable} aero-bg-soft relative min-h-screen w-full overflow-x-hidden`}
 		>
-			<div className="aero-bg fixed inset-0 -z-10" />
-			<Butterfly />
+			<PageBubbles />
 			<main className="relative z-10 overflow-x-hidden">
 				<Navbar />
 				<Hero />

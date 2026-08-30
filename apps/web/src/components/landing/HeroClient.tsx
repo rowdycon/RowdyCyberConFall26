@@ -1,26 +1,25 @@
 "use client";
 
-function seeded(i: number, salt: number) {
-	const x = Math.sin(i * 127.1 + salt * 311.7) * 43758.5453;
-	return x - Math.floor(x);
-}
-
-const BUBBLES = Array.from({ length: 22 }, (_, i) => ({
-	id: i,
-	left: seeded(i, 1) * 100,
-	size: 12 + seeded(i, 2) * 60,
-	duration: 14 + seeded(i, 3) * 18,
-	delay: -(seeded(i, 4) * 30),
-	opacity: 0.3 + seeded(i, 5) * 0.5,
-}));
-
 export default function HeroClient({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
 	return (
-		<section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-24">
+		<section className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-24">
+			{/* Hero-scoped background image (flowers, grass, building) */}
+			<div className="aero-bg absolute inset-0" aria-hidden="true" />
+
+			{/* Soft fade into the page background at the bottom of the hero */}
+			<div
+				className="pointer-events-none absolute inset-x-0 bottom-0 h-32"
+				aria-hidden="true"
+				style={{
+					background:
+						"linear-gradient(180deg, transparent 0%, rgba(223, 246, 253, 0.9) 100%)",
+				}}
+			/>
+
 			{/* Soft light flares */}
 			<div
 				className="pointer-events-none absolute inset-0"
@@ -32,26 +31,6 @@ export default function HeroClient({
           `,
 				}}
 			/>
-
-			{/* Rising bubbles */}
-			<div
-				className="pointer-events-none absolute inset-0 overflow-hidden"
-				aria-hidden="true"
-			>
-				{BUBBLES.map((bubble) => (
-					<div
-						key={bubble.id}
-						className="aero-bubble bottom-[-80px]"
-						style={{
-							left: `${bubble.left}%`,
-							width: `${bubble.size}px`,
-							height: `${bubble.size}px`,
-							opacity: bubble.opacity,
-							animation: `bubbleRise ${bubble.duration}s linear ${bubble.delay}s infinite`,
-						}}
-					/>
-				))}
-			</div>
 
 			{/* Sweeping light streak */}
 			<div

@@ -2,10 +2,12 @@ import Image from "next/image";
 import HeroClient from "./HeroClient";
 import Link from "next/link";
 import c from "config";
+import Butterfly from "@/components/landing/Butterfly";
 
 export default function Hero() {
 	return (
 		<HeroClient>
+			<Butterfly />
 			<div className="aero-acrylic-panel mx-auto flex flex-col items-center px-6 py-10 text-center sm:px-10 sm:py-12 md:px-16 md:py-14">
 				<div className="relative z-10 flex flex-col items-center">
 					{/* Logo floating freely with glow ring, framed in a glossy
@@ -20,7 +22,8 @@ export default function Hero() {
 								style={{
 									background:
 										"radial-gradient(circle, rgba(255,255,255,0.5) 0%, rgba(110,235,190,0.25) 50%, transparent 70%)",
-									animation: "aeroGlow 5s ease-in-out infinite",
+									animation:
+										"aeroGlow 5s ease-in-out infinite",
 								}}
 							/>
 							<Image
