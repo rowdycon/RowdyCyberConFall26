@@ -2,12 +2,10 @@ import Image from "next/image";
 import HeroClient from "./HeroClient";
 import Link from "next/link";
 import c from "config";
-import Butterfly from "@/components/landing/Butterfly";
 
 export default function Hero() {
 	return (
 		<HeroClient>
-			<Butterfly />
 			<div className="aero-acrylic-panel mx-auto flex flex-col items-center px-6 py-10 text-center sm:px-10 sm:py-12 md:px-16 md:py-14">
 				<div className="relative z-10 flex flex-col items-center">
 					{/* Logo floating freely with glow ring, framed in a glossy
@@ -64,10 +62,19 @@ export default function Hero() {
 						<span aria-hidden="true">✦</span>
 					</div>
 
-					{/* Tagline */}
+					{/* Tagline — frosted glass capsule (same styling language
+					    as the date pill) so the text stays legible no matter
+					    what part of the sky sits behind it. */}
 					<p
-						className="mb-8 max-w-xl text-base text-white/90 md:text-lg"
-						style={{ textShadow: "0 1px 3px rgba(0,60,110,0.45)" }}
+						className="mb-8 max-w-xl rounded-2xl border border-white/50 px-6 py-3 text-base font-medium text-white backdrop-blur-md md:text-lg"
+						style={{
+							background:
+								"linear-gradient(180deg, rgba(255,255,255,0.28) 0%, rgba(255,255,255,0.1) 60%, rgba(9,130,205,0.18) 100%)",
+							boxShadow:
+								"inset 0 1px 0 rgba(255,255,255,0.6), 0 4px 16px rgba(2,84,145,0.25)",
+							textShadow:
+								"0 1px 2px rgba(0,60,110,0.8), 0 2px 8px rgba(0,60,110,0.45)",
+						}}
 					>
 						San Antonio's student cybersecurity conference —
 						workshops, CTF, free food, and networking.

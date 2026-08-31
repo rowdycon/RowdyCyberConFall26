@@ -3,7 +3,7 @@ import PartnerCard from "./PartnerCard";
 
 export default function Partners() {
 	return (
-		<section className="w-full py-16" id="Partners">
+		<section className="relative w-full py-16" id="Partners">
 			<div className="mx-auto max-w-6xl px-4">
 				{/* Section title */}
 				<div className="mb-10 flex flex-col items-center">

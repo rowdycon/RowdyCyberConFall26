@@ -1,5 +1,7 @@
 "use client";
 
+import Butterfly from "./Butterfly";
+
 export default function HeroClient({
 	children,
 }: {
@@ -42,6 +44,12 @@ export default function HeroClient({
 					animation: "aeroShimmer 9s ease-in-out infinite",
 				}}
 			/>
+
+			{/* Decorative butterfly — rendered outside the z-10 content
+			    wrapper so it never inherits the content's stacking context.
+			    At z-0 it floats above backgrounds but always behind text
+			    and glass cards throughout the page. */}
+			<Butterfly />
 
 			{/* Open content — floats directly over the sky */}
 			<div className="relative z-10 w-full max-w-5xl">{children}</div>

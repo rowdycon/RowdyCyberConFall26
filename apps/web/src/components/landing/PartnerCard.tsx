@@ -25,7 +25,7 @@ function PartnerCard({ partner }: { partner: Partner }) {
 						alt={`${partner.name} logo`}
 						width={110}
 						height={110}
-						className="max-h-full max-w-full rounded-full object-contain"
+						className="max-h-full max-w-full rounded object-contain"
 					/>
 				</div>
 

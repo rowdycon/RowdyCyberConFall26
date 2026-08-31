@@ -29,7 +29,7 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 
 export default function About() {
 	return (
-		<section className="w-full py-16" id="About">
+		<section className="relative w-full py-16" id="About">
 			<div className="mx-auto max-w-6xl px-4">
 				<SectionTitle>About RowdyCyberCon</SectionTitle>
 

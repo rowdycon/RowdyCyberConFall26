@@ -1089,7 +1089,9 @@ export default function RegisterForm({
 							{attendeeType === "Student Organizer" && (
 								<FormGroupWrapper title="Organizer Info">
 									<div
-										className={`grid grid-cols-1 gap-x-2 gap-y-4 md:grid-cols-4 lg:grid-cols-6`}
+										className={
+											"grid grid-cols-1 gap-x-2 gap-y-4"
+										}
 									>
 										<FormField
 											control={form.control}
