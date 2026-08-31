@@ -1054,7 +1054,7 @@ export default function RegisterFormSettings({
 									<FormItem>
 										<FormLabel>
 											{formatRegistrationField(
-												"Anything else we can do to better accommodate you at our hackathon?",
+												"Anything else we can do to better accommodate you at the event?",
 												registrationSettingsFormSchema.shape[
 													field.name
 												].isOptional(),

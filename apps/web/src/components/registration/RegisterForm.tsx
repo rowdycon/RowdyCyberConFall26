@@ -1313,7 +1313,7 @@ export default function RegisterForm({
 											<FormItem>
 												<FormLabel>
 													{formatRegistrationField(
-														"Anything else we can do to better accommodate you at our hackathon?",
+														"Anything else we can do to better accommodate you at the event?",
 														registrationFormSchema.shape[
 															field.name
 														].isOptional(),
