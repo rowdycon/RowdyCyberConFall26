@@ -40,13 +40,13 @@ export const registrationFormSchema = z.object({
 	hackerTag: z
 		.string()
 		.min(3, {
-			message: "Your HackerTag must be more than 3 characters long",
+			message: "Your username must be more than 3 characters long",
 		})
 		.max(20, {
-			message: "Your HackerTag cannot be more than 20 characters long",
+			message: "Your username cannot be more than 20 characters long",
 		})
 		.regex(c.registration.hackerTagRegex, {
-			message: "HackerTag must be alphanumeric and have no spaces",
+			message: "Username must be alphanumeric and have no spaces",
 		})
 		.toLowerCase()
 		.refine(noProfanityValidator, noProfanityMessage),

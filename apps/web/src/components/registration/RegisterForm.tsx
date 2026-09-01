@@ -397,7 +397,7 @@ export default function RegisterForm({
 											<FormItem>
 												<FormLabel>
 													{formatRegistrationField(
-														"HackerTag",
+														"Please create a username",
 														registrationFormSchema.shape[
 															field.name
 														].isOptional(),

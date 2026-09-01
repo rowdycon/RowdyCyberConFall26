@@ -116,7 +116,7 @@ export default function AccountSettings({
 								name="hackerTag"
 								render={({ field }) => (
 									<FormItem>
-										<FormLabel>Hacker Tag</FormLabel>
+										<FormLabel>Username</FormLabel>
 										<FormControl>
 											<div className="mt-2 flex">
 												<div className="flex h-10 w-10 items-center justify-center rounded-l bg-card text-lg font-light text-primary">
