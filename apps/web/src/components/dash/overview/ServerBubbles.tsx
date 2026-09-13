@@ -7,7 +7,7 @@ import QRCode from "react-qr-code";
 
 export function Questions() {
 	return (
-		<div className="flex h-full min-h-[150px] w-full flex-col justify-between rounded-xl border border-border bg-panel p-5">
+		<div className="flex h-full min-h-[150px] w-full flex-col justify-between rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 			<div>
 				<h1 className="font-bold">Have a question?</h1>
 				<p className="text-xs text-muted-foreground">
@@ -48,7 +48,7 @@ export function QuickQR({ qrPayload }: { qrPayload: string }) {
 	return (
 		<Link
 			href={"/dash/pass"}
-			className="row-span-2 flex flex-col items-center justify-center gap-y-2 rounded-xl border border-border bg-panel"
+			className="row-span-2 flex flex-col items-center justify-center gap-y-2 rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md"
 		>
 			<p className="font-bold">Quick QR</p>
 			<div className="border-backgroung flex aspect-square h-[50%] items-center justify-center overflow-x-hidden rounded-xl border-2 border-dashed p-2">

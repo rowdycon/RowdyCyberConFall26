@@ -32,8 +32,8 @@ export function EventDataTable<TData, TValue>({
 	});
 
 	return (
-		<div className="bg-panel relative w-full overflow-x-auto">
-			<Table className="min-w-full border">
+		<div className="relative w-full overflow-x-auto bg-panel">
+			<Table className="min-w-full rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
 						<TableRow key={headerGroup.id}>

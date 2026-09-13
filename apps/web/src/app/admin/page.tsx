@@ -38,8 +38,8 @@ export default async function Page() {
 			</div>
 
 			{/* Stats Grid - Responsive: 1 col mobile, 2 cols tablet, 4 cols desktop */}
-			<div className="grid grid-cols-1 gap-4 pt-6 sm:grid-cols-2 md:pt-8 lg:grid-cols-4 lg:pt-10">
-				<Card className="bg-panel">
+			<div className="grid grid-cols-1 gap-4 pt-6 sm:grid-cols-2 md:pt-8 lg:grid-cols-3 lg:pt-10">
+				<Card className="rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
 							Registrations
@@ -52,18 +52,7 @@ export default async function Page() {
 						</div>
 					</CardContent>
 				</Card>
-				<Card className="bg-panel">
-					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-						<CardTitle className="text-sm font-medium">
-							Teams
-						</CardTitle>
-						<Users className="h-4 w-4 text-muted-foreground" />
-					</CardHeader>
-					<CardContent>
-						<div className="text-2xl font-bold">{0}</div>
-					</CardContent>
-				</Card>
-				<Card className="bg-panel">
+				<Card className="rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
 							RSVPs
@@ -74,7 +63,7 @@ export default async function Page() {
 						<div className="text-2xl font-bold">{rsvpCount}</div>
 					</CardContent>
 				</Card>
-				<Card className="bg-panel">
+				<Card className="rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<CardTitle className="text-sm font-medium">
 							Check-ins
@@ -89,7 +78,7 @@ export default async function Page() {
 
 			{/* Chart and Recent Users - Responsive: 1 col mobile, 3 cols desktop */}
 			<div className="grid grid-cols-1 gap-4 py-4 lg:grid-cols-3">
-				<Card className="bg-panel lg:col-span-2">
+				<Card className="rounded-2xl border border-panel bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md lg:col-span-2">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<div>
 							<CardTitle className="md:text-md text-base font-bold">
@@ -110,7 +99,7 @@ export default async function Page() {
 						<Overview rawData={recentSignupCount} />
 					</CardContent>
 				</Card>
-				<Card className="bg-panel">
+				<Card className="rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 					<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 						<div>
 							<CardTitle className="md:text-md text-base font-bold">

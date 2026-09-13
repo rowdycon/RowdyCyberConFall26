@@ -58,7 +58,7 @@ export function NavItemsManager({ navItems }: NavItemsManagerProps) {
 
 	return (
 		<div className="pt-10">
-			<Table className="rounded-sm border-card bg-panel">
+			<Table className="rounded-2xl border border-white/70 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				{/* <TableCaption>A list of your recent invoices.</TableCaption> */}
 				{/* TODO: FIX MASSIVE BUG WHERE IF ENCODED IS DIFFERENT IT WILL ALL BREAK */}
 				<TableHeader>
@@ -165,7 +165,7 @@ export function AddNavItemDialog() {
 				</Button>
 			</DialogTrigger>
 
-			<DialogContent className="w-[95vw] max-w-md bg-panel sm:max-w-[425px]">
+			<DialogContent className="w-[95vw] max-w-md rounded-2xl border border-white/70 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>New Item</DialogTitle>
 					<DialogDescription>
@@ -253,7 +253,7 @@ function EditNavItemDialog({
 			<DialogTrigger asChild>
 				<Button>Edit</Button>
 			</DialogTrigger>
-			<DialogContent className="w-[95vw] max-w-md bg-panel sm:max-w-[425px]">
+			<DialogContent className="w-[95vw] max-w-md rounded-2xl border border-white/70 bg-white/60 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md sm:max-w-[425px]">
 				<DialogHeader>
 					<DialogTitle>Edit Item</DialogTitle>
 					<DialogDescription>

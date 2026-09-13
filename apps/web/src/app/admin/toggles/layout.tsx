@@ -20,7 +20,7 @@ export default async function Layout({ children }: ToggleLayoutProps) {
 		<div className="mx-auto max-w-5xl px-3 py-4">
 			<div className="flex flex-col gap-4 md:flex-row md:gap-6">
 				{/* Sidebar */}
-				<div className="flex gap-2 overflow-x-auto rounded-md border-card bg-panel p-3 md:w-56 md:flex-col md:overflow-visible md:p-4">
+				<div className="flex h-auto gap-2 overflow-x-auto rounded-2xl border border-white/70 bg-white/60 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md md:w-56 md:flex-col md:overflow-visible md:p-4">
 					<ToggleItem name="Toggles" path="/admin/toggles" />
 
 					<Separator className="hidden bg-card md:block" />

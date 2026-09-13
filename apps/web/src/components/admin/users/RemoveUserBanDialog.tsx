@@ -41,12 +41,12 @@ export default function RemoveUserBanDialog({
 				<Button
 					variant={"destructive"}
 					size={"sm"}
-					className="border-panel w-full"
+					className="w-full border-panel"
 				>
 					Unban
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
+			<DialogContent className="rounded-2xl border border-white/70 bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				<div className="font-bold">
 					Are you sure you want to unban {name}?
 				</div>

@@ -63,12 +63,12 @@ export default function UpdateRoleDialog({
 				<Button
 					variant={"outline"}
 					size={"sm"}
-					className="border-panel w-full"
+					className="w-full border-panel"
 				>
 					Change Role
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-[425px]">
+			<DialogContent className="rounded-xl border border-panel bg-white/60 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md sm:max-w-[400px]">
 				<DialogHeader>
 					<DialogTitle>Update {name}'s Role</DialogTitle>
 					<DialogDescription>
@@ -78,7 +78,7 @@ export default function UpdateRoleDialog({
 				<div className="grid gap-4 py-4">
 					<div className="flex">
 						<Select onValueChange={(v) => setRoleToSet(Number(v))}>
-							<SelectTrigger className="w-full">
+							<SelectTrigger className="w-full bg-panel">
 								<SelectValue
 									placeholder={getRoleName(currentRoleId)}
 								/>
@@ -86,7 +86,11 @@ export default function UpdateRoleDialog({
 							<SelectContent>
 								{roles.map(({ id, name }) => {
 									return (
-										<SelectItem key={id} value={String(id)}>
+										<SelectItem
+											key={id}
+											value={String(id)}
+											className="hover:bg-accent hover:text-white"
+										>
 											{titleCase(name.replace("_", " "))}
 										</SelectItem>
 									);

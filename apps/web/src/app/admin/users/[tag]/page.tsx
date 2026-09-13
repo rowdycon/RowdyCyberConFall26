@@ -49,7 +49,7 @@ export default async function Page({ params }: { params: { tag: string } }) {
 				</div>
 			)}
 
-			<div className="mb-6 grid w-full grid-cols-1 gap-4 sm:mb-8 lg:grid-cols-3">
+			<div className="mb-6 grid w-full grid-cols-1 gap-4 rounded-2xl border border-panel bg-white/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md sm:mb-8 lg:grid-cols-3">
 				{/* Title */}
 				<div className="flex items-center justify-center sm:justify-start">
 					<h2 className="flex items-center gap-x-2 text-xl font-bold tracking-tight sm:text-2xl lg:text-3xl">

@@ -53,13 +53,13 @@ export function RegistrationToggles({
 
 	return (
 		<>
-			<div className="rounded-lg border-2 border-muted bg-panel px-5 py-10">
+			<div className="mt-5 rounded-2xl border border-white/70 bg-white/60 px-5 py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				<h2 className="pb-5 text-3xl font-semibold">Registration</h2>
 				<div className="max-w-[500px]">
 					<div className="flex items-center border-y border-y-muted py-4">
 						<p className="text-sm font-bold">New Registrations</p>
 						<Switch
-							className="ml-auto bg-card"
+							className="ml-auto bg-panel"
 							checked={
 								ToggleRegistrationEnabledOptimisticData.statusSet
 							}
@@ -76,7 +76,7 @@ export function RegistrationToggles({
 				</div>
 			</div>
 
-			<div className="mt-5 rounded-lg border-2 border-muted bg-panel px-5 py-10">
+			<div className="mt-5 rounded-2xl border border-white/70 bg-white/60 px-5 py-10 shadow-[inset_0_1px_0_rgba(255,255,255,0.8),0_8px_32px_rgba(2,84,145,0.15)] backdrop-blur-md">
 				<h2 className="pb-5 text-3xl font-semibold">RSVPs</h2>
 				<div className="max-w-[500px]">
 					<div className="flex items-center border-t border-t-muted py-4">
