@@ -3,10 +3,9 @@ import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
-import { getLocalTimeZone } from "@internationalized/date";
 
 export default function EventFull({ event }: { event: Event }) {
-	const userTimeZone = getLocalTimeZone();
+	const userTimeZone = c.hackathonTimezone;
 
 	return (
 		<div className="relative w-full overflow-x-hidden">

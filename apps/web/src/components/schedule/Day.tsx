@@ -1,6 +1,6 @@
 import { EventType } from "@/lib/types/events";
 import EventItem from "./EventItem";
-import { getLocalTimeZone } from "@internationalized/date";
+import c from "config";
 
 interface DayProps {
 	title: string;
@@ -9,7 +9,7 @@ interface DayProps {
 }
 
 export default function Day({ title, subtitle, events }: DayProps) {
-	const userTimeZone = getLocalTimeZone();
+	const userTimeZone = c.hackathonTimezone;
 
 	return (
 		<div className="flex min-h-[60vh] w-[92%] flex-col items-center rounded-xl bg-white px-2 pb-4 backdrop-blur transition dark:bg-white/[0.08] lg:w-full">

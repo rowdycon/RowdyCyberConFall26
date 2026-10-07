@@ -1,10 +1,10 @@
 import ScheduleTimeline from "./schedule-timeline";
 import { getAllEvents } from "db/functions";
-import { getLocalTimeZone } from "@internationalized/date";
+import c from "config";
 
 export default async function Page() {
 	const sched = await getAllEvents();
-	const userTimeZone = getLocalTimeZone();
+	const userTimeZone = c.hackathonTimezone;
 
 	return (
 		<div className="mt-10 space-y-6 px-4 sm:px-6">

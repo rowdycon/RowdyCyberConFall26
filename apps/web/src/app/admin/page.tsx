@@ -12,7 +12,7 @@ import { getAllUsersCommonDataWithRole } from "db/functions";
 import Link from "next/link";
 import { formatInTimeZone } from "date-fns-tz";
 import { getCurrentUser } from "@/lib/utils/server/user";
-import { getLocalTimeZone } from "@internationalized/date";
+import c from "config";
 
 export default async function Page() {
 	const adminUser = await getCurrentUser();
@@ -26,7 +26,9 @@ export default async function Page() {
 		recentRegisteredUsers,
 	} = getRecentRegistrationData(allUsers);
 
-	const timezone = getLocalTimeZone();
+	// Use the hackathon's business timezone instead of the server's local
+	// timezone so timestamps render identically in dev (UTC) and prod.
+	const timezone = c.hackathonTimezone;
 
 	return (
 		<div className="mx-auto w-full max-w-7xl px-4">

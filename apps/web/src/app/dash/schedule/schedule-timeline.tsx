@@ -6,16 +6,6 @@ import { formatInTimeZone } from "date-fns-tz";
 import Link from "next/link";
 import { Fragment, ReactNode } from "react";
 
-const daysOfWeek = [
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
-];
-
 type ScheduleTimelineProps = {
 	schedule: Event[];
 	timezone: string;
@@ -28,7 +18,7 @@ export default function ScheduleTimeline({
 	function splitByDay(schedule: Event[]) {
 		const days: Map<string, Event[]> = new Map<string, Event[]>();
 		schedule.forEach((event) => {
-			const day = daysOfWeek[event.startTime.getDay()];
+			const day = formatInTimeZone(event.startTime, timezone, "EEEE");
 			if (days.get(day)) {
 				days.get(day)?.push(event);
 			} else {
@@ -60,15 +50,13 @@ export default function ScheduleTimeline({
 										</h2>
 									</td>
 								</tr>
-								{arr?.map(
-									(event): ReactNode => (
-										<EventRow
-											key={String(event.id)}
-											event={event}
-											userTimeZone={timezone}
-										/>
-									),
-								)}
+								{arr?.map((event): ReactNode => (
+									<EventRow
+										key={String(event.id)}
+										event={event}
+										userTimeZone={timezone}
+									/>
+								))}
 							</Fragment>
 						),
 					)}
