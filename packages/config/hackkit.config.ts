@@ -659,7 +659,7 @@ const c = {
 		Workshop: "#10b981",
 		Ceremony: "#9C27B0",
 		Social: "#2196F3",
-		Keynote: "2196F3",
+		Keynote: "#21f0f3",
 		Other: "#795548",
 	},
 	days: {
