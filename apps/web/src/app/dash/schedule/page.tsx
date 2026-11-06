@@ -7,7 +7,7 @@ export default async function Page() {
 	const userTimeZone = c.hackathonTimezone;
 
 	return (
-		<div className="mt-10 space-y-6 px-4 sm:px-6">
+		<div className="mb-20 mt-10 space-y-6 px-4 sm:px-6">
 			<h1 className="mx-auto max-w-6xl text-center text-3xl font-black sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
 				Schedule
 			</h1>

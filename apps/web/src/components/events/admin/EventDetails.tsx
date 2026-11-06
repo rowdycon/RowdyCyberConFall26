@@ -67,8 +67,8 @@ export default function EventFull({ event }: { event: Event }) {
 				<h3 className="mb-2 text-sm font-bold sm:text-base">
 					Description:
 				</h3>
-				<p className="text-sm leading-relaxed sm:text-base">
-					<Balancer>{event.description}</Balancer>
+				<p className="whitespace-pre-line text-sm leading-relaxed sm:text-base">
+					{event.description}
 				</p>
 			</div>
 		</div>
