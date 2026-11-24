@@ -107,6 +107,20 @@ export default function Hero() {
 								Schedule
 							</button>
 						</Link>
+						<Link href={"/presentations"}>
+							<button
+								className="relative inline-flex items-center justify-center rounded-full border border-white/60 px-10 py-3 text-lg font-medium text-white backdrop-blur-md transition-all duration-200 hover:-translate-y-px hover:brightness-110"
+								style={{
+									background:
+										"linear-gradient(180deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0.08) 100%)",
+									boxShadow:
+										"inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 10px rgba(2,84,145,0.25)",
+									textShadow: "0 1px 2px rgba(0,60,110,0.5)",
+								}}
+							>
+								Slides
+							</button>
+						</Link>
 					</div>
 				</div>
 			</div>

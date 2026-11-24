@@ -2,3 +2,4 @@ packages/db/drizzle/meta/**
 pnpm-lock.yaml
 pnpm-workspace.yaml
 **/package.json
+apps/web/src/lib/presentations/manifests.json

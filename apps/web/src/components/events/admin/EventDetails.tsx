@@ -1,10 +1,19 @@
 import c from "config";
+import Link from "next/link";
+import { Presentation } from "lucide-react";
 import { Badge } from "@/components/shadcn/ui/badge";
 import Balancer from "react-wrap-balancer";
 import { formatInTimeZone } from "date-fns-tz";
 import { Event } from "db/types";
 
-export default function EventFull({ event }: { event: Event }) {
+export default function EventFull({
+	event,
+	materialsLink,
+}: {
+	event: Event;
+	/** This session's page on /presentations, when it has one. */
+	materialsLink?: { href: string; label: string };
+}) {
 	const userTimeZone = c.hackathonTimezone;
 
 	return (
@@ -55,9 +64,21 @@ export default function EventFull({ event }: { event: Event }) {
 					<Balancer>{event.title}</Balancer>
 				</h1>
 
-				<h2 className="mb-12 text-base font-bold sm:mb-16 sm:text-lg">
+				<h2
+					className={`text-base font-bold sm:text-lg ${materialsLink ? "mb-5" : "mb-12 sm:mb-16"}`}
+				>
 					Hosted by {event.host}
 				</h2>
+
+				{materialsLink && (
+					<Link
+						href={materialsLink.href}
+						className="aero-btn mb-12 h-10 gap-2 px-6 text-sm sm:mb-16"
+					>
+						<Presentation className="h-4 w-4" aria-hidden="true" />
+						{materialsLink.label}
+					</Link>
+				)}
 
 				<h3 className="mb-2 text-sm font-bold sm:text-base">
 					Location:{" "}

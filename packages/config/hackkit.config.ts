@@ -693,6 +693,7 @@ const publicRoutes = [
 	"/",
 	"/guidelines",
 	/^\/schedule(\/.*)?$/,
+	/^\/presentations(\/.*)?$/,
 	/^\/@/,
 	/^\/user\//,
 	"/404",

@@ -316,6 +316,25 @@ html {
 			0 2px 12px rgba(16, 150, 90, 0.15);
 		pointer-events: none;
 	}
+
+	/* Slide viewer (/presentations/[slug]): size the deck so the slide,
+	   controls and thumbnails fit on screen together. On short screens
+	   (landscape phones) size by the slide alone and let the controls
+	   scroll below it. --slide-ratio is set inline (width / height). */
+	.slide-deck-size {
+		max-width: max(
+			20rem,
+			calc((100vh - 16rem) * var(--slide-ratio, 1.7778) + 1.5rem)
+		);
+	}
+
+	@media (max-height: 30rem) {
+		.slide-deck-size {
+			max-width: calc(
+				(100vh - 5rem) * var(--slide-ratio, 1.7778) + 1.5rem
+			);
+		}
+	}
 }
 
 .no-select {
