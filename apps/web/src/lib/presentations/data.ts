@@ -262,6 +262,25 @@ Attendees leave with a working local repo, a resolved merge conflict, a merge re
 		topics: ["Radio"],
 	},
 	{
+		slug: "homelabbing",
+		title: "An Introduction to Homelabbing",
+		scheduleTitle: "Homelabbing",
+		speakers: ["William Anderson", "Nathan Bledsoe"],
+		eventId: 22,
+		format: "Talk",
+		start: "2026-11-07T17:00:00-06:00",
+		end: "2026-11-07T18:00:00-06:00",
+		location: "SP1 - 250",
+		summary:
+			"How a homelab grows from copy-pasted install scripts into segmented networks with centralized auth, what broke along the way, which skills employers notice, and how to start your own with hardware you already have.",
+		description: `A homelab is a setup for experimenting with IT infrastructure, and it's one of the fastest ways to learn the skills classes don't teach. Nathan shows what a beginner lab looks like after a few weeks, and William walks through the three versions of his own: a flat network built almost entirely from copy-pasted install scripts, a segmented network built with no plan, and today's setup with multiple routers, strict firewall rules, and centralized authentication. The talk spends as much time on what broke as on what worked, because the mistakes taught more than the successes.
+
+Along the way it covers why a homelab is worth the effort, both for the hands-on administration and networking experience and for what it shows employers, the areas worth focusing on (networking, logging and detection, containers, and Windows Active Directory), and how to turn the work into write-ups and documentation that hiring managers will actually read.
+
+It closes with concrete ways to start, whether that means one virtual machine on the laptop you already own, a used mini PC, or a free cloud tier, plus small project ideas for a first lab. No prior infrastructure experience is needed.`,
+		topics: ["Defense", "Tools", "Careers"],
+	},
+	{
 		slug: "web-application-exploitation",
 		title: "Breaking the Web: Web Application Exploitation",
 		scheduleTitle: "Web Application Exploitation",
