@@ -240,6 +240,27 @@ Attendees leave with a working local repo, a resolved merge conflict, a merge re
 		topics: ["Tools"],
 	},
 	{
+		slug: "malware-zoo",
+		title: "Malware Zoo",
+		speakers: ["Hondo Limon"],
+		eventId: 35,
+		format: "Talk",
+		start: "2026-11-07T15:30:00-06:00",
+		end: "2026-11-07T16:30:00-06:00",
+		location: "SP2 - 306",
+		summary:
+			"A live tour of real malware in an isolated sandbox: classic worms like ILOVEYOU and Mydoom, ransomware like WannaCry, and wipers like NotPetya, so you can see what attacks actually do to a computer.",
+		description: `Malware usually stays theoretical for students because it's dangerous to handle. In this session Hondo runs live malware samples in a sandbox so attendees can see how malware works and spreads, with brief analysis, live demonstrations, and time for questions. Seeing what malware actually does makes it much easier to recognize malicious activity and tell fake programs from real ones.
+
+Nothing touches a network: everything runs sandboxed on a custom server Hondo operates. Attendees vote on which samples to run but never interact with them directly. The samples on hand:
+
+- Worms: ILOVEYOU, Mydoom, Sasser, Melissa
+- Ransomware: Rensenware, WannaCry, TeslaCrypt
+- Wipers: Shamoon, NotPetya, the Sony wiper
+- Other: Poison Ivy, MEMZ`,
+		topics: ["Malware"],
+	},
+	{
 		slug: "meshtastic",
 		title: "Where We're Going, We Don't Need the Internet",
 		scheduleTitle: "Meshtastic!",

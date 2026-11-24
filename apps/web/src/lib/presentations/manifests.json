@@ -281,6 +281,19 @@
 			""
 		]
 	},
+	"malware-zoo": {
+		"slideCount": 5,
+		"width": 1600,
+		"height": 900,
+		"pdfBytes": 157190,
+		"text": [
+			"MALWARE ZOO\nHondo Limon",
+			"WHAT IS MALWARE?\nMalware (Malicious Software) are a subset programs\ndesigned to cause a computer to produce unintended\noutput that can be damaging. It is usually",
+			"WHY IS IT IMPORTANT TO VIEW\nUNDERSTAND MALWARE?\n• Understanding the actions malware takes allows identification of\nmalicious activities and helps distinguish between fake and real\nprograms.\n• When students hear malware, its theoretical and is rarely seen\ndue to its dangerous nature.\n• Students should understand and see the consequences that\nattacks actually have on computers.",
+			"WHAT DO WE HAVE?\nWorm Ransomware Wiper Misc\niloveyou Rensenware Shamoon PoisonIvy\nmydoom WannaCry NotPetya Memz\nsasser Teslacrypt Sony wiper\nmelissa",
+			"END OF SESSION\n Thank you\n This was fun\n Be safe, isolate\n But remember to experiment!"
+		]
+	},
 	"meshtastic": {
 		"slideCount": 17,
 		"width": 1600,
