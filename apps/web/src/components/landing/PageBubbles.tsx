@@ -40,15 +40,29 @@ interface Pop {
 	size: number;
 }
 
+/** Elements whose clicks belong to the element, never to a bubble behind it. */
+const INTERACTIVE =
+	"a, button, input, select, textarea, label, summary, video, audio, iframe, [role='button'], [contenteditable='true']";
+
+/** The alpha of a computed CSS color such as "rgba(255, 255, 255, 0.6)". */
+function alpha(color: string) {
+	if (color === "transparent") return 0;
+	const parts = color.match(/rgba?\(([^)]*)\)/)?.[1].split(/[\s,/]+/);
+	return parts && parts.length >= 4 ? parseFloat(parts[3]) : 1;
+}
+
 /**
- * Rising bubbles that float over the entire page (fixed to viewport).
+ * Rising bubbles that float behind the page content (fixed to viewport), so
+ * they show through the background and the frosted panels without covering
+ * anything.
  *
- * Click or tap a bubble to pop it; it grows back from the bottom on its next
- * trip up. The layer never takes pointer events, so links and buttons under
- * a bubble keep working: a page-level listener checks whether the pointer
- * landed on a bubble instead.
+ * Click or tap a bubble you can see to pop it; it grows back from the bottom
+ * on its next trip up. The layer never takes pointer events: a page-level
+ * listener checks whether the pointer landed on a bubble, and only counts it
+ * when nothing opaque, frosted or clickable sits on top at that spot.
  */
 export default function PageBubbles() {
+	const layer = useRef<HTMLDivElement>(null);
 	const tracks = useRef<(HTMLDivElement | null)[]>([]);
 	const [pops, setPops] = useState<Pop[]>([]);
 
@@ -58,7 +72,42 @@ export default function PageBubbles() {
 		let frame = 0;
 		let lastX = 0;
 		let lastY = 0;
+		let lastTarget: EventTarget | null = null;
 		const timers = new Set<number>();
+
+		/** Whether the bubbles show through at the element under the pointer:
+		 *  nothing between it and the page background (which sits behind the
+		 *  bubbles) is clickable, an image, or has a fill or frosted backdrop. */
+		const seeThrough = (target: EventTarget | null) => {
+			const root = layer.current;
+			if (!root || !(target instanceof Element)) return false;
+			if (target.closest(INTERACTIVE)) return false;
+			for (
+				let el: Element | null = target;
+				el && !el.contains(root);
+				el = el.parentElement
+			) {
+				if (
+					el instanceof HTMLImageElement ||
+					el instanceof HTMLCanvasElement ||
+					el instanceof SVGSVGElement
+				) {
+					return false;
+				}
+				const style = getComputedStyle(el);
+				const backdrop =
+					style.backdropFilter ||
+					style.getPropertyValue("-webkit-backdrop-filter");
+				if (
+					style.backgroundImage !== "none" ||
+					(backdrop && backdrop !== "none") ||
+					alpha(style.backgroundColor) > 0.05
+				) {
+					return false;
+				}
+			}
+			return true;
+		};
 
 		/** The topmost unpopped bubble under the point, if any. */
 		const bubbleAt = (x: number, y: number, slop: number) => {
@@ -111,6 +160,10 @@ export default function PageBubbles() {
 
 		const onPointerDown = (e: PointerEvent) => {
 			if (!e.isPrimary || e.button > 0) return;
+			if (!seeThrough(e.target)) {
+				pressed = null;
+				return;
+			}
 			if (e.pointerType === "mouse") {
 				const hit = bubbleAt(e.clientX, e.clientY, 0);
 				if (hit) pop(hit.el);
@@ -141,7 +194,11 @@ export default function PageBubbles() {
 		// out from under a still mouse.
 		const trackHover = () => {
 			frame = 0;
-			setHovered(bubbleAt(lastX, lastY, 0)?.el ?? null);
+			setHovered(
+				seeThrough(lastTarget)
+					? (bubbleAt(lastX, lastY, 0)?.el ?? null)
+					: null,
+			);
 			if (hovered) frame = requestAnimationFrame(trackHover);
 		};
 
@@ -156,6 +213,7 @@ export default function PageBubbles() {
 			if (e.pointerType !== "mouse") return;
 			lastX = e.clientX;
 			lastY = e.clientY;
+			lastTarget = e.target;
 			if (!frame) frame = requestAnimationFrame(trackHover);
 		};
 
@@ -189,7 +247,8 @@ export default function PageBubbles() {
 
 	return (
 		<div
-			className="pointer-events-none fixed inset-0 z-20 overflow-hidden"
+			ref={layer}
+			className="pointer-events-none fixed inset-0 z-0 overflow-hidden"
 			aria-hidden="true"
 		>
 			{BUBBLES.map((bubble, i) => (
