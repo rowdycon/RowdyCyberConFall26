@@ -1,6 +1,7 @@
 "use client";
 
 import Butterfly from "./Butterfly";
+import PageBubbles from "./PageBubbles";
 
 export default function HeroClient({
 	children,
@@ -9,8 +10,12 @@ export default function HeroClient({
 }) {
 	return (
 		<section className="relative -mt-16 flex min-h-screen flex-col items-center justify-center overflow-hidden px-4 py-24">
-			{/* Hero-scoped background image (flowers, grass, building) */}
-			<div className="aero-bg absolute inset-0" aria-hidden="true" />
+			{/* Hero-scoped background image (flowers, grass, building). It takes
+			    no pointer events so clicks on the sky reach the bubbles above it. */}
+			<div
+				className="aero-bg pointer-events-none absolute inset-0"
+				aria-hidden="true"
+			/>
 
 			{/* Soft fade into the page background at the bottom of the hero */}
 			<div
@@ -44,6 +49,11 @@ export default function HeroClient({
 					animation: "aeroShimmer 9s ease-in-out infinite",
 				}}
 			/>
+
+			{/* The page's floating bubbles, mounted here (not at page level) so
+			    they drift over the hero photo but behind the hero content and
+			    every later section, which come after them in paint order. */}
+			<PageBubbles />
 
 			{/* Decorative butterfly — rendered outside the z-10 content
 			    wrapper so it never inherits the content's stacking context.

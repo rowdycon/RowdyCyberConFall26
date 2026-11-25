@@ -7,7 +7,6 @@ import Navbar from "@/components/shared/Navbar";
 
 import { Oswald } from "next/font/google";
 import FrequentQuestions from "@/components/landing/FrequentQuestions";
-import PageBubbles from "@/components/landing/PageBubbles";
 
 const oswald = Oswald({
 	variable: "--font-oswald",
@@ -19,7 +18,8 @@ export default function Home() {
 		<div
 			className={`${oswald.variable} aero-bg-soft relative min-h-screen w-full overflow-x-hidden`}
 		>
-			<PageBubbles />
+			{/* The floating bubbles live inside the hero (HeroClient) so they
+			    show over its photo instead of hiding behind it. */}
 			<main className="relative z-10 overflow-x-hidden">
 				<Navbar />
 				<Hero />
