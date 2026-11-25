@@ -137,12 +137,14 @@ To follow along, bring Kali Linux plus a disposable Windows VM to use as the tar
 
 From there it covers what a CISO actually spends time on, how different strengths map to different security roles, and a second vote on whether to patch a critical vulnerability right away or wait. It then turns to AI: the shift from traditional tools to agentic workflows with a human checkpoint, and the junior analyst problem. If AI can do entry-level work, how do new analysts get experience?
 
-The last section is about creating evidence. Using AI prototypes built by two high school interns, and a candidate who stood out by demonstrating one instead of describing it, Paul makes the case that showing beats telling. It ends with advice for students:
+The third section is about creating evidence of what you can do. Using AI prototypes built by two high school interns, and a candidate who stood out by demonstrating one instead of describing it, Paul makes the case that showing beats telling. His advice for students:
 
 - Learn the fundamentals first, and verify everything AI gives you
 - Build two or three projects that solve real problems, and make the work visible
 - Describe your experience by its impact, and practice a 90-second project story
-- Start on internships and relationships before graduation`,
+- Start on internships and relationships before graduation
+
+It closes on a personal note: why a career is a spiral, not a ladder, told through leaving Rackspace and coming back years later as its CISO, and one last question for the room: “Who are you becoming?”`,
 		topics: ["Careers", "AI", "Defense"],
 	},
 	{

@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import re
 import shutil
@@ -56,26 +57,36 @@ def page_text(textpage: pdfium.PdfTextPage) -> str:
     readers spell out. In each run of three or more lone glyphs separated by
     generated spaces, the median gap between glyphs is the letter spacing; a space
     is kept only where the gap is clearly wider than that.
+
+    Still ambiguous: a row of single characters in separate boxes spaced like
+    tracked letters (table cells holding one digit each) gets joined, and so does a
+    tracked heading made mostly of one- and two-letter words ("UP & UP"), where
+    the median gap is no longer a letter gap.
     """
     n = pdfium_c.FPDFText_CountChars(textpage)
     codes = [pdfium_c.FPDFText_GetUnicode(textpage, i) for i in range(n)]
 
     def is_glyph(i: int) -> bool:
-        return codes[i] > 32 and codes[i] not in (0xA0, 0x2028, 0x2029, 0xFFFE)
+        return 0 <= i < n and codes[i] > 32 and codes[i] not in (0xA0, 0x2028, 0x2029, 0xFFFE)
+
+    def is_generated_space(i: int) -> bool:
+        return 0 <= i < n and codes[i] == 32 and pdfium_c.FPDFText_IsGenerated(textpage, i) == 1
+
+    def font_size(i: int) -> float:
+        # The Tf size alone ignores the text matrix and CTM, which some producers use
+        # to set the size (e.g. "1 Tf" plus a scaled Tm); scale it by the glyph's matrix.
+        m = pdfium_c.FS_MATRIX()
+        if not pdfium_c.FPDFText_GetMatrix(textpage, i, m):
+            return 0.0
+        return pdfium_c.FPDFText_GetFontSize(textpage, i) * math.sqrt(abs(m.a * m.d - m.b * m.c))
 
     runs: list[list[int]] = []
     run: list[int] = []
     for i in range(n):
         if not is_glyph(i):
             continue
-        alone = (i == 0 or not is_glyph(i - 1)) and (i == n - 1 or not is_glyph(i + 1))
-        spaced = (
-            run
-            and run[-1] == i - 2
-            and codes[i - 1] == 32
-            and pdfium_c.FPDFText_IsGenerated(textpage, i - 1) == 1
-        )
-        if alone and spaced:
+        alone = not is_glyph(i - 1) and not is_glyph(i + 1)
+        if alone and run and run[-1] == i - 2 and is_generated_space(i - 1):
             run.append(i)
             continue
         if len(run) >= 3:
@@ -86,7 +97,7 @@ def page_text(textpage: pdfium.PdfTextPage) -> str:
 
     drop: set[int] = set()
     for run in runs:
-        size = statistics.median(pdfium_c.FPDFText_GetFontSize(textpage, i) for i in run)
+        size = statistics.median(font_size(i) for i in run)
         boxes = [textpage.get_charbox(i) for i in run]
         gaps = [boxes[k + 1][0] - boxes[k][2] for k in range(len(run) - 1)]
         letter = statistics.median(gaps)
@@ -94,6 +105,21 @@ def page_text(textpage: pdfium.PdfTextPage) -> str:
         if size <= 0 or min(gaps) < -0.1 * size or letter > 0.8 * size:
             continue
         word_gap = max(1.5 * letter, letter + 0.15 * size)
+        # A multi-glyph word just one word space away means these are one-letter words
+        # in a sentence whose producer emits no space glyphs ("Choose A B C or D").
+        first, last = run[0], run[-1]
+        if (
+            is_generated_space(first - 1)
+            and is_glyph(first - 2)
+            and is_glyph(first - 3)
+            and boxes[0][0] - textpage.get_charbox(first - 2)[2] <= word_gap
+        ) or (
+            is_generated_space(last + 1)
+            and is_glyph(last + 2)
+            and is_glyph(last + 3)
+            and textpage.get_charbox(last + 2)[0] - boxes[-1][2] <= word_gap
+        ):
+            continue
         drop.update(run[k] + 1 for k, gap in enumerate(gaps) if gap <= word_gap)
 
     if not drop:
