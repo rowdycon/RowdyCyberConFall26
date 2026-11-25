@@ -247,6 +247,30 @@ The session covers the tools, processes, and investigations that shape the inter
 		topics: ["Malware"],
 	},
 	{
+		slug: "securing-people-vs-things",
+		title: "Securing People vs. Things",
+		speakers: ["Crystal Poenisch"],
+		affiliation: "Frequency Labs",
+		eventId: 21,
+		format: "Talk",
+		start: "2026-11-07T14:30:00-06:00",
+		end: "2026-11-07T15:30:00-06:00",
+		location: "SP1 - 230",
+		summary:
+			"Why the frameworks we use to secure systems don't carry over to securing people, and a proposed triad for human risk: agency, connection, and resilience.",
+		description: `Cybersecurity has mature frameworks for protecting assets, but they don't carry over cleanly to protecting people. Crystal starts from the CIA triad and defense in depth, then shows where the analogy breaks: a server has an owner and an intended workload, while a person has rights, relationships, and a life beyond any system's objectives. And the partner, caregiver, employer, or platform that holds legitimate access can become the threat.
+
+She proposes a complementary triad for human risk, Agency, Connection, and Resilience, and maps familiar controls to human-centered equivalents: authentication to control over identity and access, logging to evidence preservation, incident response to safety planning. Using a family location-sharing feature as a thought experiment, the talk shows how a safety control can also enable coercive control, and offers four questions to ask of every safeguard:
+
+- Whose threat model defines the problem?
+- Who gains access, power, or visibility?
+- How can a person understand, contest, or leave the control?
+- What happens when a trusted party becomes the threat?
+
+It closes with an invitation to bring the rigor of security engineering to human risk, alongside social science, survivor expertise, and policy.`,
+		topics: ["Defense", "GRC"],
+	},
+	{
 		slug: "git-for-dummies",
 		title: "Git for Dummies",
 		speakers: ["Paul Christiansen"],
@@ -286,6 +310,26 @@ Nothing touches a network: everything runs sandboxed on a custom server Hondo op
 - Wipers: Shamoon, NotPetya, the Sony wiper
 - Other: Poison Ivy, MEMZ`,
 		topics: ["Malware"],
+	},
+	{
+		slug: "day-in-the-life-cti-analyst",
+		title: "A Day in the Life as a Cyber Threat Intelligence Analyst",
+		speakers: ["Jonathan Gonzalez"],
+		eventId: 25,
+		format: "Workshop",
+		start: "2026-11-07T15:30:00-06:00",
+		end: "2026-11-07T16:30:00-06:00",
+		location: "SP2 - 300",
+		summary:
+			"One day on the job, worked through live: tracing a vishing lure's fake Google login page through URLScan, ANY.RUN, and VirusTotal, then triaging an exploited Citrix NetScaler vulnerability.",
+		description: `What does a cyber threat intelligence analyst actually do all day? This interactive session follows one working day, with the room deciding what to look at next.
+
+The first investigation starts at 8:07 with an employee who was vished: a caller posing as the helpdesk texted a link to a Google and K-12 themed login page. The walk-through pivots from the page's client-side JavaScript in URLScan to an ANY.RUN sandbox session, shared infrastructure, and the campaign keys found in VirusTotal, before the twist: the site turned out to be a security-awareness exercise nobody had told the SOC about.
+
+The second is a newly exploited vulnerability, CVE-2025-7775 in Citrix NetScaler: which versions are affected, whether exploitation and exploit code exist, which appliances in a sample inventory need attention, and how CTI briefs the vulnerability management team, which makes the patching call.
+
+It ends on what both cases have in common: a good CTI analyst evaluates evidence, identifies uncertainty, and informs decisions, rather than deciding how other teams should respond.`,
+		topics: ["Defense", "Careers", "Tools"],
 	},
 	{
 		slug: "meshtastic",

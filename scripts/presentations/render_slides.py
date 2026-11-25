@@ -47,6 +47,7 @@ NBSP = chr(0xA0)
 # PDFium reports a hyphen that ends a line as U+FFFE. Slide tools don't auto-hyphenate,
 # so these are real hyphens (Invoke-WebRequest, post-quantum, ...).
 LINE_END_HYPHEN = chr(0xFFFE)
+VIDEO_FILE_RE = re.compile(r"\.(?:mov|mp4|m4v|avi|wmv|webm)$", re.IGNORECASE)
 
 
 def page_text(textpage: pdfium.PdfTextPage) -> str:
@@ -142,6 +143,9 @@ def clean_text(raw: str) -> str:
     out: list[str] = []
     for ln in lines:
         if not ln:
+            continue
+        # PowerPoint exports an embedded video's file name as text; it isn't on the slide.
+        if VIDEO_FILE_RE.search(ln):
             continue
         if out and out[-1] == ln:
             continue
