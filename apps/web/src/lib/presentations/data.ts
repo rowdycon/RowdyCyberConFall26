@@ -1,5 +1,5 @@
 /**
- * Talks and workshops from Rowdy CyberCon Fall 2026 that have published
+ * Keynotes, talks, and workshops from Rowdy CyberCon Fall 2026 that have published
  * materials. Each entry becomes a card on /presentations and a page at
  * /presentations/<slug>.
  *
@@ -23,7 +23,7 @@ export const PRESENTATION_TOPICS = [
 
 export type PresentationTopic = (typeof PRESENTATION_TOPICS)[number];
 
-export type PresentationFormat = "Talk" | "Workshop";
+export type PresentationFormat = "Keynote" | "Talk" | "Workshop";
 
 export interface PresentationLink {
 	label: string;
@@ -119,6 +119,31 @@ To follow along, bring Kali Linux plus a disposable Windows VM to use as the tar
 			label: "Original Google Slides",
 			href: "https://docs.google.com/presentation/d/1d97GTcAzmtJnjhoyhjBlgkEbGDNvZaHsxSbGXbBIRSY/edit?usp=sharing",
 		},
+	},
+	{
+		slug: "cybersecurity-in-the-real-world",
+		title: "Cybersecurity in the Real World: What They Don't Teach You in Class",
+		scheduleTitle: "Keynote Speaker 2",
+		speakers: ["Paul J. Guerra"],
+		affiliation: "CISO, Rackspace Technology",
+		eventId: 8,
+		format: "Keynote",
+		start: "2026-11-07T11:00:00-06:00",
+		end: "2026-11-07T12:00:00-06:00",
+		location: "SP1 - Weston Ballroom",
+		summary:
+			"Rackspace's CISO on what real security work looks like: making calls under pressure with incomplete information, lessons from the Yahoo breach response, how AI is changing entry-level work, and how students can stand out.",
+		description: `Paul Guerra, Chief Information Security Officer at Rackspace Technology, on the parts of cybersecurity that don't show up in coursework. The keynote opens with a fictional 2 AM incident in which the audience plays CISO and votes on what to do first. Then Paul traces his own path from mechanical engineering and math, through jobs at HP, Toyota, USAA, and Rackspace, to three CISO roles. A turning point was being asked to help fix the Yahoo breach, which reached 3 billion accounts: war rooms full of engineers and lawyers, regulators, a merger with AOL and Verizon Media, and preparing for a Senate hearing.
+
+From there it covers what a CISO actually spends time on, how different strengths map to different security roles, and a second vote on whether to patch a critical vulnerability right away or wait. It then turns to AI: the shift from traditional tools to agentic workflows with a human checkpoint, and the junior analyst problem. If AI can do entry-level work, how do new analysts get experience?
+
+The last section is about creating evidence. Using AI prototypes built by two high school interns, and a candidate who stood out by demonstrating one instead of describing it, Paul makes the case that showing beats telling. It ends with advice for students:
+
+- Learn the fundamentals first, and verify everything AI gives you
+- Build two or three projects that solve real problems, and make the work visible
+- Describe your experience by its impact, and practice a 90-second project story
+- Start on internships and relationships before graduation`,
+		topics: ["Careers", "AI", "Defense"],
 	},
 	{
 		slug: "grc-in-plain-english",

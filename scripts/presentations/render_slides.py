@@ -25,12 +25,14 @@ import json
 import os
 import re
 import shutil
+import statistics
 import sys
 import tempfile
 from pathlib import Path
 
 try:
     import pypdfium2 as pdfium
+    import pypdfium2.raw as pdfium_c
     from PIL import Image
 except ImportError:  # pragma: no cover - friendly message for first-time users
     sys.exit("Missing dependencies. Run: pip install pypdfium2 pillow")
@@ -44,6 +46,67 @@ NBSP = chr(0xA0)
 # PDFium reports a hyphen that ends a line as U+FFFE. Slide tools don't auto-hyphenate,
 # so these are real hyphens (Invoke-WebRequest, post-quantum, ...).
 LINE_END_HYPHEN = chr(0xFFFE)
+
+
+def page_text(textpage: pdfium.PdfTextPage) -> str:
+    """The page's text, with letter-spaced (tracked) headings joined back into words.
+
+    PDFium puts a generated space between every glyph of tracked text, so a label
+    like "AUDIENCE VOTE" comes out as "A U D I E N C E V O T E", which screen
+    readers spell out. In each run of three or more lone glyphs separated by
+    generated spaces, the median gap between glyphs is the letter spacing; a space
+    is kept only where the gap is clearly wider than that.
+    """
+    n = pdfium_c.FPDFText_CountChars(textpage)
+    codes = [pdfium_c.FPDFText_GetUnicode(textpage, i) for i in range(n)]
+
+    def is_glyph(i: int) -> bool:
+        return codes[i] > 32 and codes[i] not in (0xA0, 0x2028, 0x2029, 0xFFFE)
+
+    runs: list[list[int]] = []
+    run: list[int] = []
+    for i in range(n):
+        if not is_glyph(i):
+            continue
+        alone = (i == 0 or not is_glyph(i - 1)) and (i == n - 1 or not is_glyph(i + 1))
+        spaced = (
+            run
+            and run[-1] == i - 2
+            and codes[i - 1] == 32
+            and pdfium_c.FPDFText_IsGenerated(textpage, i - 1) == 1
+        )
+        if alone and spaced:
+            run.append(i)
+            continue
+        if len(run) >= 3:
+            runs.append(run)
+        run = [i] if alone else []
+    if len(run) >= 3:
+        runs.append(run)
+
+    drop: set[int] = set()
+    for run in runs:
+        size = statistics.median(pdfium_c.FPDFText_GetFontSize(textpage, i) for i in run)
+        boxes = [textpage.get_charbox(i) for i in run]
+        gaps = [boxes[k + 1][0] - boxes[k][2] for k in range(len(run) - 1)]
+        letter = statistics.median(gaps)
+        # Glyphs far apart for their size are separate items (a row of numbers, say), not tracking.
+        if size <= 0 or min(gaps) < -0.1 * size or letter > 0.8 * size:
+            continue
+        word_gap = max(1.5 * letter, letter + 0.15 * size)
+        drop.update(run[k] + 1 for k, gap in enumerate(gaps) if gap <= word_gap)
+
+    if not drop:
+        return textpage.get_text_range()
+    parts: list[str] = []
+    start = 0
+    for i in sorted(drop):
+        if i > start:
+            parts.append(textpage.get_text_range(start, i - start))
+        start = i + 1
+    if start < n:
+        parts.append(textpage.get_text_range(start, n - start))
+    return "".join(parts)
 
 
 def clean_text(raw: str) -> str:
@@ -119,7 +182,7 @@ def main() -> None:
                 if n == args.cover_slide:
                     save_webp(img, stage / "cover.webp", args.cover_width, args.quality)
                 textpage = page.get_textpage()
-                texts.append(clean_text(textpage.get_text_range()))
+                texts.append(clean_text(page_text(textpage)))
                 textpage.close()
                 page.close()
         finally:
